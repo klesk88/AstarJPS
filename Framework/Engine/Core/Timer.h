@@ -15,7 +15,6 @@ private:
 
 private:
 	unsigned __int64 m_iLastTime;
-	float m_fPrecision;
 	double m_dPcFrequencyInverse;
 	double m_dDeltaTime;
 };
