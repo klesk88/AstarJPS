@@ -1,0 +1,23 @@
+﻿  ColorDrawableBase.cpp
+  Cube.cpp
+  GridDrawable.cpp
+  Line.cpp
+  Square.cpp
+  AStarCharacter.cpp
+  Character.cpp
+  JPSCharacter.cpp
+  Helpers.cpp
+  Grid.cpp
+  SceneDemo.cpp
+  AStarNode.cpp
+  AStarSearch.cpp
+  BaseNode.cpp
+  JPSData.cpp
+  JPSSearch.cpp
+  main.cpp
+  Generating code
+  313 of 3448 functions ( 9.1%) were compiled, the rest were copied from previous compilation.
+    83 functions were new in current compilation
+    77 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Game.vcxproj -> D:\GuerillaCodeSample\CodeSample\x64\Release\Game.exe

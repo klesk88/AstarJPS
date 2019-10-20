@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Drawables">
+      <UniqueIdentifier>{61d640b7-3750-4c9f-bb81-0aa9eb8f7e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0d13b6d5-928d-4ff5-ad87-1a512fa060cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{d029b01d-cd0e-4bb2-a085-b32f3c65c254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{816ea796-3d4c-4560-a3b9-62a0a42977ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{1a1c5983-3f46-438b-a85d-7a9bd4d04d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Search">
+      <UniqueIdentifier>{7805fce4-1eb3-4270-b0ca-a3b3665e90cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Search\AStarSearch">
+      <UniqueIdentifier>{84da75cf-f602-4670-b861-3461c9df01e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Search\JPSearch">
+      <UniqueIdentifier>{57a20c7a-b7f0-4ce8-be53-656734a1cc18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shaders\ColorShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawables\GridDrawable.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawables\Cube.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Character.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\SceneDemo.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Helpers.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawables\ColorDrawableBase.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawables\Square.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawables\Line.cpp">
+      <Filter>Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Search\AStarSearch\AStarSearch.cpp">
+      <Filter>Search\AStarSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="Search\JumpPointSearch\JPSData.cpp">
+      <Filter>Search\JPSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="Search\JumpPointSearch\JPSSearch.cpp">
+      <Filter>Search\JPSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="Search\AStarSearch\AStarNode.cpp">
+      <Filter>Search\AStarSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="Search\BaseNode.cpp">
+      <Filter>Search</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\AStarCharacter.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\JPSCharacter.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Grid.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shaders\ColorDataStructure.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\ColorShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawables\GridDrawable.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawables\Cube.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Character.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\SceneDemo.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Helpers.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawables\ColorDrawableBase.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawables\Square.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawables\Line.h">
+      <Filter>Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\CommonSearchFunc.h">
+      <Filter>Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\AStarSearch\AStarSearch.h">
+      <Filter>Search\AStarSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\JumpPointSearch\JPSData.h">
+      <Filter>Search\JPSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\JumpPointSearch\JPSSearch.h">
+      <Filter>Search\JPSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\AStarSearch\AStarNode.h">
+      <Filter>Search\AStarSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\BaseNode.h">
+      <Filter>Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\BaseSearchInput.h">
+      <Filter>Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\AStarCharacter.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\JPSCharacter.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Search\BaseSearchDebug.h">
+      <Filter>Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Grid.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,35 @@
+#pragma once
+
+#include "Character.h"
+#include "../Search/JumpPointSearch/JPSData.h"
+
+#if _DEBUG
+#include "../Search/BaseSearchDebug.h"
+#endif
+
+namespace JPS
+{
+	class CJPSNode;
+}
+
+class CJPSCharacter final : public CCharacter
+{
+public:
+	CJPSCharacter(CGrid& rGrid);
+
+	void Init(const int iStartCell, const int iTargetPos) override;
+	void Clear() override;
+
+private:
+	void OnDisable() override;
+
+	void PerformSearch(const int iTargetLocation) override;
+
+#if _DEBUG
+public:
+	void UpdateImgui() override;
+
+private:
+	CBaseSearchDebug<JPS::CJPSNode> m_searchDebug;
+#endif
+};
