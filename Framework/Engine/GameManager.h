@@ -40,7 +40,7 @@ public:
 	CGameManager();
 
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
-	void Shutdown();
+	void Shutdown(CInputManager& rInputManager);
 
 	void Update();
 	void AddEntityToUpdate(CEntity& rEntity);

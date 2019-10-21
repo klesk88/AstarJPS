@@ -20,7 +20,7 @@ CDrawable3DBase::CDrawable3DBase()
 
 CDrawable3DBase::~CDrawable3DBase()
 {
-	Reset();
+	Clear();
 }
 
 void CDrawable3DBase::Reset()

@@ -13,14 +13,7 @@ CCameraManager::CCameraManager()
 {}
 
 CCameraManager::~CCameraManager()
-{
-	for (int i = 0; i < m_cameras.size(); ++i)
-	{
-		delete m_cameras[i];
-	}
-
-	m_cameras.clear();
-}
+{}
 
 void CCameraManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 {
@@ -30,6 +23,17 @@ void CCameraManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 	m_cameras[m_activeCameraType]->SetActive();
 
 	m_keyboardEventId = rInputManager.KeyboardEvent.Attach([this](const CKeyboardEvent& rKeyboardEvent) { OnKeyboardEvent(rKeyboardEvent); });
+}
+
+void CCameraManager::Shutdown(CInputManager& rInputManager)
+{
+	for (int i = 0; i < m_cameras.size(); ++i)
+	{
+		m_cameras[i]->Shutdown(rInputManager);
+		delete m_cameras[i];
+	}
+
+	m_cameras.clear();
 }
 
 void CCameraManager::Update()

@@ -36,8 +36,10 @@ CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const 
 }
 
 CBaseCamera::~CBaseCamera()
+{}
+
+void CBaseCamera::Shutdown(CInputManager& rInputManager)
 {
-	CInputManager& rInputManager = CEngine::GetInstance()->GetInputManager();
 	rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);
 	rInputManager.MouseEvent.Detach(m_MouseEventId);
 }

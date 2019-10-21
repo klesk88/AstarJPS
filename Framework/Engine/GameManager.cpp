@@ -42,9 +42,15 @@ void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 	m_KeyboardEventId = rInputManager.KeyboardEvent.Attach([this](const CKeyboardEvent& rKeyboardEvent) { OnKeyboardEvent(rKeyboardEvent); });
 }
 
-void CGameManager::Shutdown()
+void CGameManager::Shutdown(CInputManager& rInputManager)
 {
-	CEngine::GetInstance()->GetInputManager().KeyboardEvent.Detach(m_KeyboardEventId);
+	rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);
+	for (CEntity* pEntity : m_entities)
+	{
+		pEntity->SetEnable(false);
+	}
+
+	m_entities.clear();
 }
 
 void CGameManager::Update()

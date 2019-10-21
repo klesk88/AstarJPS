@@ -34,6 +34,8 @@ public:
 public:
 	virtual void Update() = 0;
 
+	void Shutdown(CInputManager& rInputManager);
+
 	const DirectX::SimpleMath::Matrix& GetViewMatrix() const { return m_viewMatrix; }
 	const DirectX::SimpleMath::Matrix& GetInvViewMatrix() const { return m_invViewMatrix; }
 	virtual const DirectX::SimpleMath::Matrix& GetProjMatrix() const { return m_projectionMatrix; }

@@ -26,6 +26,8 @@ public:
 	~CCameraManager();
 
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
+	void Shutdown(CInputManager& rInputManager);
+
 	void Update();
 
 	const CBaseCamera& GetCurrentCamera() const { return *m_cameras[(int)m_activeCameraType]; }

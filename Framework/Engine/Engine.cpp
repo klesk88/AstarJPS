@@ -8,9 +8,7 @@ CEngine::CEngine()
 {}
 
 CEngine::~CEngine()
-{
-	Shutdown();
-}
+{}
 
 bool CEngine::Init()
 {
@@ -58,7 +56,8 @@ void CEngine::Run()
 
 void CEngine::Shutdown()
 {
-	m_gameManager.Shutdown();
+	m_cameraManager.Shutdown(m_inputManager);
+	m_gameManager.Shutdown(m_inputManager);
 	m_renderer.Shutdown();
 }
 
