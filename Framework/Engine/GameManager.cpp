@@ -91,7 +91,7 @@ void CGameManager::AddScene(CSceneBase& rScene)
 	CSceneBase* pScene = &rScene;
 	rScene.SetInUpdateList();
 
-	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); pScene->Init(); });
+	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); });
 }
 
 void CGameManager::RemoveScene(CSceneBase& rScene)

@@ -11,6 +11,7 @@ int main()
 	}
 
 	CSceneDemo aStarDemo;
+	aStarDemo.Init();
 	engine.GetGameManager().AddScene(aStarDemo);
 	engine.Run();
 
