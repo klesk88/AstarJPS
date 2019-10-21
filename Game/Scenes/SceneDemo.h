@@ -34,7 +34,9 @@ private:
 
 public:
 	CSceneDemo();
+	~CSceneDemo();
 
+	void Init() override;
 	void Shutdown() override;
 	void Update(const double dDeltaTime) override;
 

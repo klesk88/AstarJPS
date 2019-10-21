@@ -30,7 +30,7 @@ void CGameManager::CBatchCommands::RunCommands()
 
 CGameManager::CGameManager()
 	: m_dUpdateTimeMs(0)
-	, m_bDemoPaused(false)
+	DEBUG_ONLY(, m_bDemoPaused(false))
 {}
 
 
@@ -39,15 +39,18 @@ void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 	m_dUpdateTimeMs = rConfig.GetGameUpdateTime();
 	StartCounter();
 
+#if _DEBUG
 	m_KeyboardEventId = rInputManager.KeyboardEvent.Attach([this](const CKeyboardEvent& rKeyboardEvent) { OnKeyboardEvent(rKeyboardEvent); });
+#endif
 }
 
 void CGameManager::Shutdown(CInputManager& rInputManager)
 {
-	rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);
+	DEBUG_ONLY(rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);)
 	for (CSceneBase* pScene : m_scenes)
 	{
 		pScene->Shutdown();
+		pScene->ClearInUpdateList();
 	}
 
 	m_scenes.clear();
@@ -58,12 +61,13 @@ void CGameManager::Update()
 	m_BatchCommands.RunCommands();
 
 	UpdateTimer();
+
+#if _DEBUG
 	if (m_bDemoPaused)
 	{
 		return;
 	}
 
-#if _DEBUG
 	//we are debugging probably
 	if (m_dDeltaTime > 200)
 	{
@@ -85,12 +89,15 @@ void CGameManager::AddScene(CSceneBase& rScene)
 #endif
 
 	CSceneBase* pScene = &rScene;
-	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); });
+	rScene.SetInUpdateList();
+
+	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); pScene->Init(); });
 }
 
 void CGameManager::RemoveScene(CSceneBase& rScene)
 {
 	CSceneBase* pScene = &rScene;
+	rScene.ClearInUpdateList();
 
 	m_BatchCommands.PushCommand([=] { 
 		auto it = std::remove(m_scenes.begin(), m_scenes.end(), pScene);
@@ -99,28 +106,6 @@ void CGameManager::RemoveScene(CSceneBase& rScene)
 			m_scenes.erase(it);
 		}
 	});
-}
-
-void CGameManager::OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)
-{
-	switch (rKeyboardEvent.GetType())
-	{
-	case CKeyboardEvent::EventType::KEYDOWN:
-		OnKeyDown(rKeyboardEvent);
-		break;
-	default:
-		break;
-	}
-}
-
-void CGameManager::OnKeyDown(const CKeyboardEvent& rKeyboardEvent)
-{
-	if (rKeyboardEvent.WasAlreadyPressed() || rKeyboardEvent.GetKeyCode() != CKeyboardEvent::KeyCodes::KEY_P)
-	{
-		return;
-	}
-
-	m_bDemoPaused = !m_bDemoPaused;
 }
 
 void CGameManager::StartCounter()
@@ -145,4 +130,30 @@ void CGameManager::UpdateTimer()
 	m_dDeltaTime = (double)(elapsed * m_ldInvFrequency);
 	m_uLastTime = time.QuadPart;
 }
+
+#if _DEBUG
+
+void CGameManager::OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)
+{
+	switch (rKeyboardEvent.GetType())
+	{
+	case CKeyboardEvent::EventType::KEYDOWN:
+		OnKeyDown(rKeyboardEvent);
+		break;
+	default:
+		break;
+	}
+}
+
+void CGameManager::OnKeyDown(const CKeyboardEvent& rKeyboardEvent)
+{
+	if (rKeyboardEvent.WasAlreadyPressed() || rKeyboardEvent.GetKeyCode() != CKeyboardEvent::KeyCodes::KEY_P)
+	{
+		return;
+	}
+
+	m_bDemoPaused = !m_bDemoPaused;
+}
+
+#endif
 

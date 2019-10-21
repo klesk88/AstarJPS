@@ -4,6 +4,7 @@
 #include <map>
 
 #include "../../Utils/ClassMacros.h"
+#include "../../Utils/DebugMacros.h"
 
 namespace EventIdHelper
 {
@@ -35,7 +36,9 @@ public:
 	{}
 
 	~CEventHandler()
-	{}
+	{
+		ASSERT(m_slots.size() == 0);
+	}
 
 	template <typename A>
 	CEventId Attach(A&& slot)

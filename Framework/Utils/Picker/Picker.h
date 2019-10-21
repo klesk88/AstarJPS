@@ -16,6 +16,7 @@ public:
 	CPicker() = default;
 
 	void Init(CInputManager& rInputManager);
+	void Shutdown(CInputManager& rInputManager);
 	void Update();
 
 private:

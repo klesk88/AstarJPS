@@ -14,6 +14,11 @@ void CPicker::Init(CInputManager& rInputManager)
 	m_mouseEventId = rInputManager.MouseEvent.Attach([this](const CMouseEvent& rMouseEvent) { OnMouseEvent(rMouseEvent); });
 }
 
+void CPicker::Shutdown(CInputManager& rInputManager)
+{
+	rInputManager.MouseEvent.Detach(m_mouseEventId);
+}
+
 void CPicker::Update()
 {
 	if (m_bNewEvent)

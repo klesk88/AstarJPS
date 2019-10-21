@@ -48,18 +48,24 @@ public:
 	double GetDeltaTime() const { return m_dDeltaTime; }
 
 private:
-	void OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
-	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
 	void StartCounter();
 	void UpdateTimer();
 
 private:
 	CBatchCommands m_BatchCommands;
-	CEventId m_KeyboardEventId;
 	std::vector<CSceneBase*> m_scenes;
 	long double m_ldInvFrequency;
 	unsigned __int64 m_uLastTime;
 	double m_dDeltaTime;
 	double m_dUpdateTimeMs;
+
+#if _DEBUG
+private:
+	void OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
+	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
+
+private:
+	CEventId m_KeyboardEventId;
 	bool m_bDemoPaused : 1;
+#endif
 };

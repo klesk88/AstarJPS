@@ -34,6 +34,7 @@ void CCameraManager::Shutdown(CInputManager& rInputManager)
 	}
 
 	m_cameras.clear();
+	rInputManager.KeyboardEvent.Detach(m_keyboardEventId);
 }
 
 void CCameraManager::Update()

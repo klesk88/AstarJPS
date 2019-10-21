@@ -20,6 +20,21 @@ CSceneDemo::CSceneDemo()
 	, m_iEndPos(0)
 	, m_pickerMode(ePickerMode::EDIT_MODE)
 	, m_bAllowEntityUpdate(false)
+{}
+
+CSceneDemo::~CSceneDemo()
+{
+	if (!IsInUpdateList())
+	{
+		return;
+	}
+
+	CEngine* pEngine = CEngine::GetInstance();
+	pEngine->GetGameManager().RemoveScene(*this);
+	Shutdown();
+}
+
+void CSceneDemo::Init()
 {
 	GenerateGridDesc();
 	CEngine* pEngine = CEngine::GetInstance();

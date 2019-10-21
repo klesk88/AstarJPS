@@ -27,6 +27,8 @@ bool CEngine::Init()
 
 void CEngine::Run()
 {
+
+
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
@@ -58,6 +60,7 @@ void CEngine::Shutdown()
 {
 	m_cameraManager.Shutdown(m_inputManager);
 	m_gameManager.Shutdown(m_inputManager);
+	m_picker.Shutdown(m_inputManager);
 	m_renderer.Shutdown();
 }
 
