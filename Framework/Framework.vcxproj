@@ -153,7 +153,6 @@
     <ClCompile Include="Engine\Drawables\Drawable3DBase.cpp" />
     <ClCompile Include="Engine\Drawables\DrawableManager.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="Engine\Entity\Entity.cpp" />
     <ClCompile Include="Engine\GameManager.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Input\KeyboardEvent.cpp" />
@@ -186,12 +185,12 @@
     <ClInclude Include="Engine\Drawables\Drawable3DBase.h" />
     <ClInclude Include="Engine\Drawables\DrawableManager.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="Engine\Entity\Entity.h" />
     <ClInclude Include="Engine\GameManager.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Input\KeyboardEvent.h" />
     <ClInclude Include="Engine\Input\MouseEvent.h" />
     <ClInclude Include="Engine\Render\Renderer.h" />
+    <ClInclude Include="Engine\Scene\SceneBase.h" />
     <ClInclude Include="Engine\Shaders\ShaderBase.h" />
     <ClInclude Include="Utils\ClassMacros.h" />
     <ClInclude Include="Utils\DebugMacros.h" />

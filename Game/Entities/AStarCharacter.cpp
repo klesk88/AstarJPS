@@ -19,11 +19,6 @@ void CAStarCharacter::Init(const int iStartCell, const int iTargetPos)
 	CCharacter::Init(iStartCell, iTargetPos);
 }
 
-void CAStarCharacter::OnDisable()
-{
-	Clear();
-}
-
 void CAStarCharacter::PerformSearch(const int iTargetLocation)
 {
 	AStar::CAStarInput aStartInput(m_rGrid, m_iCurrentPos, iTargetLocation, m_path DEBUG_ONLY(, m_searchDebug));

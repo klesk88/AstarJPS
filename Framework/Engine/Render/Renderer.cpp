@@ -77,6 +77,8 @@ bool CRenderer::Initialize(const CConfig& rConfig, HWND hwnd)
 
 void CRenderer::Shutdown()
 {
+	m_drawableManger.Shutdown();
+
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
 	if (m_pSwapChain)
 	{

@@ -20,8 +20,8 @@ bool CEngine::Init()
 	}
 
 	m_cameraManager.Init(m_config, m_inputManager);
-	m_gameManager.Init(m_config, m_inputManager);
 	m_picker.Init(m_inputManager);
+	m_gameManager.Init(m_config, m_inputManager);
 	return true;
 }
 

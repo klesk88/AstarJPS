@@ -31,11 +31,6 @@ void CCharacter::Init(const int iStartIndex, const int iTargetPos)
 	PerformSearch(iTargetPos);
 }
 
-void CCharacter::OnDisable()
-{
-	Clear();
-}
-
 void CCharacter::Clear()
 {
 	m_Cube.Reset();

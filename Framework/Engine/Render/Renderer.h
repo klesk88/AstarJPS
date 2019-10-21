@@ -33,8 +33,8 @@ public:
 	void Update(const DirectX::SimpleMath::Matrix& rViewMatrix, const DirectX::SimpleMath::Matrix& rProjMatrix);
 	void PostUpdate(const bool bVSyncEnable);
 
-	void AddDrawable(const CDrawable3DBase& rDrawable) { m_drawableManger.AddDrawable(rDrawable); }
-	void RemoveDrawable(const CDrawable3DBase& rDrawable) { m_drawableManger.RemoveDrawable(rDrawable); }
+	void AddDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.AddDrawable(rDrawable); }
+	void RemoveDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.RemoveDrawable(rDrawable); }
 
 	CEventHandler<>& GetImguiEventHandler() { return m_imguiManager.ImguiUpdate; }
 	ID3D11Device& GetDevice() { return *m_pDevice; }

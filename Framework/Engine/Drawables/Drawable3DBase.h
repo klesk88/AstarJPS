@@ -28,6 +28,8 @@ public:
 
 	void RemoveFromRenderUpdate();
 	void AddToRenderUpdateIfNeeded();
+	void MarkAsNotInsideRenderUpdate();
+
 	bool HasValidBuffer() const { return m_pVertexBuffer != nullptr; }
 	bool IsInsideRenderUpdate() const { return m_bIsInsideRenderUpdate; }
 

@@ -19,6 +19,7 @@ CSceneDemo::CSceneDemo()
 	, m_iStartPos(0)
 	, m_iEndPos(0)
 	, m_pickerMode(ePickerMode::EDIT_MODE)
+	, m_bAllowEntityUpdate(false)
 {
 	GenerateGridDesc();
 	CEngine* pEngine = CEngine::GetInstance();
@@ -35,6 +36,24 @@ CSceneDemo::CSceneDemo()
 #if _DEBUG
 	m_bEnablePickerDebug = false;
 #endif
+}
+
+void CSceneDemo::Shutdown()
+{
+	CEngine* pEngine = CEngine::GetInstance();
+	pEngine->GetPicker().PickerEvent.Detach(m_pickerEventId);
+	pEngine->GetRenderer().GetImguiEventHandler().Detach(m_imguiEventId);
+}
+
+void CSceneDemo::Update(const double dDeltaTime)
+{
+	if (!m_bAllowEntityUpdate)
+	{
+		return;
+	}
+
+	m_aStarCharacter.Update(dDeltaTime);
+	m_jpsCharacter.Update(dDeltaTime);
 }
 
 void CSceneDemo::GenerateGridDesc()
@@ -179,21 +198,12 @@ void CSceneDemo::ImguiStartPathfinding()
 		return;
 	}
 
+	m_bAllowEntityUpdate = true;
 	m_aStarCharacter.Clear();
 	m_jpsCharacter.Clear();
 
 	m_aStarCharacter.Init(m_iStartPos, m_iEndPos);
 	m_jpsCharacter.Init(m_iStartPos, m_iEndPos);
-
-	if (!m_aStarCharacter.IsEnable())
-	{
-		m_aStarCharacter.SetEnable(true);
-	}
-
-	if (!m_jpsCharacter.IsEnable())
-	{
-		m_jpsCharacter.SetEnable(true);
-	}
 }
 
 void CSceneDemo::ImguiClearPathfinding()
@@ -203,8 +213,9 @@ void CSceneDemo::ImguiClearPathfinding()
 		return;
 	}
 
-	m_aStarCharacter.SetEnable(false);
-	m_jpsCharacter.SetEnable(false);
+	m_bAllowEntityUpdate = false;
+	m_aStarCharacter.Clear();
+	m_jpsCharacter.Clear();
 }
 
 void CSceneDemo::ImguiModeSelection()

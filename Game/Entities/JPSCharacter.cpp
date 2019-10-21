@@ -19,11 +19,6 @@ void CJPSCharacter::Init(const int iStartCell, const int iTargetPos)
 	CCharacter::Init(iStartCell, iTargetPos);
 }
 
-void CJPSCharacter::OnDisable()
-{
-	Clear();
-}
-
 void CJPSCharacter::PerformSearch(const int iTargetLocation)
 {
 	JPS::CJPSInput aJPSInput(m_rGrid, m_iCurrentPos, iTargetLocation, m_path DEBUG_ONLY(, m_searchDebug));

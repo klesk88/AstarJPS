@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <windows.h>
 
-#include "entity/Entity.h"
 #include "Engine.h"
 #include "Core/Config.h"
 #include "Input/InputManager.h"
+#include "scene/SceneBase.h"
 #include "../Utils/DebugMacros.h"
 
 CGameManager::CBatchCommands::CBatchCommands()
@@ -45,12 +45,12 @@ void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 void CGameManager::Shutdown(CInputManager& rInputManager)
 {
 	rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);
-	for (CEntity* pEntity : m_entities)
+	for (CSceneBase* pScene : m_scenes)
 	{
-		pEntity->SetEnable(false);
+		pScene->Shutdown();
 	}
 
-	m_entities.clear();
+	m_scenes.clear();
 }
 
 void CGameManager::Update()
@@ -71,32 +71,32 @@ void CGameManager::Update()
 	}
 #endif
 
-	for (CEntity* pEntity : m_entities)
+	for (CSceneBase* pScene : m_scenes)
 	{
-		pEntity->Update(m_dDeltaTime);
+		pScene->Update(m_dDeltaTime);
 	}
 }
 
-void CGameManager::AddEntityToUpdate(CEntity& rEntity)
+void CGameManager::AddScene(CSceneBase& rScene)
 {
 #if _DEBUG
-	std::vector<CEntity*>::const_iterator iter = std::find(m_entities.begin(), m_entities.end(), &rEntity);
-	ASSERT(iter == m_entities.end());
+	std::vector<CSceneBase*>::const_iterator iter = std::find(m_scenes.begin(), m_scenes.end(), &rScene);
+	ASSERT(iter == m_scenes.end());
 #endif
 
-	CEntity* pEntityBatch = &rEntity;
-	m_BatchCommands.PushCommand([=] { m_entities.push_back(pEntityBatch); });
+	CSceneBase* pScene = &rScene;
+	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); });
 }
 
-void CGameManager::RemoveEntityFromUpdate(CEntity& rEntity)
+void CGameManager::RemoveScene(CSceneBase& rScene)
 {
-	CEntity* pEntityBatch = &rEntity;
+	CSceneBase* pScene = &rScene;
 
 	m_BatchCommands.PushCommand([=] { 
-		auto it = std::remove(m_entities.begin(), m_entities.end(), pEntityBatch);
-		if (it != m_entities.end())
+		auto it = std::remove(m_scenes.begin(), m_scenes.end(), pScene);
+		if (it != m_scenes.end())
 		{
-			m_entities.erase(it);
+			m_scenes.erase(it);
 		}
 	});
 }

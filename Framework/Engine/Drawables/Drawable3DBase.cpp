@@ -20,7 +20,7 @@ CDrawable3DBase::CDrawable3DBase()
 
 CDrawable3DBase::~CDrawable3DBase()
 {
-	Clear();
+	Reset();
 }
 
 void CDrawable3DBase::Reset()
@@ -57,6 +57,11 @@ void CDrawable3DBase::AddToRenderUpdateIfNeeded()
 
 	CEngine::GetInstance()->GetRenderer().AddDrawable(*this);
 	m_bIsInsideRenderUpdate = true;
+}
+
+void CDrawable3DBase::MarkAsNotInsideRenderUpdate()
+{
+	m_bIsInsideRenderUpdate = false;
 }
 
 void CDrawable3DBase::RemoveFromRenderUpdate()

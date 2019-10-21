@@ -2,12 +2,13 @@
 
 #include <vector>
 
-#include "../Scenes/Grid.h"
+#include "Grid.h"
 #include "../Drawables/GridDrawable.h"
 #include "../Drawables/Square.h"
 #include "../Entities/AStarCharacter.h"
 #include "../Entities/JPSCharacter.h"
 #include "../../Framework/Engine/Core/Event.h"
+#include "../../Framework/Engine/Scene/SceneBase.h"
 
 #if _DEBUG
 #include "../Drawables/Line.h"
@@ -15,7 +16,7 @@
 
 class CPickerEvent;
 
-class CSceneDemo
+class CSceneDemo : public CSceneBase
 {
 private:
 	enum class ePickerMode : char
@@ -33,6 +34,9 @@ private:
 
 public:
 	CSceneDemo();
+
+	void Shutdown() override;
+	void Update(const double dDeltaTime) override;
 
 private:
 	void GenerateGridDesc();
@@ -64,6 +68,7 @@ private:
 	int m_iStartPos;
 	int m_iEndPos;
 	ePickerMode m_pickerMode;
+	bool m_bAllowEntityUpdate;
 
 #if _DEBUG
 private:

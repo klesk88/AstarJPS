@@ -10,9 +10,9 @@
 #include "../Utils/ClassMacros.h"
 
 class CConfig;
-class CEntity;
 class CInputManager;
 class CKeyboardEvent;
+class CSceneBase;
 
 class CGameManager
 {
@@ -43,8 +43,8 @@ public:
 	void Shutdown(CInputManager& rInputManager);
 
 	void Update();
-	void AddEntityToUpdate(CEntity& rEntity);
-	void RemoveEntityFromUpdate(CEntity& rEntity);
+	void AddScene(CSceneBase& rScene);
+	void RemoveScene(CSceneBase& rScene);
 	double GetDeltaTime() const { return m_dDeltaTime; }
 
 private:
@@ -56,7 +56,7 @@ private:
 private:
 	CBatchCommands m_BatchCommands;
 	CEventId m_KeyboardEventId;
-	std::vector<CEntity*> m_entities;
+	std::vector<CSceneBase*> m_scenes;
 	long double m_ldInvFrequency;
 	unsigned __int64 m_uLastTime;
 	double m_dDeltaTime;

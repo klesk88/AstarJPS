@@ -21,8 +21,6 @@ public:
 	void Clear() override;
 
 private:
-	void OnDisable() override;
-
 	void PerformSearch(const int iTargetLocation) override;
 
 #if _DEBUG
