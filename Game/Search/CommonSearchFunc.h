@@ -78,8 +78,6 @@ namespace CommonSearch
 		rStartNode.SetHScore(0.f);
 		rStartNode.SetGScore(0.f);
 
-		rInput.SetStartNode(rStartNode);
-
 		std::vector<SearchNodeType*> container;
 		container.reserve(rGrid.GetGridCellSize());
 		std::priority_queue<SearchNodeType*, std::vector<SearchNodeType*>, decltype(cmp)> openSet(cmp, std::move(container));

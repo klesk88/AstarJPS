@@ -28,6 +28,14 @@ namespace JPS
 #endif
 	}
 
+	void CJPSNode::AddForcedNeighbour(const int iForcedNeighbourIdx)
+	{
+		ASSERT(GetIndex() != iForcedNeighbourIdx);
+		ASSERT(std::find(m_forcedNeighboursIndexes.begin(), m_forcedNeighboursIndexes.end(), iForcedNeighbourIdx) == m_forcedNeighboursIndexes.end());
+
+		m_forcedNeighboursIndexes.push_back(iForcedNeighbourIdx);
+	}
+
 #if _DEBUG
 
 	bool CJPSNode::RenderImgui(const CGrid& rGrid, CSquare& rSquare) const

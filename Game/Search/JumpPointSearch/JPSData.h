@@ -14,7 +14,7 @@ namespace JPS
 	public:
 		CJPSNode(const int iIndex);
 
-		void AddForcedNeighbour(const int iForcedNeighbourIdx) { m_forcedNeighboursIndexes.push_back(iForcedNeighbourIdx); }
+		void AddForcedNeighbour(const int iForcedNeighbourIdx);
 
 		const std::vector<int>& GetForcedNeighbours() const { return m_forcedNeighboursIndexes; }
 

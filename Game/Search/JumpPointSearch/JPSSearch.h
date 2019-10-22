@@ -15,11 +15,10 @@ namespace JPS
 		CJPSInput(const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<CJPSNode>& rOutDebug));
 
 		void Search() override;
-		void SetStartNode(CJPSNode& rStartNode) const override;
 		void FindNeighbours(CJPSNode& rNode, std::vector<CJPSNode>& rCells, std::vector<int>& rOutNewIndexes) const override;
 
 	private:
-		void UpdateStartForcedNeighbours(const int iX, const int iY, CJPSNode& rOutStartNode) const;
+		void InternalHandleStartNode(CJPSNode& rNode, std::vector<CJPSNode>& rCells, std::vector<int>& rOutNewIndexes) const;
 
 		bool IsNextValidForceNode(const int iX, const int iY) const;
 		bool HasCollisionInPosition(const int iX, const int iY) const;

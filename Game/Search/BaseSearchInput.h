@@ -27,8 +27,6 @@ namespace Search
 		virtual void Search() = 0;
 		virtual void FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const = 0;
 
-		virtual void SetStartNode(NodeType& rStartNode) const {}
-
 		const CGrid& GetGrid() const { return m_rGrid; }
 		int GetStartIndex() const { return m_iSrcIndex; }
 		int GetTargetIndex() const { return m_iDestIndex; }
