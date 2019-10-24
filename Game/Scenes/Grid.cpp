@@ -112,6 +112,12 @@ void CGrid::RemoveCollisionIfNeeded(const int iIndex)
 	RemoveDrawableObstacle(iIndex);
 }
 
+void CGrid::RemoveAllCollision()
+{
+	m_collisionIndexes.clear();
+	UpdateCollisionDrawable();
+}
+
 void CGrid::AddDrawableObstacle(const int iIndex)
 {
 	std::vector<int>::iterator iter = std::find(m_collisionIndexes.begin(), m_collisionIndexes.end(), iIndex);

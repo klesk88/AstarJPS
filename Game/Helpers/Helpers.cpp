@@ -28,4 +28,9 @@ namespace Helpers
 	{
 		return (float)(std::abs(iTargetX - iCurrentX) + std::abs(iTargetY - iCurrentY));
 	}
+
+	int Sign(float x)
+	{
+		return (x > 0.f) - (x < 0.f);
+	}
 }

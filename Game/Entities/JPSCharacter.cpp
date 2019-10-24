@@ -6,7 +6,7 @@
 #include "../../Framework/Utils/DebugMacros.h"
 
 CJPSCharacter::CJPSCharacter(CGrid& rGrid)
-	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::White)
+	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::Brown)
 	DEBUG_ONLY(, m_searchDebug("JPS", DirectX::Colors::Brown))
 {}
 

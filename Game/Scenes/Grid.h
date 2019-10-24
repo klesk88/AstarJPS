@@ -45,6 +45,7 @@ public:
 	void UpdateCharacterCollision(const int iOldPos, const int iNewPos, const eCollisionType collision);
 	void CollisionUpdateFromPicker(const int iIndex);
 	void RemoveCollisionIfNeeded(const int iIndex);
+	void RemoveAllCollision();
 
 private:
 	void AddDrawableObstacle(const int iIndex);

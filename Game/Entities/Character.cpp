@@ -1,5 +1,8 @@
 #include "Character.h"
 
+#include "../Helpers/Helpers.h"
+#include "../../Framework/Utils/DebugMacros.h"
+
 using namespace DirectX::SimpleMath;
 
 CCharacter::CCharacter(CGrid& rGrid, const CGrid::eCollisionType collisionType, const DirectX::XMVECTORF32 color)
@@ -61,8 +64,6 @@ void CCharacter::Update(const double dDeltaTime)
 	m_rGrid.UpdateCharacterCollision(m_iCurrentPos, iNewPos, m_CollisionType);
 	m_iCurrentPos = iNewPos;
 
-	//set the position starting from the center again
-	m_Position = m_rGrid.GetCellCenter(iNewPos);
 	int iX, iY;
 	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iX, iY);
 	
@@ -77,19 +78,32 @@ int CCharacter::ComputeCurrentGridPos(const int iTargetCell, const float fDeltaT
 	//the node we need to currently reach.
 
 	const Vector3 vTargetCellPos = m_rGrid.GetCellCenter(iTargetCell);
-	const Vector3 vDist = vTargetCellPos - m_Position;
+	const Vector3 vCurrentCellCenter = m_rGrid.GetCellCenter(m_iCurrentPos);
+	const Vector3 vDist = vTargetCellPos - vCurrentCellCenter;
 	Vector3 vDir = vDist;
 	vDir.Normalize();
 	
-	float fDeltaOffset = fDeltaTime * m_fSpeed;
-	const float fDistanceToTarget = Vector3::Distance(vTargetCellPos, m_Position);
-	if (fDeltaOffset > fDistanceToTarget)
-	{
-		fDeltaOffset = fDistanceToTarget;
-	}
-
+	const float fDeltaOffset = fDeltaTime * m_fSpeed;
 	Vector3 vOffset = vDir * fDeltaOffset;
 	m_Position += vOffset;
+
+	const int iNewCellPos = m_rGrid.GetIndexFromPos(m_Position);
+	if (iNewCellPos ==  m_iCurrentPos)
+	{
+		return m_rGrid.GetIndexFromPos(m_Position);
+	}
+
+	//make sure now that we are in the cell we expect if we change one
+	//we can have rounding problems with small values which can cause us to jump
+	//in the wrong cell adjacent to the one we want
+	int iOldX, iOldY, iNewX, iNewY;
+	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iOldX, iOldY);
+	m_rGrid.GetCellXYFromIndex(iNewCellPos, iNewX, iNewY);
+	const int iXDir = Helpers::Sign(vDir.x);
+	const int iYDir = Helpers::Sign(vDir.z);
+	iOldX += iXDir;
+	iOldY += iYDir;
+	m_Position = m_rGrid.GetCellCenter(m_rGrid.GetIndexFromXY(iOldX, iOldY));
 
 	return m_rGrid.GetIndexFromPos(m_Position);
 }

@@ -267,4 +267,9 @@ void CSceneDemo::ImguiEditModeUpdate()
 	};
 
 	ImGui::Combo("Mode", &m_iEditModeIndex, desc, IM_ARRAYSIZE(desc));
+
+	if (ImGui::Button("Clear All Collision"))
+	{
+		m_Grid.RemoveAllCollision();
+	}
 }

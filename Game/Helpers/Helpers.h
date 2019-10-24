@@ -17,4 +17,6 @@ namespace Helpers
 	{
 		return std::max(lower, std::min(n, upper));
 	}
+
+	int Sign(float x);
 }

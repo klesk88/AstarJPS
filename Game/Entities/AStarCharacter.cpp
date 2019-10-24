@@ -6,7 +6,7 @@
 #include "../../Framework/Utils/DebugMacros.h"
 
 CAStarCharacter::CAStarCharacter(CGrid& rGrid)
-	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::Brown)
+	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::Purple)
 	DEBUG_ONLY(, m_searchDebug("AStar", DirectX::Colors::Purple))
 {}
 
