@@ -30,9 +30,11 @@ public:
 
 	void Update();
 
+	//get the instance of the current selected camera by the user
 	const CBaseCamera& GetCurrentCamera() const { return *m_cameras[(int)m_activeCameraType]; }
 
 private:
+	//change the type of camera base on the user selection
 	void OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
 	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
 

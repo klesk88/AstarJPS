@@ -9,6 +9,9 @@
 
 namespace CommonSearch
 {
+	//use a template function which can be used both by the Jump Point Search and by
+	//the AStart search. Pass in the SearchNodeType so we can generate arrays based 
+	//om the type passed.
 	template <class SearchType, class SearchNodeType>
 	void GetFinalPath(const std::vector<SearchNodeType>& rCellDetails, const int iIndex, SearchType& rOutInput)
 	{

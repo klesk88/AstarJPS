@@ -14,6 +14,12 @@ class CGrid;
 
 namespace Search
 {
+	//use a template class to express the base class that is used by the AStar and the
+	//JPS search algorithm's. In this way we can express which type of data we want to 
+	//use by each of them.
+	//use also the curiously recurring template pattern to make sure the classes which will extend
+	//this one will implement the Search and FindNeighbours methods.
+	
 	template<class NodeType>
 	class CSearchInput
 	{
@@ -24,8 +30,8 @@ namespace Search
 	public:
 		CSearchInput(const int iCellsPerIter, const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<NodeType>& rOutDebug));
 
-		virtual void Search() = 0;
-		virtual void FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const = 0;
+		void Search();
+		void FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const;
 
 		const CGrid& GetGrid() const { return m_rGrid; }
 		int GetStartIndex() const { return m_iSrcIndex; }
@@ -64,5 +70,17 @@ namespace Search
 		m_ComputeHValueFunc = ([](const int iTargetX, const int iTargetY, const int iCurrentCellX, const int iCurrentCellY)->float {
 			return Helpers::GetEuclideanDistance(iTargetX, iTargetY, iCurrentCellX, iCurrentCellY);
 		});
+	}
+
+	template<class NodeType>
+	void Search::CSearchInput<NodeType>::Search()
+	{
+		static_cast<NodeType*>(this)->Search();
+	}
+
+	template<class NodeType>
+	void Search::CSearchInput<NodeType>::FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const
+	{
+		static_cast<NodeType*>(this)->FindNeighbours(rNode, rCells, rOutNewIndexes);
 	}
 }

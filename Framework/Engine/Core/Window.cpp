@@ -17,11 +17,13 @@ namespace SystemHelpers
 
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 	{
+		//handle imgui messages
 		if (ImGui_ImplWin32_WndProcHandler(hwnd, umessage, wparam, lparam))
 		{
 			return 0;
 		}
 
+		//handle messages which need to be handled by the input manager
 		if (CEngine::GetInstance()->GetInputManager().HandleWindowsMessage(hwnd, umessage, wparam, lparam))
 		{
 			return 0;

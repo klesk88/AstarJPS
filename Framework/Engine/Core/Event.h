@@ -1,5 +1,9 @@
 #pragma once
 
+//base event and event handler class which are used as base
+//classes for real events or by managers which need to handle
+//events
+
 #include <functional>
 #include <map>
 

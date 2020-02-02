@@ -27,8 +27,6 @@ bool CEngine::Init()
 
 void CEngine::Run()
 {
-
-
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 

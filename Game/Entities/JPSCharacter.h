@@ -1,5 +1,8 @@
 #pragma once
 
+//this character will use the jump point search (JPS) algorithm
+//to find the best path
+
 #include "Character.h"
 #include "../Search/JumpPointSearch/JPSData.h"
 

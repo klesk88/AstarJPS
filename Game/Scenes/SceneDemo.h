@@ -21,7 +21,8 @@ class CSceneDemo : public CSceneBase
 private:
 	enum class ePickerMode : char
 	{
-		EDIT_MODE = 0,
+		LEGEND = 0,
+		EDIT_MODE,
 		PATHFINDING,
 	};
 
@@ -52,6 +53,7 @@ private:
 	void ImguiStartPathfinding();
 	void ImguiClearPathfinding();
 	void ImguiModeSelection();
+	void ImguiLegendMode();
 	void ImguiEditModeUpdate();
 
 private:

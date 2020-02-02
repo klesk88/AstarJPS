@@ -25,8 +25,8 @@ CDrawable3DBase::~CDrawable3DBase()
 
 void CDrawable3DBase::Reset()
 {
-	Clear();
 	RemoveFromRenderUpdate();
+	Clear();
 }
 
 void CDrawable3DBase::Clear()
@@ -75,7 +75,7 @@ void CDrawable3DBase::RemoveFromRenderUpdate()
 	m_bIsInsideRenderUpdate = false;
 }
 
-bool CDrawable3DBase::Init(const bool bAddToRenderUpdate)
+bool CDrawable3DBase::Init()
 {
 	ID3D11Device& rDevice = CEngine::GetInstance()->GetRenderer().GetDevice();
 	
@@ -85,11 +85,7 @@ bool CDrawable3DBase::Init(const bool bAddToRenderUpdate)
 		return false;
 	}
 
-	if (bAddToRenderUpdate)
-	{
-		AddToRenderUpdateIfNeeded();
-	}
-
+	AddToRenderUpdateIfNeeded();
 	return true;
 }
 

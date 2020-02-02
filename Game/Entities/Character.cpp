@@ -67,9 +67,9 @@ void CCharacter::Update(const double dDeltaTime)
 	int iX, iY;
 	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iX, iY);
 	
-	m_Cube.Clear();
+	m_Cube.Reset();
 	m_Cube.AddCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
-	m_Cube.Init(false);
+	m_Cube.Init();
 }
 
 int CCharacter::ComputeCurrentGridPos(const int iTargetCell, const float fDeltaTime)

@@ -1,5 +1,8 @@
 #pragma once
 
+//class which represent the window we render
+//on screen
+
 #include <windows.h>
 
 class CConfig;

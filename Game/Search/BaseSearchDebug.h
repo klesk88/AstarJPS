@@ -59,8 +59,8 @@ void CBaseSearchDebug<NodeType>::Set(const double dTime, const std::vector<NodeT
 	}
 	else
 	{
-		m_drawablePath.Clear();
-		m_drawablePath.InitList(rPath, rGrid, m_color, 0.f, false);
+		m_drawablePath.InitList(rPath, rGrid, m_color, 0.f);
+		m_drawablePath.RemoveFromRenderUpdate();
 	}
 
 	m_drawableCompleteSearchSpace.Reset();
@@ -81,7 +81,8 @@ void CBaseSearchDebug<NodeType>::Set(const double dTime, const std::vector<NodeT
 	}
 	else
 	{
-		m_drawableCompleteSearchSpace.Init(false);
+		m_drawableCompleteSearchSpace.Init();
+		m_drawableCompleteSearchSpace.RemoveFromRenderUpdate();
 	}
 }
 
@@ -113,7 +114,7 @@ void CBaseSearchDebug<NodeType>::DrawPathIfHasData(const bool bShouldDraw, CSqua
 template<class NodeType>
 void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 {
-	m_drawableNode.Clear();
+	m_drawableNode.Reset();
 
 	if (!ImGui::CollapsingHeader(m_imguiTreeName.c_str()))
 	{
@@ -140,7 +141,7 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 	}
 	else
 	{
-		m_drawableNode.Init(!m_drawableNode.IsInsideRenderUpdate());
+		m_drawableNode.Init();
 	}
 }
 

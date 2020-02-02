@@ -9,30 +9,10 @@
 #include "scene/SceneBase.h"
 #include "../Utils/DebugMacros.h"
 
-CGameManager::CBatchCommands::CBatchCommands()
-{
-	m_Commands.reserve(100);
-}
-
-CGameManager::CBatchCommands::~CBatchCommands()
-{}
-
-void CGameManager::CBatchCommands::RunCommands()
-{
-	for (auto& command : m_Commands)
-	{
-		command();
-	}
-	m_Commands.clear();
-}
-
-//////////////////////////////////////////////////////////////////////////
-
 CGameManager::CGameManager()
 	: m_dUpdateTimeMs(0)
 	DEBUG_ONLY(, m_bDemoPaused(false))
 {}
-
 
 void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 {
@@ -47,19 +27,11 @@ void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 void CGameManager::Shutdown(CInputManager& rInputManager)
 {
 	DEBUG_ONLY(rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);)
-	for (CSceneBase* pScene : m_scenes)
-	{
-		pScene->Shutdown();
-		pScene->ClearInUpdateList();
-	}
-
 	m_scenes.clear();
 }
 
 void CGameManager::Update()
 {
-	m_BatchCommands.RunCommands();
-
 	UpdateTimer();
 
 #if _DEBUG
@@ -75,37 +47,30 @@ void CGameManager::Update()
 	}
 #endif
 
-	for (CSceneBase* pScene : m_scenes)
+	for (std::unique_ptr<CSceneBase>& pScene : m_scenes)
 	{
 		pScene->Update(m_dDeltaTime);
 	}
 }
 
-void CGameManager::AddScene(CSceneBase& rScene)
+void CGameManager::AddScene(std::unique_ptr<CSceneBase> rScene)
 {
 #if _DEBUG
-	std::vector<CSceneBase*>::const_iterator iter = std::find(m_scenes.begin(), m_scenes.end(), &rScene);
+	std::vector<std::unique_ptr<CSceneBase>>::const_iterator iter = std::find(m_scenes.begin(), m_scenes.end(), rScene);
 	ASSERT(iter == m_scenes.end());
 #endif
 
-	CSceneBase* pScene = &rScene;
-	rScene.SetInUpdateList();
-
-	m_BatchCommands.PushCommand([=] { m_scenes.push_back(pScene); });
+	rScene->Init();
+	m_scenes.push_back(std::move(rScene));
 }
 
-void CGameManager::RemoveScene(CSceneBase& rScene)
+void CGameManager::RemoveScene(std::unique_ptr<CSceneBase>& rScene)
 {
-	CSceneBase* pScene = &rScene;
-	rScene.ClearInUpdateList();
-
-	m_BatchCommands.PushCommand([=] { 
-		auto it = std::remove(m_scenes.begin(), m_scenes.end(), pScene);
-		if (it != m_scenes.end())
-		{
-			m_scenes.erase(it);
-		}
-	});
+	auto it = std::remove(m_scenes.begin(), m_scenes.end(), rScene);
+	if (it != m_scenes.end())
+	{
+		m_scenes.erase(it);
+	}
 }
 
 void CGameManager::StartCounter()

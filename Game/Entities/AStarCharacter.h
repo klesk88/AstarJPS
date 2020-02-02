@@ -1,5 +1,7 @@
 #pragma once
 
+//this npc will use the AStart algorithm to find the best path
+
 #include "Character.h"
 #include "../Search/AStarSearch/AStarNode.h"
 

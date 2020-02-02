@@ -21,10 +21,9 @@ public:
 	CDrawable3DBase();
 	virtual ~CDrawable3DBase();
 
-	bool Init(const bool bAddToRenderUpdate = true);
+	bool Init();
 
 	void Reset();
-	void Clear();
 
 	void RemoveFromRenderUpdate();
 	void AddToRenderUpdateIfNeeded();
@@ -40,6 +39,9 @@ protected:
 	virtual const CShaderBase& GetShader() const = 0;
 
 	bool GenerateBuffersGetIfSucceeded(const D3D11_BUFFER_DESC& rVertexBuffer, const D3D11_SUBRESOURCE_DATA& rVertexData, const D3D11_BUFFER_DESC& rIndexBuffer, const D3D11_SUBRESOURCE_DATA& rIndexData, ID3D11Device& rDevice);
+
+private:
+	void Clear();
 
 protected:
 	unsigned int m_iStride;

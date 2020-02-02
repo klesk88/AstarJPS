@@ -1,5 +1,9 @@
 #pragma once
 
+//simple config class which can is used to store base data
+//which could be stored in a .ini file and be changed by the user
+//and loaded at startup or once the game have been loaded
+
 class CConfig
 {
 public:

@@ -1,6 +1,13 @@
+#include <memory>
 #include "../Framework/Engine/common_includes.h"
 #include "../Framework/Engine/Engine.h"
 #include "Scenes/SceneDemo.h"
+
+//this should probably come from a config file
+std::unique_ptr<CSceneDemo> GetStartScene()
+{
+	return std::make_unique<CSceneDemo>();
+}
 
 int main()
 {
@@ -10,9 +17,7 @@ int main()
 		return 0;
 	}
 
-	CSceneDemo aStarDemo;
-	aStarDemo.Init();
-	engine.GetGameManager().AddScene(aStarDemo);
+	engine.GetGameManager().AddScene(GetStartScene());
 	engine.Run();
 
 	return 0;

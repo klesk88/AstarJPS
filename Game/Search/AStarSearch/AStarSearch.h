@@ -25,8 +25,8 @@ namespace AStar
 	public:
 		CAStarInput(const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<CAStarNode>& rOutDebug));
 
-		void Search() override;
-		void FindNeighbours(CAStarNode& rNode, std::vector<CAStarNode>& rCells, std::vector<int>& rOutNewIndexes) const override;
+		void Search();
+		void FindNeighbours(CAStarNode& rNode, std::vector<CAStarNode>& rCells, std::vector<int>& rOutNewIndexes) const;
 
 	private:
 		void GetMovingDirection(const eMovingDirection movingDirection, const int currentGridCell, int& rOutX, int& rOutY) const;

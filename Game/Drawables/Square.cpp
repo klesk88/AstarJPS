@@ -10,8 +10,10 @@ CSquare::CSquare()
 	m_primitiveTopology = D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void CSquare::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const Color color, const float fUpOffset, const bool bAddToUpdateList)
+void CSquare::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const Color color, const float fUpOffset)
 {
+	Reset();
+
 	if (rIndexes.size() == 0)
 	{
 		return;
@@ -29,7 +31,7 @@ void CSquare::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, con
 
 	m_iIndexCount = (int)m_indexes.size();
 
-	Init(bAddToUpdateList);
+	Init();
 }
 
 void CSquare::AddSingleSquare(const int iStartX, const int iStartY, const float fCellSize, const Color& color)

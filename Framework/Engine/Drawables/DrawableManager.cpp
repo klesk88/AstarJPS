@@ -26,6 +26,7 @@ void CDrawableManager::AddDrawable(CDrawable3DBase& rDrawable)
 #if _DEBUG
 	std::list<CDrawable3DBase*>::const_iterator iter = std::find(m_drawableList.begin(), m_drawableList.end(), &rDrawable);
 	ASSERT(iter == m_drawableList.end());
+	ASSERT(rDrawable.HasValidBuffer());
 #endif
 
 	m_drawableList.push_back(&rDrawable);

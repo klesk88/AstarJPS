@@ -114,6 +114,11 @@ void CGrid::RemoveCollisionIfNeeded(const int iIndex)
 
 void CGrid::RemoveAllCollision()
 {
+	for (int iIndex : m_collisionIndexes)
+	{
+		m_gridCells[iIndex] = eCollisionType::COUNT;
+	}
+
 	m_collisionIndexes.clear();
 	UpdateCollisionDrawable();
 }
@@ -151,6 +156,5 @@ void CGrid::UpdateCollisionDrawable()
 		return;
 	}
 
-	m_drawableCollision.Clear();
 	m_drawableCollision.InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
 }

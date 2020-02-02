@@ -18,19 +18,12 @@ CSceneDemo::CSceneDemo()
 	, m_iEditModeIndex(0)
 	, m_iStartPos(0)
 	, m_iEndPos(0)
-	, m_pickerMode(ePickerMode::EDIT_MODE)
+	, m_pickerMode(ePickerMode::LEGEND)
 	, m_bAllowEntityUpdate(false)
 {}
 
 CSceneDemo::~CSceneDemo()
 {
-	if (!IsInUpdateList())
-	{
-		return;
-	}
-
-	CEngine* pEngine = CEngine::GetInstance();
-	pEngine->GetGameManager().RemoveScene(*this);
 	Shutdown();
 }
 
@@ -83,7 +76,7 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 #if _DEBUG
 	if (m_bEnablePickerDebug)
 	{
-		m_pickerLine.Clear();
+		m_pickerLine.Reset();
 		m_pickerLine.AddLine(rPickerEvent.GetStartPos(), rPickerEvent.GetEndPos(), Color(DirectX::Colors::Black));
 		m_pickerLine.Init();
 	}
@@ -112,7 +105,7 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 #if _DEBUG
 	if (m_bEnablePickerDebug)
 	{
-		m_pickerSquare.Clear();
+		m_pickerSquare.Reset();
 		m_pickerSquare.AddSingleSquare(iX, iZ, m_Grid.GetCellSize(), Color(DirectX::Colors::Green));
 		m_pickerSquare.Init();
 	}
@@ -154,7 +147,7 @@ void CSceneDemo::UpdateEditMode()
 		if (m_iStartPos != m_iPickerCellSelected)
 		{
 			m_Grid.RemoveCollisionIfNeeded(m_iPickerCellSelected);
-			m_startSquare.Clear();
+			m_startSquare.Reset();
 			m_iStartPos = m_iPickerCellSelected;
 
 			int iX, iY;
@@ -171,14 +164,14 @@ void CSceneDemo::UpdateEditMode()
 		{
 			m_Grid.RemoveCollisionIfNeeded(m_iPickerCellSelected);
 			m_iEndPos = m_iPickerCellSelected;
-			m_endSquare.Clear();
+			m_endSquare.Reset();
 
 			int iX, iY;
 			m_Grid.GetCellXYFromIndex(m_iEndPos, iX, iY);
 			Color color(DirectX::Colors::Red);
 			color.w = 0.3f;
 			m_endSquare.AddSingleSquare(iX, iY, m_Grid.GetCellSize(), color);
-			m_endSquare.Init();;
+			m_endSquare.Init();
 		}
 		break;
 	default:
@@ -235,6 +228,12 @@ void CSceneDemo::ImguiClearPathfinding()
 
 void CSceneDemo::ImguiModeSelection()
 {
+	if (ImGui::RadioButton("LEGEND", m_pickerMode == ePickerMode::LEGEND))
+	{
+		m_pickerMode = ePickerMode::LEGEND;
+		m_iPickerCellSelected = -1;
+	}
+	ImGui::SameLine();
 	if (ImGui::RadioButton("EDIT_MODE", m_pickerMode == ePickerMode::EDIT_MODE))
 	{
 		m_pickerMode = ePickerMode::EDIT_MODE;
@@ -249,12 +248,27 @@ void CSceneDemo::ImguiModeSelection()
 
 	switch (m_pickerMode)
 	{
+	case ePickerMode::LEGEND:
+		ImguiLegendMode();
+		break;
 	case ePickerMode::EDIT_MODE:
 		ImguiEditModeUpdate();
 		break;
 	case ePickerMode::PATHFINDING:
 		break;
 	}
+}
+
+void CSceneDemo::ImguiLegendMode()
+{
+	ImGui::Text("Welcome. This demo can be used to compare A* agains Jump Point Search");
+	ImGui::Text("Using edit mode it is possible to place collisions all over the grid,");
+	ImGui::Text("as well as the start and end cells.");
+	ImGui::Text("In the Path finding section, it is possible to start the searched and visualize");
+	ImGui::Text("the results. If built in debug mode, it is also possible to investigate the single");
+	ImGui::Text("paths, how many grid have been searched in total, and how long each algorithm took.");
+	ImGui::Text("Finally, by pressing 1 or 2, is possible to change the camera mode from a perspective");
+	ImGui::Text("to a top down view");	
 }
 
 void CSceneDemo::ImguiEditModeUpdate()
