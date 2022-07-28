@@ -90,6 +90,7 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+CodeSample.sln
 
 # Guidance Automation Toolkit
 *.gpState
@@ -219,3 +220,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#Ignore Michele
+vs/

@@ -27,7 +27,8 @@ CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const 
 		rConfig.GetScreenNear(),
 		rConfig.GetScreenFar());
 
-	m_invProjMatrix = XMMatrixInverse(&DirectX::XMMatrixDeterminant(m_projectionMatrix), (m_projectionMatrix));
+	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_projectionMatrix);
+	m_invProjMatrix = XMMatrixInverse(&determinant, m_projectionMatrix);
 
 	m_dirPress.resize((int)eDir::COUNT, false);
 

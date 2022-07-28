@@ -25,7 +25,8 @@ CTopDownCamera::CTopDownCamera(const CConfig& rConfig, CInputManager& rInputMana
 		rConfig.GetScreenNear(),
 		rConfig.GetScreenFar());
 
-	m_InvOrthoMatrix = XMMatrixInverse(&DirectX::XMMatrixDeterminant(m_OrthoMatrix), (m_OrthoMatrix));
+	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_OrthoMatrix);
+	m_InvOrthoMatrix = XMMatrixInverse(&determinant, m_OrthoMatrix);
 }
 
 CTopDownCamera::~CTopDownCamera()

@@ -37,9 +37,6 @@
     <Filter Include="Collision">
       <UniqueIdentifier>{89213410-5480-438e-bac3-65df3dff4af2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entity">
-      <UniqueIdentifier>{af4fc46e-01c5-4b15-8752-9f3c00f3baf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameManager">
       <UniqueIdentifier>{e5f47e46-bae2-4c33-8d62-d7d2cf1e9e05}</UniqueIdentifier>
     </Filter>
