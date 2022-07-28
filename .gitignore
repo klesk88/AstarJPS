@@ -223,3 +223,20 @@ pip-log.txt
 
 #Ignore Michele
 vs/
+.vs/CodeSample/FileContentIndex/b211918f-26a3-49de-8239-cdd4f805f4ac.vsidx
+.vs/CodeSample/FileContentIndex/read.lock
+.vs/CodeSample/project-colors.json
+.vs/CodeSample/v15/.suo
+.vs/CodeSample/v15/Browse.VC.db
+.vs/CodeSample/v15/Solution.VC.db
+.vs/CodeSample/v17/Browse.VC.db-shm
+.vs/CodeSample/v17/Browse.VC.db-wal
+.vs/CodeSample/v17/Solution.VC.db-shm
+.vs/CodeSample/v17/Solution.VC.db-wal
+.vs/CodeSample/v15/.suo
+.vs/CodeSample/v15/Browse.VC.db
+.vs/CodeSample/v15/Solution.VC.db
+*.db
+.vs/CodeSample/v15/.suo
+*.vsidx
+.vs/CodeSample/v15/.suo
