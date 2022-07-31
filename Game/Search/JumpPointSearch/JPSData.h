@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
+#include "Game/Search/BaseNode.h"
 
-#include "../BaseNode.h"
+//std
+#include <vector>
 
 class CSquare;
 class CGrid;
@@ -12,11 +13,11 @@ namespace JPS
 	class CJPSNode final : public Search::CBaseNode
 	{
 	public:
-		CJPSNode(const int iIndex);
+		explicit CJPSNode(const int iIndex);
+		~CJPSNode() = default;
 
 		void AddForcedNeighbour(const int iForcedNeighbourIdx);
-
-		const std::vector<int>& GetForcedNeighbours() const { return m_forcedNeighboursIndexes; }
+		[[nodiscard]] const std::vector<int>& GetForcedNeighbours() const { return m_forcedNeighboursIndexes; }
 
 	private:
 		std::vector<int> m_forcedNeighboursIndexes;
@@ -26,7 +27,7 @@ namespace JPS
 		bool RenderImgui(const CGrid& rGrid, CSquare& rSquare) const override;
 
 	private: 
-		mutable bool m_bRenderForceNeigbours;
+		mutable bool m_bRenderForceNeigbours = false;
 #endif
 	};
 }

@@ -1,28 +1,12 @@
-#include "Renderer.h"
+#include "Framework/Engine/Render/Renderer.h"
 
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Utils/DebugMacros.h"
+
+//directx
 #include <DirectXColors.h>
 
-#include "../Core/Config.h"
-#include "../../Utils/DebugMacros.h"
-
 using namespace DirectX::SimpleMath;
-
-CRenderer::CRenderer()
-	: m_iVideoCardMemory(0)
-	, m_pSwapChain(nullptr)
-	, m_pDevice(nullptr)
-	, m_pDeviceContext(nullptr)
-	, m_pRenderTargetView(nullptr)
-	, m_pDepthStencilBuffer(nullptr)
-	, m_pDepthStencilState(nullptr)
-	, m_pDepthStencilView(nullptr)
-	, m_pRasterState(nullptr)
-	, m_pBlendState(nullptr)
-	, m_worldMatrix(DirectX::XMMatrixIdentity())
-{}
-
-CRenderer::~CRenderer()
-{}
 
 bool CRenderer::Initialize(const CConfig& rConfig, HWND hwnd)
 {
@@ -157,7 +141,6 @@ bool CRenderer::InitBlendState()
 
 	return SUCCEEDED(result);
 }
-
 
 bool CRenderer::InitRasterState()
 {

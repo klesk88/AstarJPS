@@ -2,18 +2,17 @@
 
 #include <DirectXColors.h>
 
-#include "../Scenes/Grid.h"
+#include "Game/Scenes/Grid.h"
 
-#include "../../Framework/Engine/Engine.h"
-#include "../../Framework/Engine/Camera/CameraManager.h"
-#include "../../Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Camera/CameraManager.h"
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Engine.h"
 
 using namespace DirectX::SimpleMath;
 
 CGridDrawable::CGridDrawable()
+	: CColorDrawableBase(D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST, D3D11_USAGE::D3D11_USAGE_IMMUTABLE)
 {
-	m_primitiveTopology = D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST;
-	m_bufferUsage = D3D11_USAGE_IMMUTABLE;
 }
 
 void CGridDrawable::InitParams(const int iSizeX, const int iSizeY, const float fCellSize, Vector3&rOutMin, Vector3& rOutMax)

@@ -2,15 +2,18 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Engine/Input/KeyboardEvent.h"
+#include "Framework/Engine/Input/MouseEvent.h"
+#include "Framework/Utils/ClassMacros.h"
+
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
+//input
 #include <dinput.h>
 
-#include "MouseEvent.h"
-#include "KeyboardEvent.h"
-#include "../../Utils/ClassMacros.h"
-#include "../Core/Event.h"
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 class CConfig;
 
@@ -23,18 +26,21 @@ public:
 	CEventHandler<CKeyboardEvent> KeyboardEvent;
 
 public:
-	CInputManager();
-	~CInputManager();
+	CInputManager() = default;
+	~CInputManager() = default;
 	
-	bool HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
-	inline bool IsEscapePressed() const { return m_bEscapePress; }
-private:
-	bool HandleMouseMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
-	bool HandleKeyboardMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	[[nodiscard]] bool HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	[[nodiscard]] bool IsEscapePressed() const;
 
 private:
-	int m_iMouseX;
-	int m_iMouseY;
-	bool m_bTrackingMouse : 1;
-	bool m_bEscapePress : 1;
+	[[nodiscard]] bool HandleMouseMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	[[nodiscard]] bool HandleKeyboardMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+
+private:
+	int m_iMouseX = INT32_MAX;
+	int m_iMouseY = INT32_MAX;
+	bool m_bTrackingMouse = false;
+	bool m_bEscapePress = false;
 };
+
+inline bool CInputManager::IsEscapePressed() const { return m_bEscapePress; }

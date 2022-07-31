@@ -109,9 +109,6 @@
     <ClCompile Include="Utils\Picker\Picker.cpp">
       <Filter>Utils\Picker</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Collision\CollisionHelpers.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GameManager.cpp">
       <Filter>GameManager</Filter>
     </ClCompile>
@@ -235,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Scene\SceneBase.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\EventID.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

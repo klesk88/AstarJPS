@@ -1,17 +1,25 @@
-#include "JPSData.h"
+#include "Game/Search/JumpPointSearch/JPSData.h"
 
+//framework
+#include "Framework//Utils/DebugMacros.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+#include "Game/Drawables/Square.h"
+
+//std
 #include <queue>
 
-#include "../../../Framework/Utils/DebugMacros.h"
-
-#include "../../Scenes/Grid.h"
-#include "../../Drawables/Square.h"
-
 #if _DEBUG
+//framework
+#include "Framework//Engine/Core/SimpleMath.h"
+#include "Framework//Utils/Imgui/imgui.h"
+
+//directx
 #include <DirectXColors.h>
+
+//std
 #include <stdio.h>
-#include "../../../Framework/Engine/Core/SimpleMath.h"
-#include "../../../Framework/Utils/Imgui/imgui.h"
 #endif
 
 using namespace DirectX::SimpleMath;
@@ -23,9 +31,6 @@ namespace JPS
 		: CBaseNode(iIndex)
 
 	{
-#if _DEBUG
-		m_bRenderForceNeigbours = false;
-#endif
 	}
 
 	void CJPSNode::AddForcedNeighbour(const int iForcedNeighbourIdx)

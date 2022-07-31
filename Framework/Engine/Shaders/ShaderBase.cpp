@@ -1,13 +1,6 @@
-#include "ShaderBase.h"
+#include "Framework/Engine/Shaders/ShaderBase.h"
 
 using namespace DirectX::SimpleMath;
-
-CShaderBase::CShaderBase()
-	: m_pVertexShader(nullptr)
-	, m_pPixelShader(nullptr)
-	, m_pLayout(nullptr)
-	, m_pMatrixBuffer(nullptr)
-{}
 
 CShaderBase::~CShaderBase()
 {
@@ -41,19 +34,17 @@ void CShaderBase::Shutdown()
 	}
 }
 
-bool CShaderBase::Render(const int indexCount, const Matrix& rWorldMatrix, const Matrix& rViewMatrix, const Matrix& rProjectionMatrix, ID3D11DeviceContext& rDeviceContext) const
+void CShaderBase::Render(const int indexCount, const Matrix& rWorldMatrix, const Matrix& rViewMatrix, const Matrix& rProjectionMatrix, ID3D11DeviceContext& rDeviceContext) const
 {
 	// Set the shader parameters that it will use for rendering.
 	bool bResult = SetShaderParameters(rWorldMatrix, rViewMatrix, rProjectionMatrix, rDeviceContext);
 	if (!bResult)
 	{
-		return false;
+		return;
 	}
 
 	// Now render the prepared buffers with the shader.
 	RenderShader(rDeviceContext, indexCount);
-
-	return true;
 }
 
 void CShaderBase::OutputShaderErrorMessage(ID3D10Blob& rErrorMessage, HWND hwnd, LPCSTR shaderFilename)

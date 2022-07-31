@@ -1,7 +1,7 @@
-#include "AStarSearch.h"
+#include "Game/Search/AStarSearch/AStarSearch.h"
 
-#include "../CommonSearchFunc.h"
-#include "../../Scenes/Grid.h"
+#include "Game/Search/CommonSearchFunc.h"
+#include "Game/Scenes/Grid.h"
 
 using namespace Search;
 
@@ -23,7 +23,7 @@ namespace AStar
 		int iNeigbourNodeX, iNeighbourNodeY;
 		int iCurrentNodeX, iCurrentNodeY;
 		GetGrid().GetCellXYFromIndex(rNode.GetIndex(), iCurrentNodeX, iCurrentNodeY);
-		for (int dir = 0; dir < eMovingDirection::COUNT; ++dir)
+		for (int dir = 0; dir < static_cast<int>(eMovingDirection::COUNT); ++dir)
 		{
 			GetMovingDirection(static_cast<eMovingDirection>(dir), rNode.GetIndex(), iNeigbourNodeX, iNeighbourNodeY);
 

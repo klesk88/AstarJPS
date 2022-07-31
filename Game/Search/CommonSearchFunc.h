@@ -1,11 +1,15 @@
 #pragma once
 
+//framework
+#include "Framework/Engine/Core/Timer.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+#include "Game/Helpers/Helpers.h"
+
+//std
 #include <queue>
 #include <stack>
-
-#include "../Scenes/Grid.h"
-#include "../Helpers/Helpers.h"
-#include "../../Framework/Engine/Core/Timer.h"
 
 namespace CommonSearch
 {

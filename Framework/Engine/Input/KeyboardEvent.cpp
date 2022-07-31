@@ -4,14 +4,9 @@
 
 CKeyboardEvent::CKeyboardEvent(const EventType eventType, const int iKeyCode, const bool bRepeated)
 	: m_type(eventType)
-	, m_keyCode((KeyCodes)iKeyCode)
+	, m_keyCode(static_cast<KeyCodes>(iKeyCode))
 	, m_bRepeated(bRepeated)
 {
-	ASSERT((iKeyCode >= (int)KeyCodes::KEY_0 && iKeyCode <= (int)KeyCodes::KEY_9) || (iKeyCode >= (int)KeyCodes::KEY_A && iKeyCode <= (int)KeyCodes::KEY_Z));
-}
-
-bool CKeyboardEvent::IsKeyCodeSupported(const int iKeyCode)
-{
-	return (iKeyCode >= (int)KeyCodes::KEY_0 && iKeyCode <= (int)KeyCodes::KEY_9) || (iKeyCode >= (int)KeyCodes::KEY_A && iKeyCode <= (int)KeyCodes::KEY_Z);
+	ASSERT((iKeyCode >= static_cast<int>(KeyCodes::KEY_0) && iKeyCode <= static_cast<int>(KeyCodes::KEY_9)) || (iKeyCode >= static_cast<int>(KeyCodes::KEY_A) && iKeyCode <= static_cast<int>(KeyCodes::KEY_Z)));
 }
 

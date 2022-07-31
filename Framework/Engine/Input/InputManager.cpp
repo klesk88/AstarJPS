@@ -1,18 +1,8 @@
-#include "InputManager.h"
+#include "Framework/Engine/Input/InputManager.h"
 
-#include "../Core/Config.h"
-#include "../../Utils/DebugMacros.h"
-#include "../../Utils/Imgui/imgui.h"
-
-CInputManager::CInputManager()
-	: m_iMouseX(INT32_MAX)
-	, m_iMouseY(INT32_MAX)
-	, m_bTrackingMouse(false)
-	, m_bEscapePress(false)
-{}
-
-CInputManager::~CInputManager()
-{}
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Utils/DebugMacros.h"
+#include "Framework/Utils/Imgui/imgui.h"
 
 bool CInputManager::HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
@@ -128,7 +118,7 @@ bool CInputManager::HandleMouseMessages(HWND hwnd, UINT umessage, WPARAM wparam,
 	return true;
 }
 
-bool CInputManager::HandleKeyboardMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+bool CInputManager::HandleKeyboardMessages(HWND /*hwnd*/, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
 	switch (umessage)
 	{

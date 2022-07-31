@@ -1,83 +1,87 @@
 #pragma once
 
-//base event and event handler class which are used as base
-//classes for real events or by managers which need to handle
-//events
+#include "Framework/Engine/Core/EventID.h"
+#include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/DebugMacros.h"
 
+//std
 #include <functional>
 #include <map>
 
-#include "../../Utils/ClassMacros.h"
-#include "../../Utils/DebugMacros.h"
-
-namespace EventIdHelper
-{
-	const int m_iInvalid = -1;
-}
-
-struct CEventId
-{
-public:
-	CEventId() : m_iId(EventIdHelper::m_iInvalid) {}
-	explicit CEventId(const int id) : m_iId(id) {}
-
-	static const CEventId Invalid() { return CEventId(EventIdHelper::m_iInvalid); }
-	bool operator<(const CEventId& other) const { return m_iId < other.m_iId; }
-	bool IsValid() const { return m_iId != EventIdHelper::m_iInvalid; }
-
-private:
-	int m_iId;
-};
-
+//base event and event handler class which are used as base
+//classes for real events or by managers which need to handle
+//events
 template <typename... Args>
 class CEventHandler
 {
 	NON_COPYABLE_CLASS(CEventHandler)
 
 public:
-	CEventHandler()
-		: m_iCurrentId(EventIdHelper::m_iInvalid)
-	{}
+	CEventHandler();
+	~CEventHandler();
 
-	~CEventHandler()
-	{
-		ASSERT(m_slots.size() == 0);
-	}
-
-	template <typename A>
-	CEventId Attach(A&& slot)
-	{
-		m_slots.insert(std::make_pair(CEventId(++m_iCurrentId), std::forward<A>(slot)));
-		return CEventId(m_iCurrentId);
-	}
+	template <typename CallbackType>
+	[[nodiscard]] CEventId Attach(CallbackType&& callback);
 
 	template <typename C, typename R, typename... A >
-	CEventId Attach(C* object, R(C::* memFunc)(A...))
-	{
-		return Attach([object = object, memFunc = memFunc](Args... p) { (object->*(memFunc))(p...); });
-	}
+	[[nodiscard]] CEventId Attach(C* object, R(C::* memFunc)(A...));
 
-	void Detach(CEventId& id)
-	{
-		m_slots.erase(id);
-		id = CEventId::Invalid();
-	}
+	void Detach(CEventId& id);
 
-	void DetachAll()
-	{
-		m_slots.clear();
-	}
+	void DetachAll();
 
 	// calls all connected functions
-	void Emit(const Args&... p)
-	{
-		for (auto it : m_slots)
-		{
-			it.second(p...);
-		}
-	}
+	void Emit(const Args&... p);
 
 private:
 	std::map<CEventId, std::function<void(const Args&...)>> m_slots;
 	int m_iCurrentId;
 };
+
+template <typename... Args>
+CEventHandler<Args...>::CEventHandler()
+    : m_iCurrentId(EventIdHelper::m_iInvalid)
+{}
+
+template <typename... Args>
+CEventHandler<Args...>::~CEventHandler()
+{
+    ASSERT(m_slots.size() == 0);
+}
+
+template <typename... Args>
+template <typename CallbackType>
+CEventId CEventHandler<Args...>::Attach(CallbackType&& callback)
+{
+    m_slots.insert(std::make_pair(CEventId(++m_iCurrentId), std::forward<CallbackType>(callback)));
+    return CEventId(m_iCurrentId);
+}
+
+template <typename... Args>
+template <typename C, typename R, typename... A >
+CEventId CEventHandler<Args...>::Attach(C* object, R(C::* memFunc)(A...))
+{
+    return Attach([object = object, memFunc = memFunc](Args... p) { (object->*(memFunc))(p...); });
+}
+
+template <typename... Args>
+void CEventHandler<Args...>::Detach(CEventId& id)
+{
+    m_slots.erase(id);
+    id = CEventId::GetInvalidID();
+}
+
+template <typename... Args>
+void CEventHandler<Args...>::DetachAll()
+{
+    m_slots.clear();
+}
+
+template <typename... Args>
+void CEventHandler<Args...>::Emit(const Args&... p)
+{
+    for (auto it : m_slots)
+    {
+        it.second(p...);
+    }
+}

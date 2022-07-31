@@ -1,25 +1,19 @@
-#include "BaseCamera.h"
+#include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
 
-#include <directxmath.h>
-
-#include "../../Engine.h"
-#include "../../Input/InputManager.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const Vector3& defaultUp, const Vector3& defaultFwd, const Vector3& defaultRight, CInputManager& rInputManager)
-	: m_projectionMatrix(DirectX::XMMatrixIdentity())
-	, m_viewMatrix(DirectX::XMMatrixIdentity())
-	, m_invViewMatrix(DirectX::XMMatrixIdentity())
-	, m_vPosition(position)
-	, m_DefaultUp(defaultUp)
+	: m_DefaultUp(defaultUp)
 	, m_DefaultForward(defaultFwd)
 	, m_DefaultRight(defaultRight)
-	, m_bIsActive(false)
-	, m_fMovementSpeed(0.001f)
+	, m_vPosition(position)
+	, m_dirPress(static_cast<int>(eDir::COUNT), false)
 {
-	const float screenAspect = (float)rConfig.GetScreenWidth() / (float)rConfig.GetScreenHeight();
+	const float screenAspect = static_cast<float>(rConfig.GetScreenWidth()) / static_cast<float>(rConfig.GetScreenHeight());
 
 	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(
 		rConfig.GetFOV(),
@@ -30,10 +24,17 @@ CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const 
 	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_projectionMatrix);
 	m_invProjMatrix = XMMatrixInverse(&determinant, m_projectionMatrix);
 
-	m_dirPress.resize((int)eDir::COUNT, false);
 
-	m_KeyboardEventId = rInputManager.KeyboardEvent.Attach([this](const CKeyboardEvent& rKeyboardEvent) { OnKeyboardEvent(rKeyboardEvent); });
-	m_MouseEventId = rInputManager.MouseEvent.Attach([this](const CMouseEvent& rMouseEvent) { OnMouseEvent(rMouseEvent); });
+    auto keyboardEventCbk = [this](const CKeyboardEvent& rKeyboardEvent) -> void {
+        OnKeyboardEvent(rKeyboardEvent);
+    };
+
+    auto mouseEventCbk = [this](const CMouseEvent& rMouseEvent) -> void {
+		OnMouseEvent(rMouseEvent);
+    };
+
+	m_KeyboardEventId = rInputManager.KeyboardEvent.Attach(keyboardEventCbk);
+	m_MouseEventId = rInputManager.MouseEvent.Attach(mouseEventCbk);
 }
 
 CBaseCamera::~CBaseCamera()
@@ -43,6 +44,37 @@ void CBaseCamera::Shutdown(CInputManager& rInputManager)
 {
 	rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);
 	rInputManager.MouseEvent.Detach(m_MouseEventId);
+}
+
+void CBaseCamera::UpdateKeyEvent(const CKeyboardEvent& rKeyboardEvent, const bool bEnableDir)
+{
+    eDir directionPress = eDir::COUNT;
+    switch (rKeyboardEvent.GetKeyCode())
+    {
+    case CKeyboardEvent::KeyCodes::KEY_W:
+        directionPress = eDir::FORWARD;
+        break;
+    case CKeyboardEvent::KeyCodes::KEY_S:
+        directionPress = eDir::BACKWARDS;
+        break;
+    case CKeyboardEvent::KeyCodes::KEY_A:
+        directionPress = eDir::LEFT;
+        break;
+    case CKeyboardEvent::KeyCodes::KEY_D:
+        directionPress = eDir::RIGHT;
+        break;
+    case CKeyboardEvent::KeyCodes::KEY_E:
+        directionPress = eDir::UP;
+        break;
+    case CKeyboardEvent::KeyCodes::KEY_Q:
+        directionPress = eDir::DOWN;
+        break;
+    default:
+        //is not an input we care about
+        return;
+    }
+
+    m_dirPress[static_cast<int>(directionPress)] = bEnableDir;
 }
 
 void CBaseCamera::OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)

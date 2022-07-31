@@ -1,14 +1,19 @@
 #pragma once
 
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Engine/Drawables/DrawableManager.h"
+#include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/Imgui/ImguiManager.h"
+
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
+//directx
 #include <dxgi.h>
 #include <d3dcommon.h>
 #include <d3d11.h>
-#include <windows.h>
 
-#include "../Drawables/DrawableManager.h"
-#include "../Core/SimpleMath.h"
-#include "../../Utils/ClassMacros.h"
-#include "../../Utils/Imgui/ImguiManager.h"
+//windows
+#include <windows.h>
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
@@ -23,10 +28,10 @@ class CRenderer
 	NON_COPYABLE_CLASS(CRenderer)
 
 public:
-	CRenderer();
-	~CRenderer();
+	CRenderer() = default;
+	~CRenderer() = default;
 
-	bool Initialize(const CConfig& rConfig, HWND hwnd);
+	[[nodiscard]] bool Initialize(const CConfig& rConfig, HWND hwnd);
 	void Shutdown();
 
 	void PreUpdate();
@@ -36,19 +41,19 @@ public:
 	void AddDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.AddDrawable(rDrawable); }
 	void RemoveDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.RemoveDrawable(rDrawable); }
 
-	CEventHandler<>& GetImguiEventHandler() { return m_imguiManager.ImguiUpdate; }
-	ID3D11Device& GetDevice() { return *m_pDevice; }
-	ID3D11DeviceContext& GetDeviceContext() { return *m_pDeviceContext; }
+	[[nodiscard]] CEventHandler<>& GetImguiEventHandler();
+	[[nodiscard]] ID3D11Device& GetDevice();
+	[[nodiscard]] ID3D11DeviceContext& GetDeviceContext();
 
 private:
-	bool InitBlendState();
-	bool InitRasterState();
-	bool InitDepthStancilState();
-	bool InitDepthStencil();
-	bool InitDepthBuffer(const CConfig& rConfig);
-	bool InitSwapChain(const CConfig& rConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd);
-	bool InitBackBufferPtr();
-	bool InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator);
+	[[nodiscard]] bool InitBlendState();
+	[[nodiscard]] bool InitRasterState();
+	[[nodiscard]] bool InitDepthStancilState();
+	[[nodiscard]] bool InitDepthStencil();
+	[[nodiscard]] bool InitDepthBuffer(const CConfig& rConfig);
+	[[nodiscard]] bool InitSwapChain(const CConfig& rConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd);
+	[[nodiscard]] bool InitBackBufferPtr();
+	[[nodiscard]] bool InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator);
 	void InitDeviceContext(const CConfig& rConfig);
 
 private:
@@ -56,15 +61,19 @@ private:
 	CImguiManager m_imguiManager;
 
 	char m_videoCardDescription[128];
-	DirectX::SimpleMath::Matrix m_worldMatrix;
-	int m_iVideoCardMemory;
-	IDXGISwapChain* m_pSwapChain;
-	ID3D11Device* m_pDevice;
-	ID3D11DeviceContext* m_pDeviceContext;
-	ID3D11RenderTargetView* m_pRenderTargetView;
-	ID3D11Texture2D* m_pDepthStencilBuffer;
-	ID3D11DepthStencilState* m_pDepthStencilState;
-	ID3D11DepthStencilView* m_pDepthStencilView;
-	ID3D11RasterizerState* m_pRasterState;
-	ID3D11BlendState* m_pBlendState;
+	DirectX::SimpleMath::Matrix m_worldMatrix = DirectX::XMMatrixIdentity();
+	int m_iVideoCardMemory = 0;
+	IDXGISwapChain* m_pSwapChain = nullptr;
+	ID3D11Device* m_pDevice = nullptr;
+	ID3D11DeviceContext* m_pDeviceContext = nullptr;
+	ID3D11RenderTargetView* m_pRenderTargetView = nullptr;
+	ID3D11Texture2D* m_pDepthStencilBuffer = nullptr;
+	ID3D11DepthStencilState* m_pDepthStencilState = nullptr;
+	ID3D11DepthStencilView* m_pDepthStencilView = nullptr;
+	ID3D11RasterizerState* m_pRasterState = nullptr;
+	ID3D11BlendState* m_pBlendState = nullptr;
 };
+
+inline CEventHandler<>& CRenderer::GetImguiEventHandler() { return m_imguiManager.ImguiUpdate; }
+inline ID3D11Device& CRenderer::GetDevice() { return *m_pDevice; }
+inline ID3D11DeviceContext& CRenderer::GetDeviceContext() { return *m_pDeviceContext; }

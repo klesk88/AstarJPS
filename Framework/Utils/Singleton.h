@@ -1,7 +1,9 @@
 #pragma once
 
-#include "ClassMacros.h"
-#include "DebugMacros.h"
+#include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/DebugMacros.h"
+
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 template<class Class>
 class CSingleton
@@ -9,9 +11,9 @@ class CSingleton
 	NON_COPYABLE_CLASS(CSingleton)
 
 public:
-	CSingleton() = delete;
 	explicit CSingleton(Class& rClass);
 	~CSingleton();
+
 	static Class* GetInstance();
 
 private:
@@ -19,6 +21,9 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
+
+template<class Class>
+Class* CSingleton<Class>::m_pInstance = nullptr;
 
 template<class Class>
 CSingleton<Class>::CSingleton(Class& rClass)
@@ -36,6 +41,3 @@ Class* CSingleton<Class>::GetInstance()
 template<class Class>
 CSingleton<Class>::~CSingleton()
 {}
-
-template<class Class>
-Class* CSingleton<Class>::m_pInstance = nullptr;

@@ -1,9 +1,12 @@
 #pragma once
 
-#include <vector>
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
-#include "../Core/Event.h"
-#include "../Core/SimpleMath.h"
+//std
+#include <memory>
+#include <vector>
 
 class CBaseCamera;
 class CConfig;
@@ -13,7 +16,7 @@ class CKeyboardEvent;
 class CCameraManager
 {
 private:
-	enum eCameraTye : char
+	enum class eCameraTye : char
 	{
 		PERSPECTIVE = 0,
 		TOP_DOWN,
@@ -22,7 +25,7 @@ private:
 	};
 
 public:
-	CCameraManager();
+	CCameraManager() = default;
 	~CCameraManager();
 
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
@@ -31,7 +34,7 @@ public:
 	void Update();
 
 	//get the instance of the current selected camera by the user
-	const CBaseCamera& GetCurrentCamera() const { return *m_cameras[(int)m_activeCameraType]; }
+	[[nodiscard]] const CBaseCamera& GetCurrentCamera() const;
 
 private:
 	//change the type of camera base on the user selection
@@ -39,7 +42,9 @@ private:
 	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
 
 private:
-	std::vector<CBaseCamera*> m_cameras;
-	CEventId m_keyboardEventId;
-	eCameraTye m_activeCameraType;
+	std::vector<std::unique_ptr<CBaseCamera>> m_cameras;
+	CEventId m_keyboardEventId = CEventId::GetInvalidID();
+	eCameraTye m_activeCameraType = eCameraTye::TOP_DOWN;
 };
+
+inline const CBaseCamera& CCameraManager::GetCurrentCamera() const { return *m_cameras[static_cast<unsigned int>(m_activeCameraType)]; }

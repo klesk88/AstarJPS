@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CKeyboardEvent
 {
 public:
@@ -52,16 +54,26 @@ public:
 	};
 
 public:
-	CKeyboardEvent(const EventType eventType, const int iKeyCode, const bool bRepeated);
+	explicit CKeyboardEvent(const EventType eventType, const int iKeyCode, const bool bRepeated);
+	~CKeyboardEvent() = default;
 
-	bool IsValid() const { return m_type != EventType::COUNT; }
-	static bool IsKeyCodeSupported(const int iKeyCode);
-	KeyCodes GetKeyCode() const { return m_keyCode; }
-	EventType GetType() const { return m_type; }
-	bool WasAlreadyPressed() const { return m_bRepeated; }
+	[[nodiscard]] constexpr bool IsValid() const;
+	[[nodiscard]] static constexpr bool IsKeyCodeSupported(const int iKeyCode);
+	[[nodiscard]] constexpr KeyCodes GetKeyCode() const;
+	[[nodiscard]] constexpr EventType GetType() const;
+	[[nodiscard]] constexpr bool WasAlreadyPressed() const;
 
 private:
-	const EventType m_type;
-	const KeyCodes m_keyCode;
-	const bool m_bRepeated;
+	const EventType m_type = EventType::COUNT;
+	const KeyCodes m_keyCode = KeyCodes::KEY_0;
+	const bool m_bRepeated = false;
 };
+
+inline constexpr bool CKeyboardEvent::IsValid() const { return m_type != EventType::COUNT; }
+inline constexpr CKeyboardEvent::KeyCodes CKeyboardEvent::GetKeyCode() const { return m_keyCode; }
+inline constexpr CKeyboardEvent::EventType CKeyboardEvent::GetType() const { return m_type; }
+inline constexpr bool CKeyboardEvent::WasAlreadyPressed() const { return m_bRepeated; }
+inline constexpr bool CKeyboardEvent::IsKeyCodeSupported(const int iKeyCode)
+{
+    return (iKeyCode >= static_cast<int>(KeyCodes::KEY_0) && iKeyCode <= static_cast<int>(KeyCodes::KEY_9)) || (iKeyCode >= static_cast<int>(KeyCodes::KEY_A) && iKeyCode <= static_cast<int>(KeyCodes::KEY_Z));
+}

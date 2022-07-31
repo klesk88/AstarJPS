@@ -8,14 +8,15 @@
 
 #include "../Scenes/Grid.h"
 #include "../Drawables/Square.h"
-#include "../../Framework/Engine/Core/SimpleMath.h"
-#include "../../Framework/Utils/Imgui/imgui.h"
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/Imgui/imgui.h"
 
 template<class NodeType>
 class CBaseSearchDebug
 {
 public:
-	CBaseSearchDebug(const char* pName, const DirectX::XMVECTORF32& rColor);
+	explicit CBaseSearchDebug(const char* pName, const DirectX::XMVECTORF32& rColor);
+	virtual ~CBaseSearchDebug() = default;
 
 	void Set(const double dTime, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid);
 	virtual void RenderImgui(const CGrid& rColission);
@@ -30,21 +31,17 @@ private:
 	CSquare m_drawableCompleteSearchSpace;
 	std::vector<NodeType> m_nodesInSearch;
 	std::string m_imguiTreeName;
-	double m_dTimeForSearch;
+	double m_dTimeForSearch = 0.0;
 	DirectX::SimpleMath::Color m_color;
-	int m_iNodesExpanded;
-	bool m_bDrawPath;
-	bool m_bDrawAllSearchedSpace;
+	int m_iNodesExpanded = 0;
+	bool m_bDrawPath = false;
+	bool m_bDrawAllSearchedSpace = false;
 };
 
 template<class NodeType>
 CBaseSearchDebug<NodeType>::CBaseSearchDebug(const char* pName, const DirectX::XMVECTORF32& rColor)
 	: m_imguiTreeName(pName)
-	, m_dTimeForSearch(0)
 	, m_color(rColor)
-	, m_bDrawPath(false)
-	, m_bDrawAllSearchedSpace(false)
-	, m_iNodesExpanded(0)
 {}
 
 template<class NodeType>

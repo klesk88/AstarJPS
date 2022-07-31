@@ -1,16 +1,23 @@
 #pragma once
 
-#include <vector>
+//framework
+#include "Framework/Engine/Core/SimpleMath.h"
 
-#include "../../Framework/Engine/Core/SimpleMath.h"
-#include "../Drawables/Cube.h"
-#include "../Scenes/Grid.h"
+//game
+#include "Game/Drawables/Cube.h"
+#include "Game/Scenes/Grid.h"
+
+//directx
+#include <directxmath.h>
+
+//std
+#include <vector>
 
 class CCharacter
 {
 public:
-	CCharacter(CGrid& rGrid, const CGrid::eCollisionType collistionType, const DirectX::XMVECTORF32 color);
-	virtual ~CCharacter() {}
+	explicit CCharacter(CGrid& rGrid, const CGrid::eCollisionType collistionType, const DirectX::XMVECTORF32 color);
+	virtual ~CCharacter() = default;
 
 	virtual void Update(const double dDeltaTime);
 
@@ -21,27 +28,27 @@ protected:
 	virtual void Clear();
 
 private:
-	int ComputeCurrentGridPos(const int iTargetCell, const float fDeltaTime);
-	bool CanMoveAtCell(const int iCellIndex) const { return m_rGrid.IsCollidingWithObstacle(iCellIndex); }
+	[[nodiscard]] int ComputeCurrentGridPos(const int iTargetCell, const float fDeltaTime);
+	[[nodiscard]] bool CanMoveAtCell(const int iCellIndex) const { return m_rGrid.IsCollidingWithObstacle(iCellIndex); }
 	
 protected:
-	int m_iCurrentPos;
+	int m_iCurrentPos = 0;
 	CGrid& m_rGrid;
 	std::vector<int> m_path;
 
 private:
 	CCube m_Cube;
-	const CGrid::eCollisionType m_CollisionType;
+	const CGrid::eCollisionType m_CollisionType = CGrid::eCollisionType::COUNT;
 	const DirectX::SimpleMath::Color m_Color;
-	const float m_fSpeed;
+	const float m_fSpeed = 0.001f;
 	DirectX::SimpleMath::Vector3 m_Position;
-	int m_iTargetPos;
+	int m_iTargetPos = -1;
 
 #if _DEBUG
 public:
 	virtual void UpdateImgui() {}
 
 protected:
-	bool m_bRenderPath;
+	bool m_bRenderPath = true;
 #endif
 };

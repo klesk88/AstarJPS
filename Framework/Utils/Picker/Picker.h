@@ -1,19 +1,25 @@
 #pragma once
 
-#include "PickerEvent.h"
-#include "../../Engine/Core/Event.h"
-#include "../../Engine/Core/SimpleMath.h"
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/Picker/PickerEvent.h"
 
 class CInputManager;
 class CMouseEvent;
 
 class CPicker
 {
+	NON_COPYABLE_CLASS(CPicker)
+
 public:
 	CEventHandler<CPickerEvent> PickerEvent;
 
 public:
 	CPicker() = default;
+	~CPicker() = default; 
 
 	void Init(CInputManager& rInputManager);
 	void Shutdown(CInputManager& rInputManager);
@@ -26,8 +32,8 @@ private:
 	void ComputeMouseStartEndPos(const CMouseEvent& rMouseEvent, DirectX::SimpleMath::Vector3& rOutStart, DirectX::SimpleMath::Vector3& rOutEnd) const;
 
 private:
-	CEventId m_mouseEventId;
+	CEventId m_mouseEventId = CEventId::GetInvalidID();
 	DirectX::SimpleMath::Vector3 m_vStartPos;
 	DirectX::SimpleMath::Vector3 m_vEndPos;
-	bool m_bNewEvent : 1;
+	bool m_bNewEvent = false;
 };

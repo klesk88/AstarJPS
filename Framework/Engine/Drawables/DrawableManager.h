@@ -1,10 +1,15 @@
 #pragma once
 
-#include <d3d11.h>
-#include <list>
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/ClassMacros.h"
 
-#include "../Core/SimpleMath.h"
-#include "../../Utils/ClassMacros.h"
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
+//directx
+#include <d3d11.h>
+
+//std
+#include <list>
 
 class CDrawable3DBase;
 

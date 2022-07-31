@@ -1,13 +1,10 @@
-#include "Engine.h"
+#include "Framework/Engine/Engine.h"
 
-#include "Camera/CameraTypes/BaseCamera.h"
-#include "../Utils/DebugMacros.h"
+#include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
+#include "Framework/Utils/DebugMacros.h"
 
 CEngine::CEngine()
 	: CSingleton<CEngine>(*this)
-{}
-
-CEngine::~CEngine()
 {}
 
 bool CEngine::Init()

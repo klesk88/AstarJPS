@@ -1,9 +1,13 @@
-#include "JPSCharacter.h"
+#include "Game/Entities/JPSCharacter.h"
 
+//framework
+#include "Framework/Utils/DebugMacros.h"
+
+//game
+#include "Game/Search/JumpPointSearch/JPSSearch.h"
+
+//directx
 #include <DirectXColors.h>
-
-#include "../Search/JumpPointSearch/JPSSearch.h"
-#include "../../Framework/Utils/DebugMacros.h"
 
 CJPSCharacter::CJPSCharacter(CGrid& rGrid)
 	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::Brown)

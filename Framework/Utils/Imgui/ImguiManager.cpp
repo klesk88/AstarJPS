@@ -8,7 +8,6 @@ void CImguiManager::InitImgui(HWND hwnd, ID3D11Device& rDevice, ID3D11DeviceCont
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX11_Init(&rDevice, &rDeviceContext);
 	ImGui::StyleColorsDark();

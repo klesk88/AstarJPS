@@ -1,22 +1,48 @@
 #pragma once
 
+#include "Game/Scenes/Grid.h"
+
+//std
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 class CGrid;
 
 namespace Helpers
 {
-	float GetEuclideanDistance(const int iFirstIndex, const int iSecondIndex, const CGrid& rGrid);
-	float GetEuclideanDistance(const int iCurrentX, const int iCurrentY, const int iTargetX, const int iTargetY);
-	float ManhattanDistance(const int iCurrentX, const int iCurrentY, const int iTargetX, const int iTargetY);
+    [[nodiscard]] inline float GetEuclideanDistance(const int iCurrentX, const int iCurrentY, const int iTargetX, const int iTargetY)
+    {
+        const int dx = iTargetX - iCurrentX;
+        const int dy = iTargetY - iCurrentY;
+        return (float)(std::sqrt((dx * dx) + (dy * dy)));
+    }
+
+	[[nodiscard]] inline float GetEuclideanDistance(const int iFirstIndex, const int iSecondIndex, const CGrid& rGrid)
+	{
+        int iX, iY;
+        rGrid.GetCellXYFromIndex(iFirstIndex, iX, iY);
+        int iSecondX, iSecondY;
+        rGrid.GetCellXYFromIndex(iSecondIndex, iSecondX, iSecondY);
+
+        return GetEuclideanDistance(iX, iY, iSecondX, iSecondY);
+	}
+
+    [[nodiscard]] inline float ManhattanDistance(const int iCurrentX, const int iCurrentY, const int iTargetX, const int iTargetY)
+    {
+        return (float)(std::abs(iTargetX - iCurrentX) + std::abs(iTargetY - iCurrentY));
+    }
 
 #undef max
 #undef min
 	template <typename T>
-	T clamp(const T& n, const T& lower, const T& upper)
+	[[nodiscard]] constexpr T clamp(const T& n, const T& lower, const T& upper)
 	{
 		return std::max(lower, std::min(n, upper));
 	}
 
-	int Sign(float x);
+	[[nodiscard]] inline constexpr int Sign(float x)
+	{
+		return (x > 0.f) - (x < 0.f);
+	}
 }

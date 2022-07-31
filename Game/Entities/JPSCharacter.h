@@ -1,13 +1,10 @@
 #pragma once
 
-//this character will use the jump point search (JPS) algorithm
-//to find the best path
-
-#include "Character.h"
-#include "../Search/JumpPointSearch/JPSData.h"
+#include "Game/Entities/Character.h"
+#include "Game/Search/JumpPointSearch/JPSData.h"
 
 #if _DEBUG
-#include "../Search/BaseSearchDebug.h"
+#include "Game/Search/BaseSearchDebug.h"
 #endif
 
 namespace JPS
@@ -15,10 +12,13 @@ namespace JPS
 	class CJPSNode;
 }
 
+//this character will use the jump point search (JPS) algorithm
+//to find the best path
 class CJPSCharacter final : public CCharacter
 {
 public:
-	CJPSCharacter(CGrid& rGrid);
+	explicit CJPSCharacter(CGrid& rGrid);
+	~CJPSCharacter() = default;
 
 	void Init(const int iStartCell, const int iTargetPos) override;
 	void Clear() override;

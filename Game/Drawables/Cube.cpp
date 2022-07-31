@@ -1,13 +1,13 @@
-#include "Cube.h"
+#include "Game/Drawables/Cube.h"
 
-#include "../Scenes/Grid.h"
-#include "../Shaders/ColorDataStructure.h"
+#include "Game/Scenes/Grid.h"
+#include "Game/Shaders/ColorDataStructure.h"
 
 using namespace DirectX::SimpleMath;
 
 CCube::CCube()
+	: CColorDrawableBase(D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
-	m_primitiveTopology = D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
 void CCube::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const Color color)

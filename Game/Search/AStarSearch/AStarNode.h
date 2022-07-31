@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../BaseNode.h"
+#include "Game/Search/BaseNode.h"
 
 namespace AStar
 {
 	class CAStarNode final : public Search::CBaseNode
 	{
 	public:
-		CAStarNode(const int iIndex);
+		explicit CAStarNode(const int iIndex);
+		~CAStarNode() = default;
 	};
 }

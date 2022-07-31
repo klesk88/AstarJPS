@@ -1,12 +1,10 @@
 #pragma once
 
-//this npc will use the AStart algorithm to find the best path
-
-#include "Character.h"
-#include "../Search/AStarSearch/AStarNode.h"
+#include "Game/Entities/Character.h"
+#include "Game/Search/AStarSearch/AStarNode.h"
 
 #if _DEBUG
-#include "../Search/BaseSearchDebug.h"
+#include "Game/Search/BaseSearchDebug.h"
 #endif
 
 namespace AStar
@@ -14,10 +12,12 @@ namespace AStar
 	class CAStarNode;
 }
 
+//this npc will use the AStart algorithm to find the best path
 class CAStarCharacter final : public CCharacter
 {
 public:
-	CAStarCharacter(CGrid& rGrid);
+	explicit CAStarCharacter(CGrid& rGrid);
+	~CAStarCharacter() = default;
 
 	void Init(const int iStartCell, const int iTargetPos) override;
 	void Clear() override;

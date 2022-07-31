@@ -1,22 +1,16 @@
-#include "Drawable3DBase.h"
+#include "Framework/Engine/Drawables/Drawable3DBase.h"
 
-#include "../Engine.h"
-#include "../Render/Renderer.h"
-#include "../Shaders/ShaderBase.h"
-#include "../../Utils/DebugMacros.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Render/Renderer.h"
+#include "Framework/Engine/Shaders/ShaderBase.h"
+#include "Framework/Utils/DebugMacros.h"
 
 using namespace DirectX::SimpleMath;
 
-CDrawable3DBase::CDrawable3DBase()
-	: m_pVertexBuffer(nullptr)
-	, m_pIndexBuffer(nullptr)
-	, m_iStride(0)
-	, m_iStartOffset(0)
-	, m_iIndexCount(0)
-	, m_primitiveTopology(D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED)
-	, m_indexesFormat(DXGI_FORMAT::DXGI_FORMAT_R32_UINT)
-	, m_bIsInsideRenderUpdate(false)
-{}
+CDrawable3DBase::CDrawable3DBase(const D3D_PRIMITIVE_TOPOLOGY primitiveTopology)
+	: m_primitiveTopology(primitiveTopology)
+{
+}
 
 CDrawable3DBase::~CDrawable3DBase()
 {

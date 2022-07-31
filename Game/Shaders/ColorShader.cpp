@@ -1,27 +1,21 @@
-#include "ColorShader.h"
+#include "Game/Shaders/ColorShader.h"
 
-#include "ColorDataStructure.h"
+#include "Game/Shaders/ColorDataStructure.h"
 
 using namespace DirectX::SimpleMath;
 
-CColorShader::CColorShader()
-{}
-
-CColorShader::~CColorShader()
-{}
-
-bool CColorShader::Init(ID3D11Device& rDevice, HWND hwnd)
+void CColorShader::Init(ID3D11Device& rDevice, HWND hwnd)
 {
 	if (m_pVertexShader)
 	{
-		return true;
+		return;
 	}
 
 	// Initialize the vertex and pixel shaders.
-	return InitializeShader(&rDevice, hwnd, "Shaders/color.vs", "Shaders/color.ps");
+	InitializeShader(&rDevice, hwnd, "Shaders/color.vs", "Shaders/color.ps");
 }
 
-bool CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFilename, LPCSTR psFilename)
+void CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFilename, LPCSTR psFilename)
 {
 	HRESULT result;
 	ID3D10Blob* pErroeMessage = nullptr;
@@ -51,7 +45,7 @@ bool CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFi
 			MessageBox(hwnd, vsFilename, "Missing Shader File", MB_OK);
 		}
 
-		return false;
+		return;
 	}
 
 	result = D3DX11CompileFromFile(
@@ -78,19 +72,19 @@ bool CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFi
 			MessageBox(hwnd, psFilename, "Missing Shader File", MB_OK);
 		}
 
-		return false;
+		return;
 	}
 
 	result = device->CreateVertexShader(pVertexShaderBuffer->GetBufferPointer(), pVertexShaderBuffer->GetBufferSize(), nullptr, &m_pVertexShader);
 	if (FAILED(result))
 	{
-		return false;
+		return;
 	}
 
 	result = device->CreatePixelShader(pPixelShaderBuffer->GetBufferPointer(), pPixelShaderBuffer->GetBufferSize(), nullptr, &m_pPixelShader);
 	if (FAILED(result))
 	{
-		return false;
+		return;
 	}
 
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
@@ -121,7 +115,7 @@ bool CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFi
 
 	if (FAILED(result))
 	{
-		return false;
+		return;
 	}
 
 	pVertexShaderBuffer->Release();
@@ -136,7 +130,6 @@ bool CColorShader::InitializeShader(ID3D11Device* device, HWND hwnd, LPCSTR vsFi
 	matrixBufferDesc.StructureByteStride = 0;
 
 	result = device->CreateBuffer(&matrixBufferDesc, nullptr, &m_pMatrixBuffer);
-	return SUCCEEDED(result);
 }
 
 void CColorShader::SetBufferData(const Matrix& rWorldMatrix, const Matrix& rViewMatrix, const Matrix& rProjectionMatrix, D3D11_MAPPED_SUBRESOURCE& rOutMappedData) const

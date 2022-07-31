@@ -1,22 +1,18 @@
-#include "Character.h"
+#include "Game/Entities/Character.h"
 
-#include "../Helpers/Helpers.h"
-#include "../../Framework/Utils/DebugMacros.h"
+//framework
+#include "Framework/Utils/DebugMacros.h"
+
+//game
+#include "Game/Helpers/Helpers.h"
 
 using namespace DirectX::SimpleMath;
 
 CCharacter::CCharacter(CGrid& rGrid, const CGrid::eCollisionType collisionType, const DirectX::XMVECTORF32 color)
 	: m_rGrid(rGrid)
-	, m_iCurrentPos(0)
 	, m_CollisionType(collisionType)
 	, m_Color(color)
-	, m_Position(0.f, 0.f, 0.f)
-	, m_fSpeed(0.001f)
-	, m_iTargetPos(-1)
 {
-#if _DEBUG
-	m_bRenderPath = true;
-#endif
 }
 
 void CCharacter::Init(const int iStartIndex, const int iTargetPos)

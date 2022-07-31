@@ -1,5 +1,8 @@
 #pragma once
 
+
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 #ifdef _DEBUG
 #include <cassert>
 #endif

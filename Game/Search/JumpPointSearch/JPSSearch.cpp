@@ -1,9 +1,12 @@
-#include "JPSSearch.h"
+#include "Game/Search/JumpPointSearch/JPSSearch.h"
 
-#include "../CommonSearchFunc.h"
-#include "../../Scenes/Grid.h"
-#include "../../Helpers/Helpers.h"
-#include "../../../Framework/Utils/DebugMacros.h"
+//framework
+#include "Framework//Utils/DebugMacros.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+#include "Game/Search/CommonSearchFunc.h"
+#include "Game/Helpers/Helpers.h"
 
 using namespace Search;
 

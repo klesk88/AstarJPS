@@ -1,7 +1,9 @@
-#include "Timer.h"
+#include "Framework/Engine/Core/Timer.h"
 
+#include "Framework/Utils/DebugMacros.h"
+
+//windows
 #include <windows.h>
-#include "../../Utils/DebugMacros.h"
 
 void CTimer::Start()
 {

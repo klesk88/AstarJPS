@@ -1,14 +1,17 @@
-#include "BaseNode.h"
-
-#include <cfloat>
+#include "Game/Search/BaseNode.h"
 
 #if _DEBUG
-#include <DirectXColors.h>
 
-#include "../Drawables/Square.h"
-#include "../Scenes/Grid.h"
-#include "../../Framework/Engine/Core/SimpleMath.h"
-#include "../../Framework/Utils/Imgui/imgui.h"
+//framework
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/Imgui/imgui.h"
+
+//game
+#include "Game/Drawables/Square.h"
+#include "Game/Scenes/Grid.h"
+
+//directx
+#include <DirectXColors.h>
 
 using namespace DirectX::SimpleMath;
 
@@ -16,19 +19,9 @@ using namespace DirectX::SimpleMath;
 
 namespace Search
 {
-	CBaseNode::CBaseNode(int iIndex)
+	CBaseNode::CBaseNode(const int iIndex)
 		: m_iIndex(iIndex)
-		, m_iParentIdx(-1)
-		, m_fGScore(FLT_MAX)
-		, m_fHScore(FLT_MAX)
-		, m_bIsInOpenSet(false)
-		, m_bIsInClosedSet(false)
 	{}
-
-	bool CBaseNode::HasBeenSearched() const
-	{
-		return m_fGScore != FLT_MAX;
-	}
 
 #if _DEBUG
 	bool CBaseNode::RenderImgui(const CGrid& rGrid, CSquare& rSquare) const

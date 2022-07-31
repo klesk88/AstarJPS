@@ -1,9 +1,14 @@
 #pragma once
 
-#include <vector>
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Engine/Core/SimpleMath.h"
+#include "Framework/Utils/ClassMacros.h"
 
-#include "../../Core/Event.h"
-#include "../../Core/SimpleMath.h"
+//directx
+#include <directxmath.h>
+
+//std
+#include <vector>
 
 class CConfig;
 class CInputManager;
@@ -12,6 +17,8 @@ class CMouseEvent;
 
 class CBaseCamera
 {
+	NON_COPYABLE_CLASS(CBaseCamera)
+
 protected:
 	enum class eDir : char
 	{
@@ -26,29 +33,30 @@ protected:
 	};
 
 protected:
-	CBaseCamera(const CConfig& rConfig, const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& defaultUp, const DirectX::SimpleMath::Vector3& defaultFwd, const DirectX::SimpleMath::Vector3& defaultRight, CInputManager& rInputManager);
-	
+    //constructor can be accesses only by the children
+    explicit CBaseCamera(const CConfig& rConfig, const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& defaultUp, const DirectX::SimpleMath::Vector3& defaultFwd, const DirectX::SimpleMath::Vector3& defaultRight, CInputManager& rInputManager);
+
 public:
 	virtual ~CBaseCamera();
 
-public:
 	virtual void Update() = 0;
 
 	void Shutdown(CInputManager& rInputManager);
 
-	const DirectX::SimpleMath::Matrix& GetViewMatrix() const { return m_viewMatrix; }
-	const DirectX::SimpleMath::Matrix& GetInvViewMatrix() const { return m_invViewMatrix; }
-	virtual const DirectX::SimpleMath::Matrix& GetProjMatrix() const { return m_projectionMatrix; }
-	virtual const DirectX::SimpleMath::Matrix& GetInvProjMatrix() const { return m_invProjMatrix; }
-	const DirectX::SimpleMath::Vector3& GetPosition() const { return m_vPosition; }
+	[[nodiscard]] const DirectX::SimpleMath::Matrix& GetViewMatrix() const;
+	[[nodiscard]] const DirectX::SimpleMath::Matrix& GetInvViewMatrix() const;
+	[[nodiscard]] virtual const DirectX::SimpleMath::Matrix& GetProjMatrix() const;
+	[[nodiscard]] virtual const DirectX::SimpleMath::Matrix& GetInvProjMatrix() const;
+	[[nodiscard]] const DirectX::SimpleMath::Vector3& GetPosition() const;
 
-	void SetActive() { m_bIsActive = true; }
-	void ClearActive() { m_bIsActive = false; }
-	bool IsActive() const { return m_bIsActive; }
+	void SetActive();
+	void ClearActive();
+	[[nodiscard]] bool IsActive() const;
+
+	void UpdateKeyEvent(const CKeyboardEvent& rKeyboardEvent, const bool bEnableDir);
 
 protected:
-	virtual void OnMouseEvent(const CMouseEvent& rMouseEvent) {}
-	virtual void UpdateKeyEvent(const CKeyboardEvent& rKeyboardEvent, const bool bEnableDir) = 0;
+	virtual void OnMouseEvent(const CMouseEvent& /*rMouseEvent*/) {}
 	virtual void UpdatePositionOffset(DirectX::SimpleMath::Vector3& rOutOffset);
 
 private:
@@ -57,19 +65,28 @@ private:
 	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
 
 protected:
-	const DirectX::SimpleMath::Vector3 m_DefaultUp;
-	const DirectX::SimpleMath::Vector3 m_DefaultForward;
-	const DirectX::SimpleMath::Vector3 m_DefaultRight;
-	DirectX::SimpleMath::Matrix m_viewMatrix;
-	DirectX::SimpleMath::Matrix m_invViewMatrix;
-	DirectX::SimpleMath::Vector3 m_vPosition;
-	std::vector<bool> m_dirPress;
-	float m_fMovementSpeed;
+    DirectX::SimpleMath::Matrix m_viewMatrix = DirectX::XMMatrixIdentity();
+    DirectX::SimpleMath::Matrix m_invViewMatrix = DirectX::XMMatrixIdentity();
+	const DirectX::SimpleMath::Vector3 m_DefaultUp = DirectX::SimpleMath::Vector3::Zero;
+	const DirectX::SimpleMath::Vector3 m_DefaultForward = DirectX::SimpleMath::Vector3::Zero;
+	const DirectX::SimpleMath::Vector3 m_DefaultRight = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 m_vPosition = DirectX::SimpleMath::Vector3::Zero;
+	float m_fMovementSpeed = 0.001f;
 
 private:
-	DirectX::SimpleMath::Matrix m_projectionMatrix;
-	DirectX::SimpleMath::Matrix m_invProjMatrix;
-	CEventId m_KeyboardEventId;
-	CEventId m_MouseEventId;
-	bool m_bIsActive;
+	std::vector<bool> m_dirPress;
+	DirectX::SimpleMath::Matrix m_projectionMatrix = DirectX::XMMatrixIdentity();
+	DirectX::SimpleMath::Matrix m_invProjMatrix = DirectX::XMMatrixIdentity();
+	CEventId m_KeyboardEventId = CEventId::GetInvalidID();
+	CEventId m_MouseEventId = CEventId::GetInvalidID();
+	bool m_bIsActive = false;
 };
+
+inline const DirectX::SimpleMath::Matrix& CBaseCamera::GetViewMatrix() const { return m_viewMatrix; }
+inline const DirectX::SimpleMath::Matrix& CBaseCamera::GetInvViewMatrix() const { return m_invViewMatrix; }
+inline const DirectX::SimpleMath::Matrix& CBaseCamera::GetProjMatrix() const { return m_projectionMatrix; }
+inline const DirectX::SimpleMath::Matrix& CBaseCamera::GetInvProjMatrix() const { return m_invProjMatrix; }
+inline const DirectX::SimpleMath::Vector3& CBaseCamera::GetPosition() const { return m_vPosition; }
+inline void CBaseCamera::SetActive() { m_bIsActive = true; }
+inline void CBaseCamera::ClearActive() { m_bIsActive = false; }
+inline bool CBaseCamera::IsActive() const { return m_bIsActive; }

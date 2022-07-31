@@ -1,13 +1,17 @@
 #pragma once
 
+//framework
+#include "Framework/Utils/DebugMacros.h"
+
+//game
+#include "Game/Helpers/Helpers.h"
+
+//std
 #include <functional>
 #include <vector>
 
-#include "../Helpers/Helpers.h"
-#include "../../../Framework/Utils/DebugMacros.h"
-
 #if _DEBUG
-#include "BaseSearchDebug.h"
+#include "Game/Search/BaseSearchDebug.h"
 #endif
 
 class CGrid;
@@ -28,28 +32,29 @@ namespace Search
 		HFunc m_ComputeHValueFunc;
 
 	public:
-		CSearchInput(const int iCellsPerIter, const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<NodeType>& rOutDebug));
+		explicit CSearchInput(const int iCellsPerIter, const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<NodeType>& rOutDebug));
+		~CSearchInput() = default;
 
 		void Search();
 		void FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const;
 
-		const CGrid& GetGrid() const { return m_rGrid; }
-		int GetStartIndex() const { return m_iSrcIndex; }
-		int GetTargetIndex() const { return m_iDestIndex; }
-		int GetExpectedNewCellsCountPerIter() const { return m_iNewCellCountPerIter; }
+		[[nodiscard]] const CGrid& GetGrid() const;
+		[[nodiscard]] int GetStartIndex() const;
+		[[nodiscard]] int GetTargetIndex() const;
+		[[nodiscard]] int GetExpectedNewCellsCountPerIter() const;
 
 	public:
 		std::vector<int>& m_rOutPath;
 
 	private:
-		int m_iNewCellCountPerIter;
 		const CGrid& m_rGrid;
-		const int m_iSrcIndex;
-		const int m_iDestIndex;
+		int m_iNewCellCountPerIter = 0;
+		const int m_iSrcIndex = 0;
+		const int m_iDestIndex = 0;
 
 #if _DEBUG
 	public:
-		void SetDebug(const double dTime, const std::vector<NodeType>& rCells) { m_rDebug.Set(dTime, rCells, m_rOutPath, m_rGrid); }
+		void SetDebug(const double dTime, const std::vector<NodeType>& rCells);
 
 	private:
 		CBaseSearchDebug<NodeType>& m_rDebug;
@@ -60,11 +65,11 @@ namespace Search
 
 	template<class NodeType>
 	CSearchInput<NodeType>::CSearchInput(const int iCellsPerIter, const CGrid& rGrid, const int iStartLocation, const int iEndLocation, std::vector<int>& rOutPath DEBUG_ONLY(, CBaseSearchDebug<NodeType>& rOutDebug))
-		: m_rGrid(rGrid)
+		: m_rOutPath(rOutPath)
+		, m_rGrid(rGrid)
+		, m_iNewCellCountPerIter(iCellsPerIter)
 		, m_iSrcIndex(iStartLocation)
 		, m_iDestIndex(iEndLocation)
-		, m_rOutPath(rOutPath)
-		, m_iNewCellCountPerIter(iCellsPerIter)
 		DEBUG_ONLY(, m_rDebug(rOutDebug))
 	{
 		m_ComputeHValueFunc = ([](const int iTargetX, const int iTargetY, const int iCurrentCellX, const int iCurrentCellY)->float {
@@ -73,14 +78,31 @@ namespace Search
 	}
 
 	template<class NodeType>
-	void Search::CSearchInput<NodeType>::Search()
+	void CSearchInput<NodeType>::Search()
 	{
 		static_cast<NodeType*>(this)->Search();
 	}
 
 	template<class NodeType>
-	void Search::CSearchInput<NodeType>::FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const
+	void CSearchInput<NodeType>::FindNeighbours(NodeType& rNode, std::vector<NodeType>& rCells, std::vector<int>& rOutNewIndexes) const
 	{
 		static_cast<NodeType*>(this)->FindNeighbours(rNode, rCells, rOutNewIndexes);
 	}
+
+	template<class NodeType>
+    inline const CGrid& CSearchInput<NodeType>::GetGrid() const { return m_rGrid; }
+    
+	template<class NodeType>
+	inline int CSearchInput<NodeType>::GetStartIndex() const { return m_iSrcIndex; }
+    
+	template<class NodeType>
+	inline int CSearchInput<NodeType>::GetTargetIndex() const { return m_iDestIndex; }
+    
+	template<class NodeType>
+	inline int CSearchInput<NodeType>::GetExpectedNewCellsCountPerIter() const { return m_iNewCellCountPerIter; }
+
+#if _DEBUG
+	template<class NodeType>
+    inline void CSearchInput<NodeType>::SetDebug(const double dTime, const std::vector<NodeType>& rCells) { m_rDebug.Set(dTime, rCells, m_rOutPath, m_rGrid); }
+#endif
 }

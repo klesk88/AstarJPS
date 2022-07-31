@@ -1,10 +1,9 @@
-#include "Window.h"
+#include "Framework/Engine/Core/Window.h"
 
-#include "Config.h"
-#include "../Engine.h"
-
-#include "../../Utils/Imgui/imgui.h"
-#include "../../Utils/Imgui/imgui_impl_win32.h"
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Utils/Imgui/imgui.h"
+#include "Framework/Utils/Imgui/imgui_impl_win32.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -52,13 +51,10 @@ namespace SystemHelpers
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CWindow::CWindow()
 	: m_applicationName("Demo")
-	, m_hInstance(nullptr)
-	, m_hwnd(nullptr)
-{}
-
-CWindow::~CWindow()
 {}
 
 void CWindow::Init(CConfig& rConfig)

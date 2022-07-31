@@ -1,4 +1,4 @@
-#include "AStarNode.h"
+#include "Game/Search/AStarSearch/AStarNode.h"
 
 using namespace Search;
 

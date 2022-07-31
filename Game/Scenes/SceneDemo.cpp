@@ -1,25 +1,21 @@
-#include "SceneDemo.h"
+#include "Game/Scenes/SceneDemo.h"
 
+//framework
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Collision/CollisionHelpers.h"
+#include "Framework/Utils/DebugMacros.h"
+#include "Framework/Utils/Imgui/imgui.h"
+#include "Framework/Utils/Picker/Picker.h"
+#include "Framework/Utils/Picker/PickerEvent.h"
+
+//directx
 #include <DirectXColors.h>
-
-#include "../../Framework/Engine/Engine.h"
-#include "../../Framework/Engine/Collision/CollisionHelpers.h"
-#include "../../Framework/Utils/DebugMacros.h"
-#include "../../Framework/Utils/Imgui/imgui.h"
-#include "../../Framework/Utils/Picker/Picker.h"
-#include "../../Framework/Utils/Picker/PickerEvent.h"
 
 using namespace DirectX::SimpleMath;
 
 CSceneDemo::CSceneDemo()
 	: m_aStarCharacter(m_Grid)
 	, m_jpsCharacter(m_Grid)
-	, m_iPickerCellSelected(-1)
-	, m_iEditModeIndex(0)
-	, m_iStartPos(0)
-	, m_iEndPos(0)
-	, m_pickerMode(ePickerMode::LEGEND)
-	, m_bAllowEntityUpdate(false)
 {}
 
 CSceneDemo::~CSceneDemo()
@@ -138,7 +134,7 @@ void CSceneDemo::UpdateEditMode()
 		return;
 	}
 
-	switch ((eEditMode)m_iEditModeIndex)
+	switch (static_cast<eEditMode>(m_iEditModeIndex))
 	{
 	case eEditMode::COLLISION:
 		m_Grid.CollisionUpdateFromPicker(m_iPickerCellSelected);

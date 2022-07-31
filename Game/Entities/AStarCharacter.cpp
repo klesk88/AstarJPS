@@ -1,9 +1,13 @@
-#include "AStarCharacter.h"
+#include "Game/Entities/AStarCharacter.h"
 
+//framework
+#include "Framework/Utils/DebugMacros.h"
+
+//game
+#include "Game/Search/AStarSearch/AStarSearch.h"
+
+//directx
 #include <DirectXColors.h>
-
-#include "../Search/AStarSearch/AStarSearch.h"
-#include "../../Framework/Utils/DebugMacros.h"
 
 CAStarCharacter::CAStarCharacter(CGrid& rGrid)
 	: CCharacter(rGrid, CGrid::eCollisionType::CHARACTER, DirectX::Colors::Purple)

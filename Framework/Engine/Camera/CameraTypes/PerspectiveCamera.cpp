@@ -1,24 +1,14 @@
-#include "PerspectiveCamera.h"
+#include "Framework/Engine/Camera/CameraTypes/PerspectiveCamera.h"
 
-#include <directxmath.h>
-
-#include "../../Core/Config.h"
-#include "../../Engine.h"
-#include "../../Input/InputManager.h"
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 CPerspectiveCamera::CPerspectiveCamera(const CConfig& rConfig, CInputManager& rInputManager)
 	: CBaseCamera(rConfig, Vector3(0.3f, 0.5f, -0.7f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
-	, m_bRightMouseBtnpress(false)
-	, m_fPitch(0.f)
-	, m_fYaw(0.f)
-	, m_fRoll(0.f)
-	, m_fMovementSpeed(0.001f)
-	, m_fRotationSpeed(0.1f)
-	, m_iWindowHeight(0)
-	, m_iWindowWidth(0)
 {
 	m_iWindowHeight = rConfig.GetScreenHeight();
 	m_iWindowWidth = rConfig.GetScreenWidth();
@@ -171,39 +161,4 @@ void CPerspectiveCamera::OnMouseMove(const CMouseEvent& rMouseEvent)
 
 	ClientToScreen(rMouseEvent.GetHwnd(), &ptClient);
 	SetCursorPos(ptClient.x, ptClient.y);
-}
-
-void CPerspectiveCamera::UpdateKeyEvent(const CKeyboardEvent& rKeyboardEvent, const bool bEnableDir)
-{
-	eDir directionPress = eDir::COUNT;
-	if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_W)
-	{
-		directionPress = eDir::FORWARD;
-	}
-	else if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_S)
-	{
-		directionPress = eDir::BACKWARDS;
-	}
-	else if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_A)
-	{
-		directionPress = eDir::LEFT;
-	}
-	else if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_D)
-	{
-		directionPress = eDir::RIGHT;
-	}
-	else if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_E)
-	{
-		directionPress = eDir::UP;
-	}
-	else if (rKeyboardEvent.GetKeyCode() == CKeyboardEvent::KeyCodes::KEY_Q)
-	{
-		directionPress = eDir::DOWN;
-	}
-	else
-	{
-		return;
-	}
-
-	m_dirPress[(int)directionPress] = bEnableDir;
 }

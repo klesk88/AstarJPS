@@ -1,17 +1,18 @@
-#include "ColorDrawableBase.h"
+#include "Game/Drawables/ColorDrawableBase.h"
 
-#include "../../Framework/Engine/Engine.h"
-#include "../../Framework/Engine/Render/Renderer.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Render/Renderer.h"
 
 using namespace DirectX::SimpleMath;
 
-CColorDrawableBase::CColorDrawableBase()
-	: m_bufferUsage(D3D11_USAGE_DEFAULT)
+CColorDrawableBase::CColorDrawableBase(const D3D_PRIMITIVE_TOPOLOGY primitiveTopology, const D3D11_USAGE bufferUsage/* = D3D11_USAGE::D3D11_USAGE_DEFAULT*/)
+	: CDrawable3DBase(primitiveTopology)
+	, m_bufferUsage(bufferUsage)
 {
-	CEngine* pEngine = CEngine::GetInstance();
-	ID3D11Device& rDevice = pEngine->GetRenderer().GetDevice();
-	HWND hwnd = pEngine->GetHWND();
-	m_shader.Init(rDevice, hwnd);
+    CEngine* pEngine = CEngine::GetInstance();
+    ID3D11Device& rDevice = pEngine->GetRenderer().GetDevice();
+    HWND hwnd = pEngine->GetHWND();
+    m_shader.Init(rDevice, hwnd);
 }
 
 bool CColorDrawableBase::InitDrawable(ID3D11Device& rDevice)

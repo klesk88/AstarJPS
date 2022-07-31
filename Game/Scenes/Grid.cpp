@@ -1,8 +1,10 @@
-#include "Grid.h"
+#include "Game/Scenes/Grid.h"
 
+//framework
+#include "Framework/Utils/DebugMacros.h"
+
+//directx
 #include <DirectXColors.h>
-
-#include "../../Framework/Utils/DebugMacros.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -32,53 +34,6 @@ void CGrid::Init()
 	
 	m_drawableCollision.InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
 	m_drawableGrid.InitParams(m_iXSize, m_iYSize, m_fCellSize, m_vMin, m_vMax);
-}
-
-bool CGrid::IsCollidingWithObstacle(const int iX, const int iY) const
-{
-	const int iIndex = GetIndexFromXY(iX, iY);
-	return IsCollidingWithObstacle(iIndex);
-}
-
-bool CGrid::IsInsideGrid(const int iX, const int iY) const
-{
-	return iX >= 0
-		&& iY >= 0
-		&& iX < GetXSize()
-		&& iY < GetYSize();
-}
-
-void CGrid::GetCellXYFromIndex(const int iIndex, int& rOutX, int& rOutY) const
-{
-	rOutX = iIndex % m_iXSize;
-	rOutY = (iIndex - rOutX) / m_iXSize;
-}
-
-Vector3 CGrid::GetCellCenter(const int iIndex) const
-{
-	int iX, iY;
-	GetCellXYFromIndex(iIndex, iX, iY);
-	return GetCellCenter(iX, iY);
-}
-
-Vector3 CGrid::GetCellCenter(const int iX, const int iY) const
-{
-	Vector3 pos(0.f, 0.f, 0.f);
-	const float fHalfCellSize = GetCellSize() * 0.5f;
-	
-	pos.x = m_vMin.x + (iX * GetCellSize()) + fHalfCellSize;
-	pos.z = m_vMin.z + (iY * GetCellSize()) + fHalfCellSize;
-
-	return pos;
-}
-
-int CGrid::GetIndexFromPos(const Vector3& rPos) const
-{
-	int iX, iY;
-	iX = (int)(rPos.x / GetCellSize());
-	iY = (int)(rPos.z / GetCellSize());
-
-	return GetIndexFromXY(iX, iY);
 }
 
 void CGrid::UpdateCharacterCollision(const int iOldPos, const int iNewPos, const eCollisionType collision)

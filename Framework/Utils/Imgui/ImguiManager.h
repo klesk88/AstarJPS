@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 #include "../DebugMacros.h"
 
 #include <d3d11.h>

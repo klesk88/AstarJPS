@@ -1,18 +1,16 @@
-#include "GameManager.h"
+#include "Framework/Engine/GameManager.h"
 
-#include <algorithm>
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Input/InputManager.h"
+#include "Framework/Engine/Scene/SceneBase.h"
+#include "Framework/Utils/DebugMacros.h"
+
+//windows
 #include <windows.h>
 
-#include "Engine.h"
-#include "Core/Config.h"
-#include "Input/InputManager.h"
-#include "scene/SceneBase.h"
-#include "../Utils/DebugMacros.h"
-
-CGameManager::CGameManager()
-	: m_dUpdateTimeMs(0)
-	DEBUG_ONLY(, m_bDemoPaused(false))
-{}
+//std
+#include <algorithm>
 
 void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 {
@@ -20,13 +18,17 @@ void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 	StartCounter();
 
 #if _DEBUG
-	m_KeyboardEventId = rInputManager.KeyboardEvent.Attach([this](const CKeyboardEvent& rKeyboardEvent) { OnKeyboardEvent(rKeyboardEvent); });
+	auto KeyboardEventCbk = [this](const CKeyboardEvent& rKeyboardEvent) -> void {
+		DebugOnKeyboardEvent(rKeyboardEvent);
+	};
+
+	m_DebugKeyboardEventId = rInputManager.KeyboardEvent.Attach(KeyboardEventCbk);
 #endif
 }
 
 void CGameManager::Shutdown(CInputManager& rInputManager)
 {
-	DEBUG_ONLY(rInputManager.KeyboardEvent.Detach(m_KeyboardEventId);)
+	DEBUG_ONLY(rInputManager.KeyboardEvent.Detach(m_DebugKeyboardEventId);)
 	m_scenes.clear();
 }
 
@@ -35,13 +37,13 @@ void CGameManager::Update()
 	UpdateTimer();
 
 #if _DEBUG
-	if (m_bDemoPaused)
+	if (m_bDebugDemoPaused)
 	{
 		return;
 	}
 
 	//we are debugging probably
-	if (m_dDeltaTime > 200)
+	if (m_dDeltaTime > 200.0)
 	{
 		return;
 	}
@@ -98,26 +100,26 @@ void CGameManager::UpdateTimer()
 
 #if _DEBUG
 
-void CGameManager::OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)
+void CGameManager::DebugOnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)
 {
 	switch (rKeyboardEvent.GetType())
 	{
 	case CKeyboardEvent::EventType::KEYDOWN:
-		OnKeyDown(rKeyboardEvent);
+		DebugOnKeyDown(rKeyboardEvent);
 		break;
 	default:
 		break;
 	}
 }
 
-void CGameManager::OnKeyDown(const CKeyboardEvent& rKeyboardEvent)
+void CGameManager::DebugOnKeyDown(const CKeyboardEvent& rKeyboardEvent)
 {
 	if (rKeyboardEvent.WasAlreadyPressed() || rKeyboardEvent.GetKeyCode() != CKeyboardEvent::KeyCodes::KEY_P)
 	{
 		return;
 	}
 
-	m_bDemoPaused = !m_bDemoPaused;
+	m_bDebugDemoPaused = !m_bDebugDemoPaused;
 }
 
 #endif

@@ -1,11 +1,11 @@
-#include "Picker.h"
+#include "Framework/Utils/Picker/Picker.h"
 
-#include "../../Engine/Engine.h"
-#include "../../Engine/Camera/CameraManager.h"
-#include "../../Engine/Camera/CameraTypes/BaseCamera.h"
-#include "../../Engine/Collision/CollisionHelpers.h"
-#include "../../Engine/Core/Config.h"
-#include "../../Engine/Input/InputManager.h"
+#include "Framework/Engine/Camera/CameraManager.h"
+#include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
+#include "Framework/Engine/Collision/CollisionHelpers.h"
+#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX::SimpleMath;
 

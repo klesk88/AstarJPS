@@ -1,7 +1,9 @@
+#include "Framework/Engine/common_includes.h"
+#include "Framework/Engine/Engine.h"
+#include "Game/Scenes/SceneDemo.h"
+
+//std
 #include <memory>
-#include "../Framework/Engine/common_includes.h"
-#include "../Framework/Engine/Engine.h"
-#include "Scenes/SceneDemo.h"
 
 //this should probably come from a config file
 std::unique_ptr<CSceneDemo> GetStartScene()

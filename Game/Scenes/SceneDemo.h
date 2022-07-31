@@ -1,22 +1,26 @@
 #pragma once
 
+//framework
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Engine/Scene/SceneBase.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+#include "Game/Drawables/GridDrawable.h"
+#include "Game/Drawables/Square.h"
+#include "Game/Entities/AStarCharacter.h"
+#include "Game/Entities/JPSCharacter.h"
+
+//std
 #include <vector>
 
-#include "Grid.h"
-#include "../Drawables/GridDrawable.h"
-#include "../Drawables/Square.h"
-#include "../Entities/AStarCharacter.h"
-#include "../Entities/JPSCharacter.h"
-#include "../../Framework/Engine/Core/Event.h"
-#include "../../Framework/Engine/Scene/SceneBase.h"
-
 #if _DEBUG
-#include "../Drawables/Line.h"
+#include "Game/Drawables/Line.h"
 #endif
 
 class CPickerEvent;
 
-class CSceneDemo : public CSceneBase
+class CSceneDemo final : public CSceneBase
 {
 private:
 	enum class ePickerMode : char
@@ -26,7 +30,7 @@ private:
 		PATHFINDING,
 	};
 
-	enum class eEditMode : int
+	enum class eEditMode : char
 	{
 		COLLISION = 0,
 		START_POINT,
@@ -37,9 +41,11 @@ public:
 	CSceneDemo();
 	~CSceneDemo();
 
+	//CSceneBase
 	void Init() override;
 	void Shutdown() override;
 	void Update(const double dDeltaTime) override;
+	//CSceneBase
 
 private:
 	void GenerateGridDesc();
@@ -63,22 +69,22 @@ private:
 
 	CSquare m_startSquare;
 	CSquare m_endSquare;
-	CEventId m_imguiEventId;
-	CEventId m_pickerEventId;
+	CEventId m_imguiEventId = CEventId::GetInvalidID();
+	CEventId m_pickerEventId = CEventId::GetInvalidID();
 
 	std::vector<const char*> m_editModeCombo;
-	int m_iPickerCellSelected;
-	int m_iEditModeIndex;
-	int m_iStartPos;
-	int m_iEndPos;
-	ePickerMode m_pickerMode;
-	bool m_bAllowEntityUpdate;
+	int m_iPickerCellSelected = -1;
+	int m_iEditModeIndex = 0;
+	int m_iStartPos = 0;
+	int m_iEndPos = 0;
+	ePickerMode m_pickerMode = ePickerMode::LEGEND;
+	bool m_bAllowEntityUpdate = false;
 
 #if _DEBUG
 private:
 	CLine m_pickerLine;
 	CSquare m_pickerSquare;
 
-	bool m_bEnablePickerDebug;
+	bool m_bEnablePickerDebug = false;
 #endif
 };

@@ -1,5 +1,8 @@
 #pragma once 
 
+//std
+#include <cfloat>
+
 class CGrid;
 class CSquare;
 
@@ -8,33 +11,34 @@ namespace Search
 	class CBaseNode
 	{
 	public:
-		CBaseNode(int iIndex);
+		explicit CBaseNode(const int iIndex);
+		~CBaseNode() = default;
 
-		bool HasBeenSearched() const;
+		[[nodiscard]] bool HasBeenSearched() const;
 
-		void SetParent(const int iIndex) { m_iParentIdx = iIndex; }
-		void SetGScore(const float fGScore) { m_fGScore = fGScore; }
-		void SetHScore(const float fHScore) { m_fHScore = fHScore; }
-		void SetIsInOpenSet() { m_bIsInOpenSet = true; }
-		void ClearIsInOpenSet() { m_bIsInOpenSet = false; }
-		void SetInCloseSet() { m_bIsInClosedSet = true; }
-		bool IsInClosedSet() const { return m_bIsInClosedSet; }
+		void SetParent(const int iIndex);
+		void SetGScore(const float fGScore);
+		void SetHScore(const float fHScore);
+		void SetIsInOpenSet();
+		void ClearIsInOpenSet();
+		void SetInCloseSet();
+		[[nodiscard]] bool IsInClosedSet() const;
 
-		int GetIndex() const { return m_iIndex; }
-		int GetParentIndex() const { return m_iParentIdx; }
-		float GetGScore() const { return m_fGScore; }
-		float GetHScore() const { return m_fHScore; }
-		bool IsInOpendSet() const { return m_bIsInOpenSet; }
+		[[nodiscard]] int GetIndex() const;
+		[[nodiscard]] int GetParentIndex() const;
+		[[nodiscard]] float GetGScore() const;
+		[[nodiscard]] float GetHScore() const;
+		[[nodiscard]] bool IsInOpendSet() const;
 
-		float Getf() const { return m_fGScore + m_fHScore; }
+		[[nodiscard]] float Getf() const;
 
 	private:
-		int m_iIndex;
-		int m_iParentIdx;
-		float m_fGScore;
-		float m_fHScore;
-		bool m_bIsInOpenSet : 1;
-		bool m_bIsInClosedSet : 1;
+		int m_iIndex = 0;
+		int m_iParentIdx = -1;
+		float m_fGScore = FLT_MAX;
+		float m_fHScore = FLT_MAX;
+		bool m_bIsInOpenSet = false;
+		bool m_bIsInClosedSet = false;
 
 #if _DEBUG
 	public:
@@ -42,4 +46,19 @@ namespace Search
 		void AddNodeToDrawListIfInSearch(const CGrid& rGrid, CSquare& rSquare) const;
 #endif
 	};
+
+    inline void CBaseNode::SetParent(const int iIndex) { m_iParentIdx = iIndex; }
+    inline void CBaseNode::SetGScore(const float fGScore) { m_fGScore = fGScore; }
+    inline void CBaseNode::SetHScore(const float fHScore) { m_fHScore = fHScore; }
+    inline void CBaseNode::SetIsInOpenSet() { m_bIsInOpenSet = true; }
+    inline void CBaseNode::ClearIsInOpenSet() { m_bIsInOpenSet = false; }
+    inline void CBaseNode::SetInCloseSet() { m_bIsInClosedSet = true; }
+    inline bool CBaseNode::IsInClosedSet() const { return m_bIsInClosedSet; }
+    inline int CBaseNode::GetIndex() const { return m_iIndex; }
+    inline int CBaseNode::GetParentIndex() const { return m_iParentIdx; }
+    inline float CBaseNode::GetGScore() const { return m_fGScore; }
+    inline float CBaseNode::GetHScore() const { return m_fHScore; }
+    inline bool CBaseNode::IsInOpendSet() const { return m_bIsInOpenSet; }
+    inline float CBaseNode::Getf() const { return m_fGScore + m_fHScore; }
+    inline bool CBaseNode::HasBeenSearched() const { return m_fGScore != FLT_MAX; }
 }

@@ -1,15 +1,13 @@
-#include "Line.h"
+#include "Game/Drawables/Line.h"
 
-#include "Cube.h"
-
-#include "../Scenes/Grid.h"
-#include "../Shaders/ColorDataStructure.h"
+#include "Game/Scenes/Grid.h"
+#include "Game/Shaders/ColorDataStructure.h"
 
 using namespace DirectX::SimpleMath;
 
 CLine::CLine()
+	: CColorDrawableBase(D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST)
 {
-	m_primitiveTopology = D3D_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINELIST;
 }
 
 void CLine::AddLine(const Vector3& rStartPos, const Vector3& rEndPos, const Color color)
