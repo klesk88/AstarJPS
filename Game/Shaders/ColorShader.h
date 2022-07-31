@@ -6,6 +6,8 @@
 //directx
 #include <d3d11.h>
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CColorShader final : public CShaderBase
 {
 public:

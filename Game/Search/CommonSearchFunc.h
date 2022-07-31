@@ -11,6 +11,8 @@
 #include <queue>
 #include <stack>
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 namespace CommonSearch
 {
 	//use a template function which can be used both by the Jump Point Search and by
@@ -36,7 +38,7 @@ namespace CommonSearch
 		//store in the vector the path. the first position represents the target
 		//the last where we are. In this way we can pop elements from the back
 		//without resizing the array each time
-		int i = (int)rOutInput.m_rOutPath.size() - 1;
+		int i = static_cast<int>(rOutInput.m_rOutPath.size() - 1);
 		while (!path.empty())
 		{
 			rOutInput.m_rOutPath[i--] = (path.top());

@@ -11,6 +11,8 @@
 //std
 #include <vector>
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CGrid
 {
 	NON_COPYABLE_CLASS(CGrid)
@@ -70,11 +72,11 @@ private:
 
 inline bool CGrid::IsCollidingWithObstacle(const int iCellIndex) const { return m_gridCells[iCellIndex] == eCollisionType::OBSTABCLE; }
 inline CGrid::eCollisionType CGrid::GetCollisionType(const int iCellIndex) const { return m_gridCells[iCellIndex]; }
-inline int CGrid::GetCollisionsCount() const { return (int)m_collisionIndexes.size(); }
+inline int CGrid::GetCollisionsCount() const { return static_cast<int>(m_collisionIndexes.size()); }
 inline int CGrid::GetXSize() const { return m_iXSize; }
 inline int CGrid::GetYSize() const { return m_iYSize; }
 inline float CGrid::GetCellSize() const { return m_fCellSize; }
-inline int CGrid::GetGridCellSize() const { return (int)m_gridCells.size(); }
+inline int CGrid::GetGridCellSize() const { return static_cast<int>(m_gridCells.size()); }
 inline int CGrid::GetIndexFromXY(const int iX, const int iY) const { return (iY * m_iXSize) + iX; }
 inline const DirectX::SimpleMath::Vector3& CGrid::GetMin() const { return m_vMin; }
 inline const DirectX::SimpleMath::Vector3& CGrid::GetMax() const { return m_vMax; }

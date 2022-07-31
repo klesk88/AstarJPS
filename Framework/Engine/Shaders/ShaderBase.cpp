@@ -56,7 +56,7 @@ void CShaderBase::OutputShaderErrorMessage(ID3D10Blob& rErrorMessage, HWND hwnd,
 
 	fout.open("shader-error.txt");
 
-	for (int i = 0; i < (int)bufferSize; i++)
+	for (int i = 0; i < static_cast<int>(bufferSize); i++)
 	{
 		fout << compileErrors[i];
 	}

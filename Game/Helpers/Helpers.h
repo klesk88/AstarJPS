@@ -7,6 +7,8 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CGrid;
 
 namespace Helpers
@@ -15,7 +17,7 @@ namespace Helpers
     {
         const int dx = iTargetX - iCurrentX;
         const int dy = iTargetY - iCurrentY;
-        return (float)(std::sqrt((dx * dx) + (dy * dy)));
+        return static_cast<float>(std::sqrt((dx * dx) + (dy * dy)));
     }
 
 	[[nodiscard]] inline float GetEuclideanDistance(const int iFirstIndex, const int iSecondIndex, const CGrid& rGrid)
@@ -30,7 +32,7 @@ namespace Helpers
 
     [[nodiscard]] inline float ManhattanDistance(const int iCurrentX, const int iCurrentY, const int iTargetX, const int iTargetY)
     {
-        return (float)(std::abs(iTargetX - iCurrentX) + std::abs(iTargetY - iCurrentY));
+        return static_cast<float>(std::abs(iTargetX - iCurrentX) + std::abs(iTargetY - iCurrentY));
     }
 
 #undef max

@@ -118,7 +118,7 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 		return;
 	}
 	
-	ImGui::Text("Time took :%.4f", (float)m_dTimeForSearch);
+	ImGui::Text("Time took :%.4f", m_dTimeForSearch);
 	ImGui::Text("Nodes Expanded %d", m_iNodesExpanded);
 	ImGui::Checkbox("Draw Path", &m_bDrawPath);
 	ImGui::Checkbox("Draw All Searched Space", &m_bDrawAllSearchedSpace);

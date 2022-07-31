@@ -64,7 +64,7 @@ void CColorDrawableBase::AddVertex(const float fSidePos, const float fForwardPos
 void CColorDrawableBase::AddVertex(const Vector3& rPos, const Color color)
 {
 	m_vertexes.push_back(ColorShaderDataStructures::sVertexShader());
-	const unsigned short iNewIndex = (unsigned short)m_vertexes.size() - 1;
+	const unsigned short iNewIndex = static_cast<unsigned short>(m_vertexes.size() - 1);
 
 	ColorShaderDataStructures::sVertexShader& rNewVertexShader = m_vertexes[iNewIndex];
 

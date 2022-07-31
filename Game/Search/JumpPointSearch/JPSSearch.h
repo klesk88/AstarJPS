@@ -3,6 +3,8 @@
 #include "Game/Search/JumpPointSearch/JPSData.h"
 #include "Game/Search/BaseSearchInput.h"
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CJPSNode;
 
 namespace JPS

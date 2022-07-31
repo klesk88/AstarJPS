@@ -17,8 +17,8 @@ void CCube::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const
 		return;
 	}
 
-	m_vertexes.reserve((int)rIndexes.size() * 4);
-	m_indexes.reserve((int)rIndexes.size() * 6);
+	m_vertexes.reserve(rIndexes.size() * 4);
+	m_indexes.reserve(rIndexes.size() * 6);
 
 	int iX, iY;
 	for (const int iIndex : rIndexes)
@@ -27,7 +27,7 @@ void CCube::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const
 		AddCube(iX, iY, rGrid.GetCellSize(), color);
 	}
 
-	m_iIndexCount = (int)m_indexes.size();
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 
 	Init();
 }
@@ -36,7 +36,7 @@ void CCube::AddCube(const int iStartX, const int iStartY, const float fCellSize,
 {
 	const float fStartX = iStartX * fCellSize;
 	const float fStartY = iStartY * fCellSize;
-	const int iStartIndex = (int)m_vertexes.size();
+	const unsigned short iStartIndex = static_cast<unsigned short>(m_vertexes.size());
 
 	//front
 	AddVertex(fStartX, fStartY, 0.f, color); //bottom left
@@ -98,7 +98,7 @@ void CCube::AddCube(const int iStartX, const int iStartY, const float fCellSize,
 	m_indexes.push_back(iStartIndex + 3);
 	m_indexes.push_back(iStartIndex + 7);
 
-	m_iIndexCount = (int)m_indexes.size();
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 }
 
 

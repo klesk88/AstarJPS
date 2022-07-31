@@ -45,7 +45,7 @@ void CCharacter::Update(const double dDeltaTime)
 	}
 
 	int iDesiredPos = m_path[m_path.size() - 1];
-	const int iNewPos = ComputeCurrentGridPos(iDesiredPos, (float)dDeltaTime);
+	const int iNewPos = ComputeCurrentGridPos(iDesiredPos, static_cast<float>(dDeltaTime));
 	if (m_iCurrentPos == iNewPos)
 	{
 		return;

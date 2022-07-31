@@ -125,11 +125,11 @@ void CPerspectiveCamera::OnMouseMove(const CMouseEvent& rMouseEvent)
 	}
 
 	POINT ptClient;   
-	ptClient.x = (long)(m_iWindowWidth * 0.5f);
-	ptClient.y = (long)(m_iWindowHeight * 0.5f);
+	ptClient.x = static_cast<long>(m_iWindowWidth * 0.5f);
+	ptClient.y = static_cast<long>(m_iWindowHeight * 0.5f);
 
-	const int iDiffX = (int)(rMouseEvent.GetPosX() - ptClient.x);
-	const int iDiffY = (int)(rMouseEvent.GetPosY() - ptClient.y);
+	const int iDiffX = static_cast<int>(rMouseEvent.GetPosX() - ptClient.x);
+	const int iDiffY = static_cast<int>(rMouseEvent.GetPosY() - ptClient.y);
 
 	if (iDiffX == 0 && iDiffY == 0)
 	{

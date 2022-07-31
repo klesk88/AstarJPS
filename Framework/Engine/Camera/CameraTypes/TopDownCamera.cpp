@@ -9,7 +9,7 @@ using namespace DirectX::SimpleMath;
 CTopDownCamera::CTopDownCamera(const CConfig& rConfig, CInputManager& rInputManager)
 	: CBaseCamera(rConfig, Vector3(5.15f, 13.f, 5.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
 {
-	const float fAspect = (float)rConfig.GetScreenWidth() / (float)rConfig.GetScreenHeight();
+	const float fAspect = static_cast<float>(rConfig.GetScreenWidth()) / static_cast<float>(rConfig.GetScreenHeight());
 
 	m_OrthoMatrix = DirectX::XMMatrixOrthographicLH(
 		6.0f * fAspect,

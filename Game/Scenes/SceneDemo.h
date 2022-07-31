@@ -18,6 +18,8 @@
 #include "Game/Drawables/Line.h"
 #endif
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CPickerEvent;
 
 class CSceneDemo final : public CSceneBase

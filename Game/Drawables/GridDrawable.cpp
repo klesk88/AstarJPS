@@ -30,7 +30,7 @@ void CGridDrawable::InitParams(const int iSizeX, const int iSizeY, const float f
 	{
 		for (int iX = 0; iX < iSizeX; ++iX)
 		{
-			const int iCurrentIndex = (int)((iY * iSizeX) + iX);
+			const int iCurrentIndex = (iY * iSizeX) + iX;
 			const float fCurrentXPos = fStartPosX + (iX * fCellSize);
 			const float fCurrentYPos = fStartPosY + (iY * fCellSize);
 
@@ -43,7 +43,7 @@ void CGridDrawable::InitParams(const int iSizeX, const int iSizeY, const float f
 	rOutMin = Vector3(fStartPosX, 0.f, fStartPosY);
 	rOutMax = Vector3(fMaxX, 0.f, fMaxY);
 
-	m_iIndexCount = (int)m_indexes.size();
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 	Init();
 }
 
@@ -51,7 +51,7 @@ void CGridDrawable::AddSquareLines(const int iStartX, const int iStartY, const f
 {
 	const float fStartX = iStartX * fCellSize;
 	const float fStartY = iStartY * fCellSize;
-	const int iStartIndex = (int)m_vertexes.size();
+	const unsigned short iStartIndex = static_cast<unsigned short>(m_vertexes.size());
 
 	AddVertex(fStartX, fStartY, 0.f, color);
 	AddVertex(fStartX, fStartY + fCellSize, 0.f, color);

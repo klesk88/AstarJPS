@@ -53,7 +53,7 @@ namespace JPS
 		char nodeName[128];
 		sprintf_s(nodeName, "Neighbours_%d", GetIndex());
 
-		ImGui::Text("Forced Neighbors: %d", (int)m_forcedNeighboursIndexes.size());
+		ImGui::Text("Forced Neighbors: %d", static_cast<int>(m_forcedNeighboursIndexes.size()));
 		if (m_forcedNeighboursIndexes.size() > 0)
 		{
 			ImGui::Checkbox(nodeName, &m_bRenderForceNeigbours);

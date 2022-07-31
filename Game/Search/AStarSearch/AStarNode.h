@@ -2,6 +2,8 @@
 
 #include "Game/Search/BaseNode.h"
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 namespace AStar
 {
 	class CAStarNode final : public Search::CBaseNode

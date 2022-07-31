@@ -405,7 +405,7 @@ bool CRenderer::InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOu
 	}
 
 	// Store the dedicated video card memory in megabytes.
-	m_iVideoCardMemory = (int)(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
+	m_iVideoCardMemory = static_cast<int>(adapterDesc.DedicatedVideoMemory / 1024 / 1024);
 
 	// Convert the name of the video card to a character array and store it.
 	iError = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
@@ -449,8 +449,8 @@ void CRenderer::InitDeviceContext(const CConfig& rConfig)
 	D3D11_VIEWPORT viewport = CD3D11_VIEWPORT(
 		0.f,
 		0.f,
-		(float)rConfig.GetScreenWidth(),
-		(float)rConfig.GetScreenHeight());
+		static_cast<float>(rConfig.GetScreenWidth()),
+		static_cast<float>(rConfig.GetScreenHeight()));
 
 	// Create the viewport.
 	m_pDeviceContext->RSSetViewports(1, &viewport);

@@ -19,8 +19,8 @@ void CSquare::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, con
 		return;
 	}
 
-	m_vertexes.reserve((int)rIndexes.size() * 4);
-	m_indexes.reserve((int)rIndexes.size() * 6);
+	m_vertexes.reserve(rIndexes.size() * 4);
+	m_indexes.reserve(rIndexes.size() * 6);
 
 	int iX, iY;
 	for (const int iIndex : rIndexes)
@@ -29,22 +29,21 @@ void CSquare::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, con
 		AddSquare(iX, iY, rGrid.GetCellSize(), color, fUpOffset);
 	}
 
-	m_iIndexCount = (int)m_indexes.size();
-
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 	Init();
 }
 
 void CSquare::AddSingleSquare(const int iStartX, const int iStartY, const float fCellSize, const Color& color)
 {
 	AddSquare(iStartX, iStartY, fCellSize, color, 0.1f);
-	m_iIndexCount = (int)m_indexes.size();
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 }
 
 void CSquare::AddSquare(const int iStartX, const int iStartY, const float fCellSize, const Color color, const float fUpOffset)
 {
 	const float fStartX = iStartX * fCellSize;
 	const float fStartY = iStartY * fCellSize;
-	const int iStartIndex = (int)m_vertexes.size();
+	const unsigned short iStartIndex = static_cast<unsigned short>(m_vertexes.size());
 
 	AddVertex(fStartX, fStartY, fUpOffset, color);
 	AddVertex(fStartX, fStartY + fCellSize, fUpOffset, color);

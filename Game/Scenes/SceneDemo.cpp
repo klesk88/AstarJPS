@@ -93,8 +93,8 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 
 	Vector3 result = rPickerEvent.GetStartPos() + (rayDir * fDistance);
 
-	const int iX = (int)(result.x / m_Grid.GetCellSize());
-	const int iZ = (int)(result.z / m_Grid.GetCellSize());
+	const int iX = static_cast<int>(result.x / m_Grid.GetCellSize());
+	const int iZ = static_cast<int>(result.z / m_Grid.GetCellSize());
 
 	m_iPickerCellSelected = m_Grid.GetIndexFromXY(iX, iZ);
 

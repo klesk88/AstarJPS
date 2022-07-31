@@ -112,7 +112,7 @@ bool CInputManager::HandleMouseMessages(HWND hwnd, UINT umessage, WPARAM wparam,
 	}
 
 	ASSERT(eventSelected != CMouseEvent::COUNT);
-	CMouseEvent mouseEvent(eventSelected, (float)iX, (float)iY, hwnd);
+	CMouseEvent mouseEvent(eventSelected, static_cast<float>(iX), static_cast<float>(iY), hwnd);
 	mouseEvent.SetWheelDelta(fWheelDelta);
 	MouseEvent.Emit(mouseEvent);
 	return true;
@@ -124,12 +124,12 @@ bool CInputManager::HandleKeyboardMessages(HWND /*hwnd*/, UINT umessage, WPARAM 
 	{
 	case WM_KEYUP:
 		//just listen to key events which we actually support currently
-		if (!CKeyboardEvent::IsKeyCodeSupported((int)wparam))
+		if (!CKeyboardEvent::IsKeyCodeSupported(static_cast<int>(wparam)))
 		{
 			return false;
 		}
 
-		KeyboardEvent.Emit(CKeyboardEvent(CKeyboardEvent::EventType::KEYUP, (int)wparam, false));
+		KeyboardEvent.Emit(CKeyboardEvent{ CKeyboardEvent::EventType::KEYUP, static_cast<int>(wparam), false });
 		break;
 	case WM_KEYDOWN:
 	{
@@ -146,12 +146,12 @@ bool CInputManager::HandleKeyboardMessages(HWND /*hwnd*/, UINT umessage, WPARAM 
 		}
 
 		//just listen to key events which we actually support currently
-		if (!CKeyboardEvent::IsKeyCodeSupported((int)wparam))
+		if (!CKeyboardEvent::IsKeyCodeSupported(static_cast<int>(wparam)))
 		{
 			return false;
 		}
 
-		KeyboardEvent.Emit(CKeyboardEvent(CKeyboardEvent::EventType::KEYDOWN, (int)wparam, bWasAlreadyPressed));
+		KeyboardEvent.Emit(CKeyboardEvent{ CKeyboardEvent::EventType::KEYDOWN, static_cast<int>(wparam), bWasAlreadyPressed });
 		break;
 	}
 	default:

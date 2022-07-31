@@ -11,6 +11,8 @@
 //std
 #include <vector>
 
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 class CColorDrawableBase : public CDrawable3DBase
 {
 public:

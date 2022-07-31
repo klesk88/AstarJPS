@@ -17,5 +17,5 @@ void CLine::AddLine(const Vector3& rStartPos, const Vector3& rEndPos, const Colo
 
 	m_indexes.push_back(0);
 	m_indexes.push_back(1);
-	m_iIndexCount = (int)m_indexes.size();
+	m_iIndexCount = static_cast<int>(m_indexes.size());
 }
