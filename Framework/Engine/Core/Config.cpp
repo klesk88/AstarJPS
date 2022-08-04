@@ -5,6 +5,8 @@
 
 void CConfig::Load()
 {
+	//TODO: we should read am actual config file here (a json probably) at some point
+
 	if (IsFullScreen())
 	{
 		m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);

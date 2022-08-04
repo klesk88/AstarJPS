@@ -21,7 +21,7 @@ public:
 	~CPerspectiveCamera();
 
 	//CBaseCamera
-	void Update() override;
+	void Update(const float fDeltaTimeSec) override;
 	//CBaseCamera
 
 private:
@@ -33,13 +33,15 @@ private:
 	void OnRightMouseButtonRelease();
 	void OnMouseMove(const CMouseEvent& rMouseEvent);
 
+	void UpdatedRotation(const float fDeltaTimeSec);
+
 private:
-	const float m_fMovementSpeed = 0.001f;
-	const float m_fRotationSpeed = 0.1f;
 	float m_fPitch = 0.f;
 	float m_fYaw = 0.f;
 	float m_fRoll = 0.f;
 	int m_iWindowHeight = 0;
 	int m_iWindowWidth = 0;
+	int m_iMouseDiffX = 0;
+	int m_iMouseDiffY = 0;
 	bool m_bRightMouseBtnpress = false;
 };

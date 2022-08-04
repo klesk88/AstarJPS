@@ -13,13 +13,13 @@ public:
 	~CTopDownCamera();
 
 	//CBaseCamera
-	void Update() override;
+	void Update(const float fDeltaTime) override;
 	//CBaseCamera
 
 private:
 	//CBaseCamera
 	void OnMouseEvent(const CMouseEvent& rMouseEvent) override;
-	void UpdatePositionOffset(DirectX::SimpleMath::Vector3& rOutOffset) override;
+	void UpdatePositionOffset(const float fDeltaTimeSec, DirectX::SimpleMath::Vector3& rOutOffset) override;
 	//CBaseCamera
 
 private:

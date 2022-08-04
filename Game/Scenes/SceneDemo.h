@@ -46,7 +46,8 @@ public:
 	//CSceneBase
 	void Init() override;
 	void Shutdown() override;
-	void Update(const double dDeltaTime) override;
+	//this updates the rendering of the pathfinding result
+	void Update(const float fDeltaTimeSec) override;
 	//CSceneBase
 
 private:
@@ -75,6 +76,10 @@ private:
 	CEventId m_pickerEventId = CEventId::GetInvalidID();
 
 	std::vector<const char*> m_editModeCombo;
+	//after a pathfinding has been request, update the rendering every second
+	static constexpr float m_fMaxWaitToUpdateRendering = 1.f;
+	//after a pathfinding has been request, accumulate in this variable how much time has passed since last rendering
+	float m_fLastUpdateTime = m_fMaxWaitToUpdateRendering;
 	int m_iPickerCellSelected = -1;
 	int m_iEditModeIndex = 0;
 	int m_iStartPos = 0;

@@ -54,104 +54,107 @@ namespace CommonSearch
 		//the common structure
 
 #if _DEBUG
-		CTimer timer;
-		timer.Start();
-#endif
-
+		float fDebugTime = 0.f;
 		std::vector<SearchNodeType> cellDetails;
-		if (rInput.GetStartIndex() == rInput.GetTargetIndex())
+
 		{
-#if _DEBUG
-			rInput.SetDebug(0, cellDetails);
+			CScopedTimer timer(fDebugTime);
 #endif
-			return;
-		}
 
-		const CGrid& rGrid = rInput.GetGrid();
-
-		cellDetails.reserve(rGrid.GetGridCellSize());
-
-		for (int i = 0; i < rGrid.GetGridCellSize(); i++)
-		{
-			cellDetails.push_back(SearchNodeType(i));
-		}
-
-		cellDetails[rInput.GetStartIndex()].SetParent(rInput.GetStartIndex());
-
-		auto cmp = [](SearchNodeType* left, SearchNodeType* right)->bool {
-			return left->Getf() > right->Getf();
-		};
-
-		SearchNodeType& rStartNode = cellDetails[rInput.GetStartIndex()];
-		rStartNode.SetParent(rInput.GetStartIndex());
-		rStartNode.SetHScore(0.f);
-		rStartNode.SetGScore(0.f);
-
-		std::vector<SearchNodeType*> container;
-		container.reserve(rGrid.GetGridCellSize());
-		std::priority_queue<SearchNodeType*, std::vector<SearchNodeType*>, decltype(cmp)> openSet(cmp, std::move(container));
-		openSet.push(&cellDetails[rInput.GetStartIndex()]);
-
-		std::vector<int> newNodesInexes;
-		newNodesInexes.reserve(rInput.GetExpectedNewCellsCountPerIter());
-
-		int endX, endY;
-		rGrid.GetCellXYFromIndex(rInput.GetTargetIndex(), endX, endY);
-
-		int iNeighbourX, iNeighbourY;
-		int iCurrentCellX, iCurrentCellY;
-
-		while (!openSet.empty())
-		{
-			SearchNodeType& rCurrentCell = *(openSet.top());
-			if (rCurrentCell.GetIndex() == rInput.GetTargetIndex())
+			if (rInput.GetStartIndex() == rInput.GetTargetIndex())
 			{
-				GetFinalPath<SearchType, SearchNodeType>(cellDetails, rCurrentCell.GetIndex(), rInput);
-				break;
+#if _DEBUG
+				rInput.SetDebug(0, cellDetails);
+#endif
+				return;
 			}
 
-			openSet.pop();
-			rCurrentCell.ClearIsInOpenSet();
-			rCurrentCell.SetInCloseSet();
+			const CGrid& rGrid = rInput.GetGrid();
 
-			rGrid.GetCellXYFromIndex(rCurrentCell.GetIndex(), iCurrentCellX, iCurrentCellY);
-			newNodesInexes.clear();
-			rInput.FindNeighbours(rCurrentCell, cellDetails, newNodesInexes);
-			for (const int iNeighbourCell : newNodesInexes)
+			cellDetails.reserve(rGrid.GetGridCellSize());
+
+			for (int i = 0; i < rGrid.GetGridCellSize(); i++)
 			{
-				if (cellDetails[iNeighbourCell].IsInClosedSet())
-				{
-					continue;
-				}
-
-				rGrid.GetCellXYFromIndex(iNeighbourCell, iNeighbourX, iNeighbourY);
-
-				const float fGNew = rCurrentCell.GetGScore() + Helpers::GetEuclideanDistance(iCurrentCellX, iCurrentCellY, iNeighbourX, iNeighbourY);
-
-				if (fGNew >= cellDetails[iNeighbourCell].GetGScore())
-				{
-					continue;
-				}
-
-				const float fHNew = rInput.m_ComputeHValueFunc(endX, endY, iNeighbourX, iNeighbourY);
-
-				cellDetails[iNeighbourCell].SetGScore(fGNew);
-				cellDetails[iNeighbourCell].SetHScore(fHNew);
-				cellDetails[iNeighbourCell].SetParent(rCurrentCell.GetIndex());
-
-				if (cellDetails[iNeighbourCell].IsInOpendSet())
-				{
-					continue;
-				}
-
-				openSet.push(&cellDetails[iNeighbourCell]);
-				cellDetails[iNeighbourCell].SetIsInOpenSet();
+				cellDetails.push_back(SearchNodeType(i));
 			}
-		}
+
+			cellDetails[rInput.GetStartIndex()].SetParent(rInput.GetStartIndex());
+
+			auto cmp = [](SearchNodeType* left, SearchNodeType* right)->bool {
+				return left->Getf() > right->Getf();
+			};
+
+			SearchNodeType& rStartNode = cellDetails[rInput.GetStartIndex()];
+			rStartNode.SetParent(rInput.GetStartIndex());
+			rStartNode.SetHScore(0.f);
+			rStartNode.SetGScore(0.f);
+
+			std::vector<SearchNodeType*> container;
+			container.reserve(rGrid.GetGridCellSize());
+			std::priority_queue<SearchNodeType*, std::vector<SearchNodeType*>, decltype(cmp)> openSet(cmp, std::move(container));
+			openSet.push(&cellDetails[rInput.GetStartIndex()]);
+
+			std::vector<int> newNodesInexes;
+			newNodesInexes.reserve(rInput.GetExpectedNewCellsCountPerIter());
+
+			int endX, endY;
+			rGrid.GetCellXYFromIndex(rInput.GetTargetIndex(), endX, endY);
+
+			int iNeighbourX, iNeighbourY;
+			int iCurrentCellX, iCurrentCellY;
+
+			while (!openSet.empty())
+			{
+				SearchNodeType& rCurrentCell = *(openSet.top());
+				if (rCurrentCell.GetIndex() == rInput.GetTargetIndex())
+				{
+					GetFinalPath<SearchType, SearchNodeType>(cellDetails, rCurrentCell.GetIndex(), rInput);
+					break;
+				}
+
+				openSet.pop();
+				rCurrentCell.ClearIsInOpenSet();
+				rCurrentCell.SetInCloseSet();
+
+				rGrid.GetCellXYFromIndex(rCurrentCell.GetIndex(), iCurrentCellX, iCurrentCellY);
+				newNodesInexes.clear();
+				rInput.FindNeighbours(rCurrentCell, cellDetails, newNodesInexes);
+				for (const int iNeighbourCell : newNodesInexes)
+				{
+					if (cellDetails[iNeighbourCell].IsInClosedSet())
+					{
+						continue;
+					}
+
+					rGrid.GetCellXYFromIndex(iNeighbourCell, iNeighbourX, iNeighbourY);
+
+					const float fGNew = rCurrentCell.GetGScore() + Helpers::GetEuclideanDistance(iCurrentCellX, iCurrentCellY, iNeighbourX, iNeighbourY);
+
+					if (fGNew >= cellDetails[iNeighbourCell].GetGScore())
+					{
+						continue;
+					}
+
+					const float fHNew = rInput.m_ComputeHValueFunc(endX, endY, iNeighbourX, iNeighbourY);
+
+					cellDetails[iNeighbourCell].SetGScore(fGNew);
+					cellDetails[iNeighbourCell].SetHScore(fHNew);
+					cellDetails[iNeighbourCell].SetParent(rCurrentCell.GetIndex());
+
+					if (cellDetails[iNeighbourCell].IsInOpendSet())
+					{
+						continue;
+					}
+
+					openSet.push(&cellDetails[iNeighbourCell]);
+					cellDetails[iNeighbourCell].SetIsInOpenSet();
+				}
+			}
 
 #if _DEBUG
-		timer.Stop();
-		rInput.SetDebug(timer.GetDeltaTime(), cellDetails);
+		}
+
+		rInput.SetDebug(fDebugTime, cellDetails);
 #endif
 	}
 }

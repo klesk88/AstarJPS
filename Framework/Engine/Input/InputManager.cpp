@@ -129,7 +129,7 @@ bool CInputManager::HandleKeyboardMessages(HWND /*hwnd*/, UINT umessage, WPARAM 
 			return false;
 		}
 
-		KeyboardEvent.Emit(CKeyboardEvent{ CKeyboardEvent::EventType::KEYUP, static_cast<int>(wparam), false });
+		KeyboardEvent.Emit(CKeyboardEvent { CKeyboardEvent::EventType::KEYUP, static_cast<int>(wparam), false } );
 		break;
 	case WM_KEYDOWN:
 	{
@@ -151,7 +151,7 @@ bool CInputManager::HandleKeyboardMessages(HWND /*hwnd*/, UINT umessage, WPARAM 
 			return false;
 		}
 
-		KeyboardEvent.Emit(CKeyboardEvent{ CKeyboardEvent::EventType::KEYDOWN, static_cast<int>(wparam), bWasAlreadyPressed });
+		KeyboardEvent.Emit(CKeyboardEvent { CKeyboardEvent::EventType::KEYDOWN, static_cast<int>(wparam), bWasAlreadyPressed } );
 		break;
 	}
 	default:

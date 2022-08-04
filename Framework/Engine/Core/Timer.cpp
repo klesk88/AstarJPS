@@ -2,35 +2,31 @@
 
 #include "Framework/Utils/DebugMacros.h"
 
-//windows
-#include <windows.h>
+//std
+#include <chrono>
 
-void CTimer::Start()
+CScopedTimer::CScopedTimer(float& rfOutTimeMs)
+    : m_fOutTimeMs(rfOutTimeMs)
 {
-	LARGE_INTEGER li;
-	if (!QueryPerformanceFrequency(&li))
-		ASSERT(false);
-
-	m_dPcFrequencyInverse = 1.0 / (double(li.QuadPart) / 1000.0);
-
-	if(!QueryPerformanceCounter(&li))
-		ASSERT(false);
-
-	m_iLastTime = li.QuadPart;
+    const auto time = std::chrono::high_resolution_clock::now();
+    m_uStartTimeNs = time.time_since_epoch().count();
 }
 
-void CTimer::Stop()
+CScopedTimer::~CScopedTimer()
 {
-	ComputeDeltaTime();
+    const uint64_t uTimeValue = ComputeDeltaTimeNanoSeconds();
+
+    //now convert time obtained in ms
+    const auto duration = std::chrono::duration<uint64_t, std::chrono::steady_clock::period>(uTimeValue);
+    const uint64_t uNumMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    static constexpr float TimeToMs = 1.f / 1000.f;
+    m_fOutTimeMs = static_cast<float>(uNumMicroseconds) * TimeToMs;
 }
 
-void CTimer::ComputeDeltaTime()
+uint64_t CScopedTimer::ComputeDeltaTimeNanoSeconds() const
 {
-	LARGE_INTEGER li;
-	if (!QueryPerformanceCounter(&li))
-		ASSERT(false);
-
-	m_dDeltaTime = (li.QuadPart - m_iLastTime) * m_dPcFrequencyInverse;
-	m_iLastTime = li.QuadPart;
+    const auto time = std::chrono::high_resolution_clock::now();
+    const uint64_t uCurrentTime = time.time_since_epoch().count();
+    const uint64_t uDiff = uCurrentTime - m_uStartTimeNs;
+    return uDiff;
 }
-

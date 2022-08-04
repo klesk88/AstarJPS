@@ -18,5 +18,5 @@ public:
 	~CCube() = default;
 
 	void InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const DirectX::SimpleMath::Color color);
-	void AddCube(const int iStartX, const int iStartY, const float fCellSize, const DirectX::SimpleMath::Color color);
+	void InitCube(const int iStartX, const int iStartY, const float fCellSize, const DirectX::SimpleMath::Color color);
 };

@@ -24,10 +24,10 @@ CTopDownCamera::CTopDownCamera(const CConfig& rConfig, CInputManager& rInputMana
 CTopDownCamera::~CTopDownCamera()
 {}
 
-void CTopDownCamera::Update()
+void CTopDownCamera::Update(const float fDeltaTimeSec)
 {
 	Vector3 offset;
-	UpdatePositionOffset(offset);
+	UpdatePositionOffset(fDeltaTimeSec, offset);
 	m_vPosition += offset;
 
 	const Matrix pitch = DirectX::XMMatrixRotationX(DirectX::XM_PIDIV2);
@@ -60,9 +60,9 @@ void CTopDownCamera::OnMouseEvent(const CMouseEvent& rMouseEvent)
 	}
 }
 
-void CTopDownCamera::UpdatePositionOffset(Vector3& rOutOffset)
+void CTopDownCamera::UpdatePositionOffset(const float fDeltaTimeSec, Vector3& rOutOffset)
 {
-	CBaseCamera::UpdatePositionOffset(rOutOffset);
+	CBaseCamera::UpdatePositionOffset(fDeltaTimeSec, rOutOffset);
 
 	if (m_fMouseWheelDelta == 0.f)
 	{

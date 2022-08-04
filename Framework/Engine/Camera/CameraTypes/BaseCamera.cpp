@@ -24,7 +24,6 @@ CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const 
 	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_projectionMatrix);
 	m_invProjMatrix = XMMatrixInverse(&determinant, m_projectionMatrix);
 
-
     auto keyboardEventCbk = [this](const CKeyboardEvent& rKeyboardEvent) -> void {
         OnKeyboardEvent(rKeyboardEvent);
     };
@@ -107,7 +106,7 @@ void CBaseCamera::OnKeyDown(const CKeyboardEvent& rKeyboardEvent)
 	UpdateKeyEvent(rKeyboardEvent, true);
 }
 
-void CBaseCamera::UpdatePositionOffset(DirectX::SimpleMath::Vector3& rOutOffset)
+void CBaseCamera::UpdatePositionOffset(const float fDeltaTimeSec, DirectX::SimpleMath::Vector3& rOutOffset)
 {
 	const Vector3 movementSpeed(m_fMovementSpeed, m_fMovementSpeed, m_fMovementSpeed);
 	rOutOffset = Vector3(0.f, 0.f, 0.f);
@@ -120,25 +119,25 @@ void CBaseCamera::UpdatePositionOffset(DirectX::SimpleMath::Vector3& rOutOffset)
 			continue;
 		}
 
-		switch ((eDir)i)
+		switch (static_cast<eDir>(i))
 		{
 		case eDir::UP:
-			rOutOffset += movementSpeed * m_DefaultUp;
+			rOutOffset += movementSpeed * m_DefaultUp * fDeltaTimeSec;
 			break;
 		case eDir::DOWN:
-			rOutOffset -= movementSpeed * m_DefaultUp;
+			rOutOffset -= movementSpeed * m_DefaultUp * fDeltaTimeSec;
 			break;
 		case eDir::LEFT:
-			rOutOffset -= movementSpeed * m_DefaultRight;
+			rOutOffset -= movementSpeed * m_DefaultRight * fDeltaTimeSec;
 			break;
 		case eDir::RIGHT:
-			rOutOffset += movementSpeed * m_DefaultRight;
+			rOutOffset += movementSpeed * m_DefaultRight * fDeltaTimeSec;
 			break;
 		case eDir::FORWARD:
-			rOutOffset += movementSpeed * m_DefaultForward;
+			rOutOffset += movementSpeed * m_DefaultForward * fDeltaTimeSec;
 			break;
 		case eDir::BACKWARDS:
-			rOutOffset -= movementSpeed * m_DefaultForward;
+			rOutOffset -= movementSpeed * m_DefaultForward * fDeltaTimeSec;
 			break;
 		}
 	}

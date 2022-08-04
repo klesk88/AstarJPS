@@ -31,7 +31,7 @@ public:
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
 	void Shutdown(CInputManager& rInputManager);
 
-	void Update();
+	void Update(const float fDeltaTimeSec);
 
 	//get the instance of the current selected camera by the user
 	[[nodiscard]] const CBaseCamera& GetCurrentCamera() const;

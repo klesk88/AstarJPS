@@ -25,7 +25,7 @@ public:
 	explicit CDrawable3DBase(const D3D_PRIMITIVE_TOPOLOGY primitiveTopology);
 	virtual ~CDrawable3DBase();
 
-	bool Init();
+	void Init();
 
 	void Reset();
 

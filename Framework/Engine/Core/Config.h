@@ -24,7 +24,6 @@ public:
 	[[nodiscard]] float GetScreenNear() const;
 	[[nodiscard]] float GetScreenFar() const;
 	[[nodiscard]] float GetFOV() const;
-	[[nodiscard]] unsigned int GetGameUpdateTime() const;
 
 private:
 	int m_iScreenWidth = 1024;
@@ -32,7 +31,6 @@ private:
 	float m_fScreenNear = 0.01f;
 	float m_fScreenFar = 100.f;
 	float m_fFOV = DirectX::XM_PI / 4.0f;
-	unsigned int m_uGameUpdateTimeMs = 1500;
 	bool m_bFullScreen = false;
 	bool m_bEnableVSync = false;
 };
@@ -44,4 +42,3 @@ inline bool CConfig::GetVSyncEnable() const { return m_bEnableVSync; }
 inline float CConfig::GetScreenNear() const { return m_fScreenNear; }
 inline float CConfig::GetScreenFar() const { return m_fScreenFar; }
 inline float CConfig::GetFOV() const { return m_fFOV; }
-inline unsigned int CConfig::GetGameUpdateTime() const { return m_uGameUpdateTimeMs; }

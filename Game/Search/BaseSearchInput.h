@@ -56,7 +56,7 @@ namespace Search
 
 #if _DEBUG
 	public:
-		void SetDebug(const double dTime, const std::vector<NodeType>& rCells);
+		void SetDebug(const float fTimeMs, const std::vector<NodeType>& rCells);
 
 	private:
 		CBaseSearchDebug<NodeType>& m_rDebug;
@@ -105,6 +105,6 @@ namespace Search
 
 #if _DEBUG
 	template<class NodeType>
-    inline void CSearchInput<NodeType>::SetDebug(const double dTime, const std::vector<NodeType>& rCells) { m_rDebug.Set(dTime, rCells, m_rOutPath, m_rGrid); }
+    inline void CSearchInput<NodeType>::SetDebug(const float fTimeMs, const std::vector<NodeType>& rCells) { m_rDebug.Set(fTimeMs, rCells, m_rOutPath, m_rGrid); }
 #endif
 }

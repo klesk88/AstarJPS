@@ -24,7 +24,7 @@ void CCube::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const
 	for (const int iIndex : rIndexes)
 	{
 		rGrid.GetCellXYFromIndex(iIndex, iX, iY);
-		AddCube(iX, iY, rGrid.GetCellSize(), color);
+		InitCube(iX, iY, rGrid.GetCellSize(), color);
 	}
 
 	m_iIndexCount = static_cast<int>(m_indexes.size());
@@ -32,7 +32,7 @@ void CCube::InitList(const std::vector<int>& rIndexes, const CGrid& rGrid, const
 	Init();
 }
 
-void CCube::AddCube(const int iStartX, const int iStartY, const float fCellSize, const Color color)
+void CCube::InitCube(const int iStartX, const int iStartY, const float fCellSize, const Color color)
 {
 	const float fStartX = iStartX * fCellSize;
 	const float fStartY = iStartY * fCellSize;

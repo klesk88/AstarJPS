@@ -39,7 +39,7 @@ protected:
 public:
 	virtual ~CBaseCamera();
 
-	virtual void Update() = 0;
+	virtual void Update(const float fDeltaTime) = 0;
 
 	void Shutdown(CInputManager& rInputManager);
 
@@ -57,7 +57,7 @@ public:
 
 protected:
 	virtual void OnMouseEvent(const CMouseEvent& /*rMouseEvent*/) {}
-	virtual void UpdatePositionOffset(DirectX::SimpleMath::Vector3& rOutOffset);
+	virtual void UpdatePositionOffset(const float fDeltaTimeSec, DirectX::SimpleMath::Vector3& rOutOffset);
 
 private:
 	void OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
@@ -71,7 +71,7 @@ protected:
 	const DirectX::SimpleMath::Vector3 m_DefaultForward = DirectX::SimpleMath::Vector3::Zero;
 	const DirectX::SimpleMath::Vector3 m_DefaultRight = DirectX::SimpleMath::Vector3::Zero;
 	DirectX::SimpleMath::Vector3 m_vPosition = DirectX::SimpleMath::Vector3::Zero;
-	float m_fMovementSpeed = 0.001f;
+	float m_fMovementSpeed = 10.f;
 
 private:
 	std::vector<bool> m_dirPress;

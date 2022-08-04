@@ -22,7 +22,7 @@ public:
 	explicit CCharacter(CGrid& rGrid, const CGrid::eCollisionType collistionType, const DirectX::XMVECTORF32 color);
 	virtual ~CCharacter() = default;
 
-	virtual void Update(const double dDeltaTime);
+	virtual void Update(const float fDeltaTimeSec);
 
 protected:
 	virtual void PerformSearch(const int iTarget) = 0;
@@ -31,7 +31,7 @@ protected:
 	virtual void Clear();
 
 private:
-	[[nodiscard]] int ComputeCurrentGridPos(const int iTargetCell, const float fDeltaTime);
+	[[nodiscard]] int ComputeCurrentGridPos(const int iTargetCell);
 	[[nodiscard]] bool CanMoveAtCell(const int iCellIndex) const { return m_rGrid.IsCollidingWithObstacle(iCellIndex); }
 	
 protected:
@@ -43,7 +43,7 @@ private:
 	CCube m_Cube;
 	const CGrid::eCollisionType m_CollisionType = CGrid::eCollisionType::COUNT;
 	const DirectX::SimpleMath::Color m_Color;
-	const float m_fSpeed = 0.001f;
+	static constexpr float m_fSpeed = 1.3f;
 	DirectX::SimpleMath::Vector3 m_Position;
 	int m_iTargetPos = -1;
 

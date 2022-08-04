@@ -1,25 +1,26 @@
 #pragma once
 
+#include "Framework/Utils/ClassMacros.h"
 #include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
-class CTimer
+//std
+#include <type_traits> //this is for uint64_t
+
+//a scoped timer that stored in the input variable the resulting time taken in milliseconds
+//inside the score in which CScopedTimer is declared, 
+class CScopedTimer
 {
+	NON_COPYABLE_CLASS(CScopedTimer)
+
 public:
-	CTimer() = default;
-	~CTimer() = default;
-
-	void Start();
-	void Stop();
-
-	[[nodiscard]] double GetDeltaTime() const;
+	explicit CScopedTimer(float& rfOutTimeMs);
+	~CScopedTimer();
 
 private:
-	void ComputeDeltaTime();
+	[[nodiscard]] uint64_t ComputeDeltaTimeNanoSeconds() const;
 
 private:
-	unsigned __int64 m_iLastTime = 0;
-	double m_dPcFrequencyInverse = 0.0;
-	double m_dDeltaTime = 0.0;
+	//start time in nanoseconds
+	uint64_t m_uStartTimeNs = 0;
+	float& m_fOutTimeMs;
 };
-
-inline double CTimer::GetDeltaTime() const { return m_dDeltaTime; }

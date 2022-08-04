@@ -18,7 +18,7 @@ public:
 	explicit CBaseSearchDebug(const char* pName, const DirectX::XMVECTORF32& rColor);
 	virtual ~CBaseSearchDebug() = default;
 
-	void Set(const double dTime, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid);
+	void Set(const float fTimeMs, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid);
 	virtual void RenderImgui(const CGrid& rColission);
 	void Clear();
 
@@ -31,7 +31,7 @@ private:
 	CSquare m_drawableCompleteSearchSpace;
 	std::vector<NodeType> m_nodesInSearch;
 	std::string m_imguiTreeName;
-	double m_dTimeForSearch = 0.0;
+	float m_fTimeForSearch = 0.f;
 	DirectX::SimpleMath::Color m_color;
 	int m_iNodesExpanded = 0;
 	bool m_bDrawPath = false;
@@ -45,10 +45,10 @@ CBaseSearchDebug<NodeType>::CBaseSearchDebug(const char* pName, const DirectX::X
 {}
 
 template<class NodeType>
-void CBaseSearchDebug<NodeType>::Set(const double dTime, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid)
+void CBaseSearchDebug<NodeType>::Set(const float fTimeMs, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid)
 {
 	m_nodesInSearch = rSearchNodes;
-	m_dTimeForSearch = dTime;
+	m_fTimeForSearch = fTimeMs;
 
 	if (m_nodesInSearch.size() == 0)
 	{
@@ -86,7 +86,7 @@ void CBaseSearchDebug<NodeType>::Set(const double dTime, const std::vector<NodeT
 template<class NodeType>
 void CBaseSearchDebug<NodeType>::Clear()
 {
-	m_dTimeForSearch = 0;
+	m_fTimeForSearch = 0.f;
 	m_iNodesExpanded = 0;
 	m_nodesInSearch.clear();
 	m_drawableNode.Reset();
@@ -118,7 +118,7 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 		return;
 	}
 	
-	ImGui::Text("Time took :%.4f", m_dTimeForSearch);
+	ImGui::Text("Time took (ms):%.4f", m_fTimeForSearch);
 	ImGui::Text("Nodes Expanded %d", m_iNodesExpanded);
 	ImGui::Checkbox("Draw Path", &m_bDrawPath);
 	ImGui::Checkbox("Draw All Searched Space", &m_bDrawAllSearchedSpace);

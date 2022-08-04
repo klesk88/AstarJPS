@@ -17,10 +17,11 @@ CPerspectiveCamera::CPerspectiveCamera(const CConfig& rConfig, CInputManager& rI
 CPerspectiveCamera::~CPerspectiveCamera()
 {}
 
-void CPerspectiveCamera::Update()
+void CPerspectiveCamera::Update(const float fDeltaTimeSec)
 {
 	Vector3 offset;
-	UpdatePositionOffset(offset);
+	UpdatePositionOffset(fDeltaTimeSec, offset);
+	UpdatedRotation(fDeltaTimeSec);
 
 	const Matrix roll = DirectX::XMMatrixIdentity();
 	const Matrix pitch = DirectX::XMMatrixRotationX(m_fPitch);
@@ -128,37 +129,44 @@ void CPerspectiveCamera::OnMouseMove(const CMouseEvent& rMouseEvent)
 	ptClient.x = static_cast<long>(m_iWindowWidth * 0.5f);
 	ptClient.y = static_cast<long>(m_iWindowHeight * 0.5f);
 
-	const int iDiffX = static_cast<int>(rMouseEvent.GetPosX() - ptClient.x);
-	const int iDiffY = static_cast<int>(rMouseEvent.GetPosY() - ptClient.y);
-
-	if (iDiffX == 0 && iDiffY == 0)
-	{
-		return;
-	}
-
-	m_fYaw += XMConvertToRadians(iDiffX * m_fRotationSpeed);
-	m_fPitch += XMConvertToRadians(iDiffY * m_fRotationSpeed);
-
-	//force the pitch to be constrained between -90 and 90 degrees
-
-	if (m_fPitch > DirectX::XM_PIDIV2)
-	{
-		m_fPitch = DirectX::XM_PIDIV2;
-	}
-	else if (m_fPitch < -DirectX::XM_PIDIV2)
-	{
-		m_fPitch = -DirectX::XM_PIDIV2;
-	}
-
-	if (m_fYaw > DirectX::XM_2PI)
-	{
-		m_fYaw -= DirectX::XM_2PI;
-	}
-	else if (m_fYaw < -DirectX::XM_2PI)
-	{
-		m_fYaw += DirectX::XM_2PI;
-	}
+	m_iMouseDiffX += static_cast<int>(rMouseEvent.GetPosX() - ptClient.x);
+	m_iMouseDiffY += static_cast<int>(rMouseEvent.GetPosY() - ptClient.y);
 
 	ClientToScreen(rMouseEvent.GetHwnd(), &ptClient);
 	SetCursorPos(ptClient.x, ptClient.y);
+}
+
+void CPerspectiveCamera::UpdatedRotation(const float fDeltaTimeSec)
+{
+    if (m_iMouseDiffX == 0 && m_iMouseDiffY == 0)
+    {
+        return;
+    }
+
+	const float fMaxAngularVelocity = DirectX::XM_PIDIV2 * fDeltaTimeSec;
+	m_fYaw += XMConvertToRadians(static_cast<float>(m_iMouseDiffX)) * fMaxAngularVelocity;
+    m_fPitch += XMConvertToRadians(static_cast<float>(m_iMouseDiffY)) * fMaxAngularVelocity;
+
+	m_iMouseDiffX = 0;
+	m_iMouseDiffY = 0;
+
+    //force the pitch to be constrained between -90 and 90 degrees
+
+    if (m_fPitch > DirectX::XM_PIDIV2)
+    {
+        m_fPitch = DirectX::XM_PIDIV2;
+    }
+    else if (m_fPitch < -DirectX::XM_PIDIV2)
+    {
+        m_fPitch = -DirectX::XM_PIDIV2;
+    }
+
+    if (m_fYaw > DirectX::XM_2PI)
+    {
+        m_fYaw -= DirectX::XM_2PI;
+    }
+    else if (m_fYaw < -DirectX::XM_2PI)
+    {
+        m_fYaw += DirectX::XM_2PI;
+    }
 }

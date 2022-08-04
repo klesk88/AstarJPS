@@ -26,21 +26,12 @@ public:
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
 	void Shutdown(CInputManager& rInputManager);
 
-	void Update();
+	void Update(const float fDeltaTimeSec);
 	void AddScene(std::unique_ptr<CSceneBase> rScene);
 	void RemoveScene(std::unique_ptr<CSceneBase>& rScene);
-	[[nodiscard]] double GetDeltaTime() const;
-
-private:
-	void StartCounter();
-	void UpdateTimer();
 
 private:
 	std::vector<std::unique_ptr<CSceneBase>> m_scenes;
-	long double m_ldInvFrequency = 0.f;
-	unsigned __int64 m_uLastTime = 0;
-	double m_dDeltaTime = 0.0;
-	double m_dUpdateTimeMs = 0.0;
 
 #if _DEBUG
 private:
@@ -52,5 +43,3 @@ private:
 	bool m_bDebugDemoPaused = false;
 #endif
 };
-
-inline double CGameManager::GetDeltaTime() const { return m_dDeltaTime; }

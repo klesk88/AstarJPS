@@ -20,11 +20,15 @@ public:
 	explicit CJPSCharacter(CGrid& rGrid);
 	~CJPSCharacter() = default;
 
+	//CCharacter
 	void Init(const int iStartCell, const int iTargetPos) override;
 	void Clear() override;
+	//CCharacter
 
 private:
+	//CCharacter
 	void PerformSearch(const int iTargetLocation) override;
+	//CCharacter
 
 #if _DEBUG
 public:

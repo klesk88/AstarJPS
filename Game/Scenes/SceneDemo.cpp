@@ -49,15 +49,22 @@ void CSceneDemo::Shutdown()
 	pEngine->GetRenderer().GetImguiEventHandler().Detach(m_imguiEventId);
 }
 
-void CSceneDemo::Update(const double dDeltaTime)
+void CSceneDemo::Update(const float fDeltaTimeSec)
 {
 	if (!m_bAllowEntityUpdate)
 	{
 		return;
 	}
 
-	m_aStarCharacter.Update(dDeltaTime);
-	m_jpsCharacter.Update(dDeltaTime);
+	m_fLastUpdateTime += fDeltaTimeSec;
+	if (m_fLastUpdateTime < m_fMaxWaitToUpdateRendering)
+	{
+		return;
+	}
+
+	m_fLastUpdateTime = 0.f;
+	m_aStarCharacter.Update(fDeltaTimeSec);
+	m_jpsCharacter.Update(fDeltaTimeSec);
 }
 
 void CSceneDemo::GenerateGridDesc()
@@ -202,6 +209,7 @@ void CSceneDemo::ImguiStartPathfinding()
 		return;
 	}
 
+	m_fLastUpdateTime = m_fMaxWaitToUpdateRendering;
 	m_bAllowEntityUpdate = true;
 	m_aStarCharacter.Clear();
 	m_jpsCharacter.Clear();
@@ -217,6 +225,7 @@ void CSceneDemo::ImguiClearPathfinding()
 		return;
 	}
 
+	m_fLastUpdateTime = 0.f;
 	m_bAllowEntityUpdate = false;
 	m_aStarCharacter.Clear();
 	m_jpsCharacter.Clear();

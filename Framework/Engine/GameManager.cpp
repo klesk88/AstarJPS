@@ -14,9 +14,6 @@
 
 void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
 {
-	m_dUpdateTimeMs = rConfig.GetGameUpdateTime();
-	StartCounter();
-
 #if _DEBUG
 	auto KeyboardEventCbk = [this](const CKeyboardEvent& rKeyboardEvent) -> void {
 		DebugOnKeyboardEvent(rKeyboardEvent);
@@ -32,18 +29,10 @@ void CGameManager::Shutdown(CInputManager& rInputManager)
 	m_scenes.clear();
 }
 
-void CGameManager::Update()
+void CGameManager::Update(const float fDeltaTimeSec)
 {
-	UpdateTimer();
-
 #if _DEBUG
 	if (m_bDebugDemoPaused)
-	{
-		return;
-	}
-
-	//we are debugging probably
-	if (m_dDeltaTime > 200.0)
 	{
 		return;
 	}
@@ -51,7 +40,7 @@ void CGameManager::Update()
 
 	for (std::unique_ptr<CSceneBase>& pScene : m_scenes)
 	{
-		pScene->Update(m_dDeltaTime);
+		pScene->Update(fDeltaTimeSec);
 	}
 }
 
@@ -73,29 +62,6 @@ void CGameManager::RemoveScene(std::unique_ptr<CSceneBase>& rScene)
 	{
 		m_scenes.erase(it);
 	}
-}
-
-void CGameManager::StartCounter()
-{
-	LARGE_INTEGER li;
-	if (!QueryPerformanceFrequency(&li))
-		ASSERT(false);
-
-	m_ldInvFrequency = 1.0 / li.QuadPart;
-
-	QueryPerformanceCounter(&li);
-	m_uLastTime = li.QuadPart;
-}
-
-void CGameManager::UpdateTimer()
-{
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	unsigned __int64 elapsed = time.QuadPart - m_uLastTime;
-	//transform in ms
-	elapsed *= 1000;
-	m_dDeltaTime = (double)(elapsed * m_ldInvFrequency);
-	m_uLastTime = time.QuadPart;
 }
 
 #if _DEBUG

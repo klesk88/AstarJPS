@@ -38,9 +38,9 @@ void CCameraManager::Shutdown(CInputManager& rInputManager)
 	rInputManager.KeyboardEvent.Detach(m_keyboardEventId);
 }
 
-void CCameraManager::Update()
+void CCameraManager::Update(const float fDeltaTimeSec)
 {
-	m_cameras[static_cast<int>(m_activeCameraType)]->Update();
+	m_cameras[static_cast<int>(m_activeCameraType)]->Update(fDeltaTimeSec);
 }
 
 void CCameraManager::OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)

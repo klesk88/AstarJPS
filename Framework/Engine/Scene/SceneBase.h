@@ -10,7 +10,7 @@ public:
 
 	virtual void Init();
 	virtual void Shutdown() = 0;
-	virtual void Update(const double dDeltaTime) = 0;
+	virtual void Update(const float fDeltaTimeSec) = 0;
 };
 
 inline void CSceneBase::Init() {}

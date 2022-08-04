@@ -20,7 +20,7 @@ void CCharacter::Init(const int iStartIndex, const int iTargetPos)
 	m_iCurrentPos = iStartIndex;
 	int iX, iY;
 	m_rGrid.GetCellXYFromIndex(iStartIndex, iX, iY);
-	m_Cube.AddCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
+	m_Cube.InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
 	m_Cube.Init();
 
 	m_rGrid.UpdateCharacterCollision(m_iCurrentPos, m_iCurrentPos, m_CollisionType);
@@ -37,7 +37,7 @@ void CCharacter::Clear()
 	m_iCurrentPos = -1;
 }
 
-void CCharacter::Update(const double dDeltaTime)
+void CCharacter::Update(const float fDeltaTimeSec)
 {
 	if (m_path.size() == 0)
 	{
@@ -45,7 +45,7 @@ void CCharacter::Update(const double dDeltaTime)
 	}
 
 	int iDesiredPos = m_path[m_path.size() - 1];
-	const int iNewPos = ComputeCurrentGridPos(iDesiredPos, static_cast<float>(dDeltaTime));
+	const int iNewPos = ComputeCurrentGridPos(iDesiredPos);
 	if (m_iCurrentPos == iNewPos)
 	{
 		return;
@@ -64,11 +64,11 @@ void CCharacter::Update(const double dDeltaTime)
 	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iX, iY);
 	
 	m_Cube.Reset();
-	m_Cube.AddCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
+	m_Cube.InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
 	m_Cube.Init();
 }
 
-int CCharacter::ComputeCurrentGridPos(const int iTargetCell, const float fDeltaTime)
+int CCharacter::ComputeCurrentGridPos(const int iTargetCell)
 {
 	//compute the position of the cube based on the delta time. Make sure to don t overshoot
 	//the node we need to currently reach.
@@ -79,8 +79,7 @@ int CCharacter::ComputeCurrentGridPos(const int iTargetCell, const float fDeltaT
 	Vector3 vDir = vDist;
 	vDir.Normalize();
 	
-	const float fDeltaOffset = fDeltaTime * m_fSpeed;
-	Vector3 vOffset = vDir * fDeltaOffset;
+	Vector3 vOffset = vDir * m_fSpeed;
 	m_Position += vOffset;
 
 	const int iNewCellPos = m_rGrid.GetIndexFromPos(m_Position);

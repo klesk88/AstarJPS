@@ -27,7 +27,9 @@ namespace JPS
 
 #if _DEBUG
 	public:
+		//CBaseNode
 		bool RenderImgui(const CGrid& rGrid, CSquare& rSquare) const override;
+		//CBaseNode
 
 	private: 
 		mutable bool m_bRenderForceNeigbours = false;
