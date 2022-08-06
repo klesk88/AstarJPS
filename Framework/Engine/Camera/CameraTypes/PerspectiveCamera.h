@@ -6,18 +6,16 @@
 //directx
 #include <directxmath.h>
 
-//std
-#include <vector>
-
-class CConfig;
 class CInputManager;
-class CMouseEvent;
 class CKeyboardEvent;
+class CMouseEvent;
+class CPerspectiveCameraConfig;
+class CWindowConfig;
 
 class CPerspectiveCamera final : public CBaseCamera
 {
 public:
-	explicit CPerspectiveCamera(const CConfig& rConfig, CInputManager& rInputManager);
+	explicit CPerspectiveCamera(const CWindowConfig& rConfig, const CPerspectiveCameraConfig& rCameraConfig, CInputManager& rInputManager);
 	~CPerspectiveCamera();
 
 	//CBaseCamera
@@ -41,7 +39,7 @@ private:
 	float m_fRoll = 0.f;
 	int m_iWindowHeight = 0;
 	int m_iWindowWidth = 0;
-	int m_iMouseDiffX = 0;
-	int m_iMouseDiffY = 0;
+	float m_iMouseDiffX = 0.f;
+	float m_iMouseDiffY = 0.g;
 	bool m_bRightMouseBtnpress = false;
 };

@@ -1,25 +1,30 @@
 #include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
 
+//framework
+#include "Framework/Engine/Camera/Config/CameraConfigBase.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
 #include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-CBaseCamera::CBaseCamera(const CConfig& rConfig, const Vector3& position, const Vector3& defaultUp, const Vector3& defaultFwd, const Vector3& defaultRight, CInputManager& rInputManager)
-	: m_DefaultUp(defaultUp)
-	, m_DefaultForward(defaultFwd)
-	, m_DefaultRight(defaultRight)
-	, m_vPosition(position)
+CBaseCamera::CBaseCamera(const CWindowConfig& rWindowConfig, const CCameraConfigBase& rCameraConfig, const eCameraTye cameraType, const Vector3& rPosition, const Vector3& rDefaultUp, const Vector3& rDefaultFwd, const Vector3& rDefaultRight, CInputManager& rInputManager)
+	: m_DefaultUp(rDefaultUp)
+	, m_DefaultForward(rDefaultFwd)
+	, m_DefaultRight(rDefaultRight)
+	, m_vPosition(rPosition)
+	, m_fMovementSpeed(rCameraConfig.GetMovementSpeed())
 	, m_dirPress(static_cast<int>(eDir::COUNT), false)
+	, m_CameraType(cameraType)
 {
-	const float screenAspect = static_cast<float>(rConfig.GetScreenWidth()) / static_cast<float>(rConfig.GetScreenHeight());
+	const float screenAspect = static_cast<float>(rWindowConfig.GetScreenWidth()) / static_cast<float>(rWindowConfig.GetScreenHeight());
 
 	m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(
-		rConfig.GetFOV(),
+		rCameraConfig.GetFOV(),
 		screenAspect,
-		rConfig.GetScreenNear(),
-		rConfig.GetScreenFar());
+		rWindowConfig.GetScreenNear(),
+		rWindowConfig.GetScreenFar());
 
 	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_projectionMatrix);
 	m_invProjMatrix = XMMatrixInverse(&determinant, m_projectionMatrix);

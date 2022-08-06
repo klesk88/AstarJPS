@@ -21,8 +21,8 @@ CEngine::CEngine()
 bool CEngine::Init()
 {
 	m_config.Load();
-	m_window.Init(m_config);
-	if (!m_renderer.Initialize(m_config, m_window.GetHWND()))
+	m_window.Init(m_config.GetWindowConfig());
+	if (!m_renderer.Initialize(m_config.GetWindowConfig(), m_window.GetHWND()))
 	{
 		return false;
 	}
@@ -111,7 +111,7 @@ float CEngine::Update()
         const CBaseCamera& rCurrentCamera = m_cameraManager.GetCurrentCamera();
         m_renderer.Update(rCurrentCamera.GetViewMatrix(), rCurrentCamera.GetProjMatrix());
 
-        m_renderer.PostUpdate(m_config.GetVSyncEnable());
+        m_renderer.PostUpdate(m_config.GetWindowConfig().GetVSyncEnable());
 	}
 
 	return fFrameTimeMs;

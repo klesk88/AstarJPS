@@ -1,24 +1,29 @@
 #include "Framework/Engine/Camera/CameraTypes/TopDownCamera.h"
 
-#include "Framework/Engine/Core/Config.h"
+//framework
+#include "Framework/Engine/Camera/Config/TopDownCameraConfig.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-CTopDownCamera::CTopDownCamera(const CConfig& rConfig, CInputManager& rInputManager)
-	: CBaseCamera(rConfig, Vector3(5.15f, 13.f, 5.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
+CTopDownCamera::CTopDownCamera(const CWindowConfig& rWindowConfig, const CTopDownCameraConfig& rCameraConfig, CInputManager& rInputManager)
+	: CBaseCamera(rWindowConfig, rCameraConfig, eCameraTye::TOP_DOWN, Vector3(5.15f, 13.f, 5.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
 {
-	const float fAspect = static_cast<float>(rConfig.GetScreenWidth()) / static_cast<float>(rConfig.GetScreenHeight());
+	const float fAspect = static_cast<float>(rWindowConfig.GetScreenWidth()) / static_cast<float>(rWindowConfig.GetScreenHeight());
 
 	m_OrthoMatrix = DirectX::XMMatrixOrthographicLH(
 		6.0f * fAspect,
 		6.0f,
-		rConfig.GetScreenNear(),
-		rConfig.GetScreenFar());
+		rWindowConfig.GetScreenNear(),
+		rWindowConfig.GetScreenFar());
 
 	XMVECTOR determinant = DirectX::XMMatrixDeterminant(m_OrthoMatrix);
 	m_InvOrthoMatrix = XMMatrixInverse(&determinant, m_OrthoMatrix);
+
+	m_fMouseWheelDelta = rCameraConfig.GetWheelDelta();
+	m_fWheelScale = rCameraConfig.GetWheelScale();
 }
 
 CTopDownCamera::~CTopDownCamera()

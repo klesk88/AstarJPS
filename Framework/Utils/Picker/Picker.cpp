@@ -4,6 +4,7 @@
 #include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
 #include "Framework/Engine/Collision/CollisionHelpers.h"
 #include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
 #include "Framework/Engine/Input/InputManager.h"
 
@@ -51,16 +52,17 @@ void CPicker::ComputeMouseStartEndPos(const CMouseEvent& rMouseEvent, Vector3& r
 {
 	CEngine* pEngine = CEngine::GetInstance();
 	const CConfig& rConfig = pEngine->GetConfig();
+	const CWindowConfig& rWindowConfig = rConfig.GetWindowConfig();
 	const CCameraManager& rCameraManager = pEngine->GetCameraManager();
 	const CBaseCamera& rBaseCamera = rCameraManager.GetCurrentCamera();
 	const Matrix viewTranInv = rBaseCamera.GetInvViewMatrix();
 	const Matrix projTranInv = rBaseCamera.GetInvProjMatrix();
-	const Vector3 nearPlane(rConfig.GetScreenNear(), rConfig.GetScreenNear(), rConfig.GetScreenNear());
-	const Vector3 farPlane(rConfig.GetScreenFar(), rConfig.GetScreenFar(), rConfig.GetScreenFar());
+	const Vector3 nearPlane(rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear());
+	const Vector3 farPlane(rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar());
 
 	//bring coordinates in the -1 1 space
-	const float fPointX = (rMouseEvent.GetPosX() / (rConfig.GetScreenWidth() * 0.5f)) - 1.f;
-	const float fPointY = 1.f - (rMouseEvent.GetPosY() / (rConfig.GetScreenHeight() * 0.5f));
+	const float fPointX = (rMouseEvent.GetPosX() / (rWindowConfig.GetScreenWidth() * 0.5f)) - 1.f;
+	const float fPointY = 1.f - (rMouseEvent.GetPosY() / (rWindowConfig.GetScreenHeight() * 0.5f));
 
 	Vector3 vMouseCameraNear(fPointX, fPointY, 1.f);
 	Vector3 vMouseCameraFar(fPointX, fPointY, 1.f);

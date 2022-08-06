@@ -20,8 +20,8 @@
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 
-class CConfig;
 class CDrawable3DBase;
+class CWindowConfig;
 
 class CRenderer
 {
@@ -31,7 +31,7 @@ public:
 	CRenderer() = default;
 	~CRenderer() = default;
 
-	[[nodiscard]] bool Initialize(const CConfig& rConfig, HWND hwnd);
+	[[nodiscard]] bool Initialize(const CWindowConfig& rWindowConfig, HWND hwnd);
 	void Shutdown();
 
 	void PreUpdate();
@@ -50,11 +50,11 @@ private:
 	[[nodiscard]] bool InitRasterState();
 	[[nodiscard]] bool InitDepthStancilState();
 	[[nodiscard]] bool InitDepthStencil();
-	[[nodiscard]] bool InitDepthBuffer(const CConfig& rConfig);
-	[[nodiscard]] bool InitSwapChain(const CConfig& rConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd);
+	[[nodiscard]] bool InitDepthBuffer(const CWindowConfig& rWindowConfig);
+	[[nodiscard]] bool InitSwapChain(const CWindowConfig& rWindowConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd);
 	[[nodiscard]] bool InitBackBufferPtr();
-	[[nodiscard]] bool InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator);
-	void InitDeviceContext(const CConfig& rConfig);
+	[[nodiscard]] bool InitAdapterAndFactory(const CWindowConfig& rWindowConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator);
+	void InitDeviceContext(const CWindowConfig& rWindowConfig);
 
 private:
 	CDrawableManager m_drawableManger;

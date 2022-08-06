@@ -43,6 +43,9 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{095e9b5a-6f87-4643-b669-8151435860c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera\CameraTypes\Config">
+      <UniqueIdentifier>{b1d30155-8c54-46db-9721-3ee8bb358f2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp" />
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Camera\CameraTypes\TopDownCamera.cpp">
       <Filter>Camera\CameraTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\WindowConfig.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +242,25 @@
     <ClInclude Include="Engine\Core\EventID.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Camera\Config\CameraConfigBase.h">
+      <Filter>Camera\CameraTypes\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Config\PerspectiveCameraConfig.h">
+      <Filter>Camera\CameraTypes\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Config\TopDownCameraConfig.h">
+      <Filter>Camera\CameraTypes\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\ConfigBase.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\WindowConfig.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\CameraTypes\CameraTypes.h">
+      <Filter>Camera\CameraTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\CameraManagerConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Core\SimpleMath.inl">

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Framework/Engine/Camera/CameraTypes/CameraTypes.h"
 #include "Framework/Engine/Core/Event.h"
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/WindowsPlatformCompilerSetup.h"
@@ -15,19 +16,12 @@ class CKeyboardEvent;
 
 class CCameraManager
 {
-private:
-	enum class eCameraTye : char
-	{
-		PERSPECTIVE = 0,
-		TOP_DOWN,
-
-		COUNT
-	};
-
 public:
 	CCameraManager() = default;
 	~CCameraManager();
 
+	//would be better to dont pass in the input manager and have the engine update the input and then pass 
+	//the current changes as an input struct to the cameras. However for this kind of demo this should be ok
 	void Init(const CConfig& rConfig, CInputManager& rInputManager);
 	void Shutdown(CInputManager& rInputManager);
 
@@ -43,8 +37,8 @@ private:
 
 private:
 	std::vector<std::unique_ptr<CBaseCamera>> m_cameras;
+	CBaseCamera* m_pCurrentCamera = nullptr;
 	CEventId m_keyboardEventId = CEventId::GetInvalidID();
-	eCameraTye m_activeCameraType = eCameraTye::TOP_DOWN;
 };
 
-inline const CBaseCamera& CCameraManager::GetCurrentCamera() const { return *m_cameras[static_cast<unsigned int>(m_activeCameraType)]; }
+inline const CBaseCamera& CCameraManager::GetCurrentCamera() const { return *m_pCurrentCamera; }

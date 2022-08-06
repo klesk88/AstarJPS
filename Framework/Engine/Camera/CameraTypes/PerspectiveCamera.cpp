@@ -1,17 +1,19 @@
 #include "Framework/Engine/Camera/CameraTypes/PerspectiveCamera.h"
 
-#include "Framework/Engine/Core/Config.h"
+//framework
+#include "Framework/Engine/Camera/Config/PerspectiveCameraConfig.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
 #include "Framework/Engine/Input/InputManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-CPerspectiveCamera::CPerspectiveCamera(const CConfig& rConfig, CInputManager& rInputManager)
-	: CBaseCamera(rConfig, Vector3(0.3f, 0.5f, -0.7f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
+CPerspectiveCamera::CPerspectiveCamera(const CWindowConfig& rWindowConfig, const CPerspectiveCameraConfig& rCameraConfig, CInputManager& rInputManager)
+	: CBaseCamera(rWindowConfig, rCameraConfig, eCameraTye::PERSPECTIVE, Vector3(0.3f, 0.5f, -0.7f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
 {
-	m_iWindowHeight = rConfig.GetScreenHeight();
-	m_iWindowWidth = rConfig.GetScreenWidth();
+	m_iWindowHeight = rWindowConfig.GetScreenHeight();
+	m_iWindowWidth = rWindowConfig.GetScreenWidth();
 }
 
 CPerspectiveCamera::~CPerspectiveCamera()

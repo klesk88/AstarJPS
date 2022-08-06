@@ -1,6 +1,6 @@
 #include "Framework/Engine/Render/Renderer.h"
 
-#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Utils/DebugMacros.h"
 
 //directx
@@ -8,17 +8,17 @@
 
 using namespace DirectX::SimpleMath;
 
-bool CRenderer::Initialize(const CConfig& rConfig, HWND hwnd)
+bool CRenderer::Initialize(const CWindowConfig& rWindowConfig, HWND hwnd)
 {
 	unsigned int uNumerator = 0;
 	unsigned int uDenominator = 0;
 
-	if(!InitAdapterAndFactory(rConfig, uNumerator, uDenominator))
+	if(!InitAdapterAndFactory(rWindowConfig, uNumerator, uDenominator))
 	{
 		return false;
 	}
 
-	if (!InitSwapChain(rConfig, uNumerator, uDenominator, hwnd))
+	if (!InitSwapChain(rWindowConfig, uNumerator, uDenominator, hwnd))
 	{
 		return false;
 	}
@@ -28,7 +28,7 @@ bool CRenderer::Initialize(const CConfig& rConfig, HWND hwnd)
 		return false;
 	}
 
-	if (!InitDepthBuffer(rConfig))
+	if (!InitDepthBuffer(rWindowConfig))
 	{
 		return false;
 	}
@@ -53,7 +53,7 @@ bool CRenderer::Initialize(const CConfig& rConfig, HWND hwnd)
 		return false;
 	}
 
-	InitDeviceContext(rConfig);
+	InitDeviceContext(rWindowConfig);
 	m_imguiManager.InitImgui(hwnd, *m_pDevice, *m_pDeviceContext);
 
 	return true;
@@ -210,14 +210,14 @@ bool CRenderer::InitDepthStencil()
 	return SUCCEEDED(result);
 }
 
-bool CRenderer::InitDepthBuffer(const CConfig& rConfig)
+bool CRenderer::InitDepthBuffer(const CWindowConfig& rWindowConfig)
 {
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
 	// Set up the description of the depth buffer.
-	depthBufferDesc.Width = rConfig.GetScreenWidth();
-	depthBufferDesc.Height = rConfig.GetScreenHeight();
+	depthBufferDesc.Width = rWindowConfig.GetScreenWidth();
+	depthBufferDesc.Height = rWindowConfig.GetScreenHeight();
 	depthBufferDesc.MipLevels = 1;
 	depthBufferDesc.ArraySize = 1;
 	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -233,7 +233,7 @@ bool CRenderer::InitDepthBuffer(const CConfig& rConfig)
 	return SUCCEEDED(result);
 }
 
-bool CRenderer::InitSwapChain(const CConfig& rConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd)
+bool CRenderer::InitSwapChain(const CWindowConfig& rWindowConfig, const unsigned int uNumerator, const unsigned int uDenominator, HWND hwnd)
 {
 	HRESULT result;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -245,14 +245,14 @@ bool CRenderer::InitSwapChain(const CConfig& rConfig, const unsigned int uNumera
 	swapChainDesc.BufferCount = 1;
 
 	// Set the width and height of the back buffer.
-	swapChainDesc.BufferDesc.Width = rConfig.GetScreenWidth();
-	swapChainDesc.BufferDesc.Height = rConfig.GetScreenHeight();
+	swapChainDesc.BufferDesc.Width = rWindowConfig.GetScreenWidth();
+	swapChainDesc.BufferDesc.Height = rWindowConfig.GetScreenHeight();
 
 	// Set regular 32-bit surface for the back buffer.
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// Set the refresh rate of the back buffer.
-	if (rConfig.GetVSyncEnable())
+	if (rWindowConfig.GetVSyncEnable())
 	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = uNumerator;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = uDenominator;
@@ -274,7 +274,7 @@ bool CRenderer::InitSwapChain(const CConfig& rConfig, const unsigned int uNumera
 	swapChainDesc.SampleDesc.Quality = 0;
 
 	// Set to full screen or windowed mode.
-	if (rConfig.IsFullScreen())
+	if (rWindowConfig.IsFullScreen())
 	{
 		swapChainDesc.Windowed = false;
 	}
@@ -327,7 +327,7 @@ bool CRenderer::InitBackBufferPtr()
 	return true;
 }
 
-bool CRenderer::InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator)
+bool CRenderer::InitAdapterAndFactory(const CWindowConfig& rWindowConfig, unsigned int& ruOutNumerator, unsigned int& ruOutDenominator)
 {
 	HRESULT result;
 	IDXGIFactory* pFactory;
@@ -387,9 +387,9 @@ bool CRenderer::InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOu
 	// When a match is found store the numerator and denominator of the refresh rate for that monitor.
 	for (unsigned i = 0; i < uNumModes; i++)
 	{
-		if (pDisplayModeList[i].Width == (unsigned int)rConfig.GetScreenWidth())
+		if (pDisplayModeList[i].Width == (unsigned int)rWindowConfig.GetScreenWidth())
 		{
-			if (pDisplayModeList[i].Height == (unsigned int)rConfig.GetScreenHeight())
+			if (pDisplayModeList[i].Height == (unsigned int)rWindowConfig.GetScreenHeight())
 			{
 				ruOutNumerator = pDisplayModeList[i].RefreshRate.Numerator;
 				ruOutDenominator = pDisplayModeList[i].RefreshRate.Denominator;
@@ -432,7 +432,7 @@ bool CRenderer::InitAdapterAndFactory(const CConfig& rConfig, unsigned int& ruOu
 	return true;
 }
 
-void CRenderer::InitDeviceContext(const CConfig& rConfig)
+void CRenderer::InitDeviceContext(const CWindowConfig& rWindowConfig)
 {
 	// Set the depth stencil state.
 	m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
@@ -449,8 +449,8 @@ void CRenderer::InitDeviceContext(const CConfig& rConfig)
 	D3D11_VIEWPORT viewport = CD3D11_VIEWPORT(
 		0.f,
 		0.f,
-		static_cast<float>(rConfig.GetScreenWidth()),
-		static_cast<float>(rConfig.GetScreenHeight()));
+		static_cast<float>(rWindowConfig.GetScreenWidth()),
+		static_cast<float>(rWindowConfig.GetScreenHeight()));
 
 	// Create the viewport.
 	m_pDeviceContext->RSSetViewports(1, &viewport);

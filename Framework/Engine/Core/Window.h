@@ -5,7 +5,7 @@
 //windows
 #include <windows.h>
 
-class CConfig;
+class CWindowConfig;
 
 //class which represent the window we render
 //on screen
@@ -15,7 +15,7 @@ public:
 	CWindow();
 	~CWindow() = default;
 
-	void Init(CConfig& rConfig);
+	void Init(const CWindowConfig& rConfig);
 	[[nodiscard]] HWND GetHWND();
 	[[nodiscard]] HINSTANCE GetInstance();
 

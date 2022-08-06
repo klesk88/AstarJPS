@@ -1,6 +1,6 @@
 #include "Framework/Engine/Core/Window.h"
 
-#include "Framework/Engine/Core/Config.h"
+#include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
 #include "Framework/Utils/Imgui/imgui.h"
 #include "Framework/Utils/Imgui/imgui_impl_win32.h"
@@ -57,7 +57,7 @@ CWindow::CWindow()
 	: m_applicationName("Demo")
 {}
 
-void CWindow::Init(CConfig& rConfig)
+void CWindow::Init(const CWindowConfig& rConfig)
 {
 	WNDCLASSEX wc;
 	DEVMODE dmScreenSettings;

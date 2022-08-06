@@ -102,7 +102,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>DXSDK_DIRLib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -150,6 +150,7 @@
     <ClCompile Include="Engine\Core\Config.cpp" />
     <ClCompile Include="Engine\Core\Timer.cpp" />
     <ClCompile Include="Engine\Core\Window.cpp" />
+    <ClCompile Include="Engine\Core\WindowConfig.cpp" />
     <ClCompile Include="Engine\Drawables\Drawable3DBase.cpp" />
     <ClCompile Include="Engine\Drawables\DrawableManager.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -172,17 +173,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera\CameraManager.h" />
+    <ClInclude Include="Engine\Camera\CameraManagerConfig.h" />
     <ClInclude Include="Engine\Camera\CameraTypes\BaseCamera.h" />
+    <ClInclude Include="Engine\Camera\CameraTypes\CameraTypes.h" />
     <ClInclude Include="Engine\Camera\CameraTypes\TopDownCamera.h" />
     <ClInclude Include="Engine\Camera\CameraTypes\PerspectiveCamera.h" />
+    <ClInclude Include="Engine\Camera\Config\CameraConfigBase.h" />
+    <ClInclude Include="Engine\Camera\Config\PerspectiveCameraConfig.h" />
+    <ClInclude Include="Engine\Camera\Config\TopDownCameraConfig.h" />
     <ClInclude Include="Engine\Collision\CollisionHelpers.h" />
     <ClInclude Include="Engine\common_includes.h" />
     <ClInclude Include="Engine\Core\Config.h" />
+    <ClInclude Include="Engine\Core\ConfigBase.h" />
     <ClInclude Include="Engine\Core\Event.h" />
     <ClInclude Include="Engine\Core\EventID.h" />
     <ClInclude Include="Engine\Core\SimpleMath.h" />
     <ClInclude Include="Engine\Core\Timer.h" />
     <ClInclude Include="Engine\Core\Window.h" />
+    <ClInclude Include="Engine\Core\WindowConfig.h" />
     <ClInclude Include="Engine\Drawables\Drawable3DBase.h" />
     <ClInclude Include="Engine\Drawables\DrawableManager.h" />
     <ClInclude Include="Engine\Engine.h" />
