@@ -67,12 +67,6 @@
     <ClCompile Include="Engine\Shaders\ShaderBase.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\KeyboardEvent.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Input\MouseEvent.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera\CameraManager.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
@@ -127,6 +121,11 @@
     <ClCompile Include="Engine\Core\WindowConfig.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Input\KeyboardMouse\InputHandler_KeyboardMouse.cpp" />
+    <ClCompile Include="Engine\Input\KeyboardMouse\Mouse\InputMouseState.cpp" />
+    <ClCompile Include="Engine\Input\KeyboardMouse\Keyboard\InputKeyboardState.cpp" />
+    <ClCompile Include="Engine\Input\Button\InputButton.cpp" />
+    <ClCompile Include="Engine\Input\State\InputStateBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h" />
@@ -159,12 +158,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Core\Event.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input\KeyboardEvent.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input\MouseEvent.h">
-      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\CameraManager.h">
       <Filter>Camera</Filter>
@@ -261,6 +254,20 @@
       <Filter>Camera\CameraTypes</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\CameraManagerConfig.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\InputKeyboardState.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\InputMouseState.h" />
+    <ClInclude Include="Engine\Input\InputHandlerBase.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\Keyboard\KeyboardKeyCodes.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\Mouse\MouseKeyCodes.h" />
+    <ClInclude Include="Engine\Input\InputHandlerTypes.h" />
+    <ClInclude Include="Engine\ManagerUpdateInput.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\Mouse\InputMouseState.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\Keyboard\InputKeyboardState.h" />
+    <ClInclude Include="Engine\Input\InputMessage.h" />
+    <ClInclude Include="Engine\Input\Button\InputButton.h" />
+    <ClInclude Include="Engine\Input\State\InputStateBase.h" />
+    <ClInclude Include="Engine\Input\KeyboardMouse\InputHandler_KeyboardMouse.h" />
+    <ClInclude Include="Engine\Input\InputCommonIncludes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Core\SimpleMath.inl">

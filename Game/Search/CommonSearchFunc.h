@@ -97,11 +97,11 @@ namespace CommonSearch
 			std::vector<int> newNodesInexes;
 			newNodesInexes.reserve(rInput.GetExpectedNewCellsCountPerIter());
 
-			int endX, endY;
-			rGrid.GetCellXYFromIndex(rInput.GetTargetIndex(), endX, endY);
+			int iEndX, iEndY = 0;
+			rGrid.GetCellXYFromIndex(rInput.GetTargetIndex(), iEndX, iEndY);
 
-			int iNeighbourX, iNeighbourY;
-			int iCurrentCellX, iCurrentCellY;
+			int iNeighbourX, iNeighbourY = 0;
+			int iCurrentCellX, iCurrentCellY = 0;
 
 			while (!openSet.empty())
 			{
@@ -135,7 +135,7 @@ namespace CommonSearch
 						continue;
 					}
 
-					const float fHNew = rInput.m_ComputeHValueFunc(endX, endY, iNeighbourX, iNeighbourY);
+					const float fHNew = rInput.m_ComputeHValueFunc(iEndX, iEndY, iNeighbourX, iNeighbourY);
 
 					cellDetails[iNeighbourCell].SetGScore(fGNew);
 					cellDetails[iNeighbourCell].SetHScore(fHNew);

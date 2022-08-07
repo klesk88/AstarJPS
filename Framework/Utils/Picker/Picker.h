@@ -7,8 +7,8 @@
 #include "Framework/Utils/ClassMacros.h"
 #include "Framework/Utils/Picker/PickerEvent.h"
 
-class CInputManager;
-class CMouseEvent;
+class CInputMouseState;
+class CManagerUpdateInput;
 
 class CPicker
 {
@@ -21,19 +21,10 @@ public:
 	CPicker() = default;
 	~CPicker() = default; 
 
-	void Init(CInputManager& rInputManager);
-	void Shutdown(CInputManager& rInputManager);
-	void Update();
+	void Init();
+	void Shutdown();
+	void Update(const CManagerUpdateInput& rInput);
 
 private:
-	void OnMouseEvent(const CMouseEvent& rMouseEvent);
-	void HandleMouseBtnUp(const CMouseEvent& rMouseEvent);
-
-	void ComputeMouseStartEndPos(const CMouseEvent& rMouseEvent, DirectX::SimpleMath::Vector3& rOutStart, DirectX::SimpleMath::Vector3& rOutEnd) const;
-
-private:
-	CEventId m_mouseEventId = CEventId::GetInvalidID();
-	DirectX::SimpleMath::Vector3 m_vStartPos;
-	DirectX::SimpleMath::Vector3 m_vEndPos;
-	bool m_bNewEvent = false;
+	void ComputeMouseStartEndPos(const CInputMouseState& rMouseState, DirectX::SimpleMath::Vector3& rOutStart, DirectX::SimpleMath::Vector3& rOutEnd) const;
 };

@@ -1,12 +1,15 @@
 #include "GridDrawable.h"
 
-#include <DirectXColors.h>
-
-#include "Game/Scenes/Grid.h"
-
+//framework
 #include "Framework/Engine/Camera/CameraManager.h"
 #include "Framework/Engine/Core/Config.h"
 #include "Framework/Engine/Engine.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+
+//directx
+#include <DirectXColors.h>
 
 using namespace DirectX::SimpleMath;
 

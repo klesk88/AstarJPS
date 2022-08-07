@@ -3,6 +3,7 @@
 #include "Framework/Engine/Core/Config.h"
 #include "Framework/Engine/Engine.h"
 #include "Framework/Engine/Input/InputManager.h"
+#include "Framework/Engine/ManagerUpdateInput.h"
 #include "Framework/Engine/Scene/SceneBase.h"
 #include "Framework/Utils/DebugMacros.h"
 
@@ -12,26 +13,23 @@
 //std
 #include <algorithm>
 
-void CGameManager::Init(const CConfig& rConfig, CInputManager& rInputManager)
-{
 #if _DEBUG
-	auto KeyboardEventCbk = [this](const CKeyboardEvent& rKeyboardEvent) -> void {
-		DebugOnKeyboardEvent(rKeyboardEvent);
-	};
-
-	m_DebugKeyboardEventId = rInputManager.KeyboardEvent.Attach(KeyboardEventCbk);
+#include "Framework/Engine/Input/KeyboardMouse/Keyboard/InputKeyboardState.h"
 #endif
+
+void CGameManager::Init(const CConfig& rConfig)
+{
 }
 
-void CGameManager::Shutdown(CInputManager& rInputManager)
+void CGameManager::Shutdown()
 {
-	DEBUG_ONLY(rInputManager.KeyboardEvent.Detach(m_DebugKeyboardEventId);)
 	m_scenes.clear();
 }
 
-void CGameManager::Update(const float fDeltaTimeSec)
+void CGameManager::Update(const CManagerUpdateInput& rInput)
 {
 #if _DEBUG
+	DebugOnKeyDown(rInput);
 	if (m_bDebugDemoPaused)
 	{
 		return;
@@ -40,7 +38,7 @@ void CGameManager::Update(const float fDeltaTimeSec)
 
 	for (std::unique_ptr<CSceneBase>& pScene : m_scenes)
 	{
-		pScene->Update(fDeltaTimeSec);
+		pScene->Update(rInput.GetDeltaTime());
 	}
 }
 
@@ -66,26 +64,13 @@ void CGameManager::RemoveScene(std::unique_ptr<CSceneBase>& rScene)
 
 #if _DEBUG
 
-void CGameManager::DebugOnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent)
+void CGameManager::DebugOnKeyDown(const CManagerUpdateInput& rInput)
 {
-	switch (rKeyboardEvent.GetType())
+	const CInputKeyboardState& rKeyboardState = rInput.GetKeyboardState();
+	if (rKeyboardState.WasPressed(KeyboardKeyCodes::KeyCodes::KEY_P))
 	{
-	case CKeyboardEvent::EventType::KEYDOWN:
-		DebugOnKeyDown(rKeyboardEvent);
-		break;
-	default:
-		break;
+		m_bDebugDemoPaused = !m_bDebugDemoPaused;
 	}
-}
-
-void CGameManager::DebugOnKeyDown(const CKeyboardEvent& rKeyboardEvent)
-{
-	if (rKeyboardEvent.WasAlreadyPressed() || rKeyboardEvent.GetKeyCode() != CKeyboardEvent::KeyCodes::KEY_P)
-	{
-		return;
-	}
-
-	m_bDebugDemoPaused = !m_bDebugDemoPaused;
 }
 
 #endif

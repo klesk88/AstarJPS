@@ -1,46 +1,43 @@
 #pragma once
 
-#define DIRECTINPUT_VERSION 0x0800
-
 #include "Framework/Engine/Core/Event.h"
-#include "Framework/Engine/Input/KeyboardEvent.h"
-#include "Framework/Engine/Input/MouseEvent.h"
+#include "Framework/Engine/Input/InputHandlerBase.h"
+#include "Framework/Engine/Input/InputHandlerTypes.h"
 #include "Framework/Utils/ClassMacros.h"
 
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
+//windows
+#include <windows.h>
 
-//input
-#include <dinput.h>
+//std
+#include <memory>
+#include <vector>
 
 #include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 class CConfig;
+class CInputKeyboardState;
+class CInputHandlerBase;
+class CInputMouseState;
 
 class CInputManager
 {
 	NON_COPYABLE_CLASS(CInputManager)
 
 public:
-	CEventHandler<CMouseEvent> MouseEvent;
-	CEventHandler<CKeyboardEvent> KeyboardEvent;
+	CInputManager();
+	~CInputManager();
 
-public:
-	CInputManager() = default;
-	~CInputManager() = default;
+	void Init();
+	void Update(const float fDeltaTime);
+	void EndFrame();
+	void Shutdown();
 	
-	[[nodiscard]] bool HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	void HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	
 	[[nodiscard]] bool IsEscapePressed() const;
+	[[nodiscard]] const CInputKeyboardState* GetKeyboardState() const;
+	[[nodiscard]] const CInputMouseState* GetMouseState() const;
 
 private:
-	[[nodiscard]] bool HandleMouseMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
-	[[nodiscard]] bool HandleKeyboardMessages(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
-
-private:
-	int m_iMouseX = INT32_MAX;
-	int m_iMouseY = INT32_MAX;
-	bool m_bTrackingMouse = false;
-	bool m_bEscapePress = false;
+	std::vector<std::unique_ptr<CInputHandlerBase>> m_inputManagers;
 };
-
-inline bool CInputManager::IsEscapePressed() const { return m_bEscapePress; }

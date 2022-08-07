@@ -3,6 +3,7 @@
 //framework
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/DebugMacros.h"
 
 //game
 #include "Game/Drawables/Cube.h"
@@ -80,6 +81,15 @@ inline int CGrid::GetGridCellSize() const { return static_cast<int>(m_gridCells.
 inline int CGrid::GetIndexFromXY(const int iX, const int iY) const { return (iY * m_iXSize) + iX; }
 inline const DirectX::SimpleMath::Vector3& CGrid::GetMin() const { return m_vMin; }
 inline const DirectX::SimpleMath::Vector3& CGrid::GetMax() const { return m_vMax; }
+
+inline void CGrid::UpdateCharacterCollision(const int iOldPos, const int iNewPos, const eCollisionType collision)
+{
+    ASSERT(!IsCollidingWithObstacle(iOldPos));
+    ASSERT(!IsCollidingWithObstacle(iNewPos));
+
+    m_gridCells[iOldPos] = eCollisionType::COUNT;
+    m_gridCells[iNewPos] = collision;
+}
 
 inline bool CGrid::IsInsideGrid(const int iX, const int iY) const
 {

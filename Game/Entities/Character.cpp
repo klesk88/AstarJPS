@@ -76,30 +76,29 @@ int CCharacter::ComputeCurrentGridPos(const int iTargetCell)
 	const Vector3 vTargetCellPos = m_rGrid.GetCellCenter(iTargetCell);
 	const Vector3 vCurrentCellCenter = m_rGrid.GetCellCenter(m_iCurrentPos);
 	const Vector3 vDist = vTargetCellPos - vCurrentCellCenter;
-	Vector3 vDir = vDist;
-	vDir.Normalize();
-	
-	Vector3 vOffset = vDir * m_fSpeed;
-	m_Position += vOffset;
-
-	const int iNewCellPos = m_rGrid.GetIndexFromPos(m_Position);
-	if (iNewCellPos ==  m_iCurrentPos)
+    int iOldX, iOldY;
+    m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iOldX, iOldY);
+    int iXDir = 1;
+    int iYDir = 1;
+	if (vDist.x < 0.f)
 	{
-		return m_rGrid.GetIndexFromPos(m_Position);
+		iXDir = -1;
+	}
+	else if (vDist.x == 0.f)
+	{
+		iXDir = 0;
 	}
 
-	//make sure now that we are in the cell we expect if we change one
-	//we can have rounding problems with small values which can cause us to jump
-	//in the wrong cell adjacent to the one we want
-	int iOldX, iOldY, iNewX, iNewY;
-	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iOldX, iOldY);
-	m_rGrid.GetCellXYFromIndex(iNewCellPos, iNewX, iNewY);
-	const int iXDir = Helpers::Sign(vDir.x);
-	const int iYDir = Helpers::Sign(vDir.z);
-	iOldX += iXDir;
-	iOldY += iYDir;
-	m_Position = m_rGrid.GetCellCenter(m_rGrid.GetIndexFromXY(iOldX, iOldY));
-
+    if (vDist.z < 0.f)
+    {
+		iYDir = -1;
+    }
+    else if (vDist.z == 0.f)
+    {
+		iYDir = 0;
+    }
+	
+	m_Position = m_rGrid.GetCellCenter(m_rGrid.GetIndexFromXY(iOldX + iXDir, iOldY + iYDir));
 	return m_rGrid.GetIndexFromPos(m_Position);
 }
 

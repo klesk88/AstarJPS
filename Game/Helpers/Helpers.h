@@ -38,13 +38,8 @@ namespace Helpers
 #undef max
 #undef min
 	template <typename T>
-	[[nodiscard]] constexpr T clamp(const T& n, const T& lower, const T& upper)
+	[[nodiscard]] inline constexpr T clamp(const T& n, const T& lower, const T& upper)
 	{
 		return std::max(lower, std::min(n, upper));
-	}
-
-	[[nodiscard]] inline constexpr int Sign(float x)
-	{
-		return (x > 0.f) - (x < 0.f);
 	}
 }

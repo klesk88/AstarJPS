@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Framework/Engine/Camera/CameraTypes/CameraTypes.h"
-#include "Framework/Engine/Core/Event.h"
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/ClassMacros.h"
 
@@ -12,9 +11,7 @@
 #include <vector>
 
 class CCameraConfigBase;
-class CInputManager;
-class CKeyboardEvent;
-class CMouseEvent;
+class CManagerUpdateInput;
 class CWindowConfig;
 
 class CBaseCamera
@@ -22,28 +19,15 @@ class CBaseCamera
 	NON_COPYABLE_CLASS(CBaseCamera)
 
 protected:
-	enum class eDir : char
-	{
-		UP = 0,
-		DOWN,
-		LEFT,
-		RIGHT,
-		FORWARD,
-		BACKWARDS,
-
-		COUNT
-	};
-
-protected:
     //constructor can be accesses only by the children
-    explicit CBaseCamera(const CWindowConfig& rWindowConfig, const CCameraConfigBase& rCameraConfig, const eCameraTye cameraType, const DirectX::SimpleMath::Vector3& rPosition, const DirectX::SimpleMath::Vector3& rDefaultUp, const DirectX::SimpleMath::Vector3& rDefaultFwd, const DirectX::SimpleMath::Vector3& rDefaultRight, CInputManager& rInputManager);
+    explicit CBaseCamera(const CWindowConfig& rWindowConfig, const CCameraConfigBase& rCameraConfig, const eCameraTye cameraType, const DirectX::SimpleMath::Vector3& rPosition, const DirectX::SimpleMath::Vector3& rDefaultUp, const DirectX::SimpleMath::Vector3& rDefaultFwd, const DirectX::SimpleMath::Vector3& rDefaultRight);
 
 public:
-	virtual ~CBaseCamera();
+	virtual ~CBaseCamera() = default;
 
-	virtual void Update(const float fDeltaTime) = 0;
-
-	void Shutdown(CInputManager& rInputManager);
+    void Shutdown();
+	
+	virtual void Update(const CManagerUpdateInput& rInput) = 0;
 
 	[[nodiscard]] const DirectX::SimpleMath::Matrix& GetViewMatrix() const;
 	[[nodiscard]] const DirectX::SimpleMath::Matrix& GetInvViewMatrix() const;
@@ -56,16 +40,8 @@ public:
 	void ClearActive();
 	[[nodiscard]] bool IsActive() const;
 
-	void UpdateKeyEvent(const CKeyboardEvent& rKeyboardEvent, const bool bEnableDir);
-
 protected:
-	virtual void OnMouseEvent(const CMouseEvent& /*rMouseEvent*/) {}
-	virtual void UpdatePositionOffset(const float fDeltaTimeSec, DirectX::SimpleMath::Vector3& rOutOffset);
-
-private:
-	void OnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
-	void OnKeyUp(const CKeyboardEvent& rKeyboardEvent);
-	void OnKeyDown(const CKeyboardEvent& rKeyboardEvent);
+	virtual void UpdatePositionOffset(const CManagerUpdateInput& rInput, DirectX::SimpleMath::Vector3& rOutOffset);
 
 protected:
     DirectX::SimpleMath::Matrix m_viewMatrix = DirectX::XMMatrixIdentity();
@@ -77,11 +53,8 @@ protected:
 	float m_fMovementSpeed = 10.f;
 
 private:
-	std::vector<bool> m_dirPress;
 	DirectX::SimpleMath::Matrix m_projectionMatrix = DirectX::XMMatrixIdentity();
 	DirectX::SimpleMath::Matrix m_invProjMatrix = DirectX::XMMatrixIdentity();
-	CEventId m_KeyboardEventId = CEventId::GetInvalidID();
-	CEventId m_MouseEventId = CEventId::GetInvalidID();
 	eCameraTye m_CameraType = eCameraTye::COUNT;
 	bool m_bIsActive = false;
 };

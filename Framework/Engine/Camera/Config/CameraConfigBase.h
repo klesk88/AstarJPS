@@ -19,7 +19,7 @@ public:
     CCameraConfigBase() = default;
     ~CCameraConfigBase() = default;
     
-    [[nodiscard]] virtual std::unique_ptr<CBaseCamera> GetCameraInstance(const CWindowConfig& rWindowConfig, CInputManager& rInputManager) const = 0;
+    [[nodiscard]] virtual std::unique_ptr<CBaseCamera> GetCameraInstance(const CWindowConfig& rWindowConfig) const = 0;
 
     [[nodiscard]] float GetMovementSpeed() const;
     [[nodiscard]] float GetFOV() const;

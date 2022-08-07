@@ -12,8 +12,8 @@
 #include <vector>
 
 class CConfig;
-class CInputManager;
 class CKeyboardEvent;
+class CManagerUpdateInput;
 
 //this class contains all the scenes currently running, or which will need to run
 //if a scene is not needed anymore it will be remove
@@ -23,10 +23,10 @@ public:
 	CGameManager() = default;
 	~CGameManager() = default;
 
-	void Init(const CConfig& rConfig, CInputManager& rInputManager);
-	void Shutdown(CInputManager& rInputManager);
+	void Init(const CConfig& rConfig);
+	void Shutdown();
 
-	void Update(const float fDeltaTimeSec);
+	void Update(const CManagerUpdateInput& rInput);
 	void AddScene(std::unique_ptr<CSceneBase> rScene);
 	void RemoveScene(std::unique_ptr<CSceneBase>& rScene);
 
@@ -36,7 +36,7 @@ private:
 #if _DEBUG
 private:
 	void DebugOnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
-	void DebugOnKeyDown(const CKeyboardEvent& rKeyboardEvent);
+	void DebugOnKeyDown(const CManagerUpdateInput& rInput);
 
 private:
 	CEventId m_DebugKeyboardEventId = CEventId::GetInvalidID();

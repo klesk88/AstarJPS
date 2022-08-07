@@ -2,6 +2,7 @@
 
 #include "Framework/Engine/Camera/CameraTypes/BaseCamera.h"
 #include "Framework/Engine/Core/Timer.h"
+#include "Framework/Engine/ManagerUpdateInput.h"
 #include "Framework/Utils/DebugMacros.h"
 #include "Framework/Utils/Imgui/imgui.h"
 
@@ -27,9 +28,10 @@ bool CEngine::Init()
 		return false;
 	}
 
-	m_cameraManager.Init(m_config, m_inputManager);
-	m_picker.Init(m_inputManager);
-	m_gameManager.Init(m_config, m_inputManager);
+	m_inputManager.Init();
+	m_cameraManager.Init(m_config);
+	m_picker.Init();
+	m_gameManager.Init(m_config);
 	m_imguiEventId = GetRenderer().GetImguiEventHandler().Attach([this]() { OnImguiUpdate(); });
 	return true;
 }
@@ -57,9 +59,10 @@ void CEngine::Shutdown()
 {
 	GetRenderer().GetImguiEventHandler().Detach(m_imguiEventId);
 
-	m_cameraManager.Shutdown(m_inputManager);
-	m_gameManager.Shutdown(m_inputManager);
-	m_picker.Shutdown(m_inputManager);
+	m_gameManager.Shutdown();
+    m_picker.Shutdown();
+	m_cameraManager.Shutdown();
+	m_inputManager.Shutdown();
 	m_renderer.Shutdown();
 }
 
@@ -104,14 +107,23 @@ float CEngine::Update()
 
         m_renderer.PreUpdate();
 
-        m_cameraManager.Update(m_flastDeltaTimeSec);
-        m_picker.Update();
-        m_gameManager.Update(m_flastDeltaTimeSec);
+		m_inputManager.Update(m_flastDeltaTimeSec);
+
+		const CInputKeyboardState* pKeyboardState = m_inputManager.GetKeyboardState();
+        const CInputMouseState* pMouseState = m_inputManager.GetMouseState();
+
+		const CManagerUpdateInput updateInput{*pKeyboardState , *pMouseState, m_flastDeltaTimeSec };
+
+        m_cameraManager.Update(updateInput);
+        m_picker.Update(updateInput);
+        m_gameManager.Update(updateInput);
 
         const CBaseCamera& rCurrentCamera = m_cameraManager.GetCurrentCamera();
         m_renderer.Update(rCurrentCamera.GetViewMatrix(), rCurrentCamera.GetProjMatrix());
 
         m_renderer.PostUpdate(m_config.GetWindowConfig().GetVSyncEnable());
+
+		m_inputManager.EndFrame();
 	}
 
 	return fFrameTimeMs;

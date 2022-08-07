@@ -3,6 +3,9 @@
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
+//std
+#include <utility>
+
 namespace CollisionHelpers
 {
 	[[nodiscard]] constexpr bool IsRayIntersectingCube(const DirectX::SimpleMath::Vector3& rOrigin, const DirectX::SimpleMath::Vector3& rDir, const DirectX::SimpleMath::Vector3& rCubeMin, const DirectX::SimpleMath::Vector3& rCubeMax, float& rfOutDistance)

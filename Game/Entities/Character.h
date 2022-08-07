@@ -43,7 +43,7 @@ private:
 	CCube m_Cube;
 	const CGrid::eCollisionType m_CollisionType = CGrid::eCollisionType::COUNT;
 	const DirectX::SimpleMath::Color m_Color;
-	static constexpr float m_fSpeed = 1.3f;
+	static constexpr float m_fSpeed = 0.1f;
 	DirectX::SimpleMath::Vector3 m_Position;
 	int m_iTargetPos = -1;
 

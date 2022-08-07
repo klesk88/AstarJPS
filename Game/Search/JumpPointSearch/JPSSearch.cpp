@@ -16,7 +16,6 @@ namespace JPS
 		: CSearchInput(40, rGrid, iStartLocation, iEndLocation, rOutPath DEBUG_ONLY(, rOutDebug))
 	{}
 
-
 	void CJPSInput::Search()
 	{
 		CommonSearch::Search<CJPSInput, CJPSNode>(*this);
@@ -275,16 +274,6 @@ namespace JPS
 			iJumpNode = ScanDiagonally(rNode.GetIndex(), iXDir, iYDir, rCells, rOutNewIndexes);
 			AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 		}
-	}
-
-	void CJPSInput::AddToNewIndexesListIfValid(const int iJumpNodeIdx, std::vector<int>& rOutNewIndexes) const
-	{
-		if (iJumpNodeIdx == -1)
-		{
-			return;
-		}
-
-		rOutNewIndexes.push_back(iJumpNodeIdx);
 	}
 
 	void CJPSInput::InternalHandleStartNode(CJPSNode& rNode, std::vector<CJPSNode>& rCells, std::vector<int>& rOutNewIndexes) const

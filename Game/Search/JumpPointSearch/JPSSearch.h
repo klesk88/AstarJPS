@@ -1,9 +1,14 @@
 #pragma once
 
+//framework
+#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
+//game
 #include "Game/Search/JumpPointSearch/JPSData.h"
 #include "Game/Search/BaseSearchInput.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+//std
+#include <vector>
 
 class CJPSNode;
 
@@ -38,4 +43,15 @@ namespace JPS
 		[[nodiscard]] bool ShouldStopScanning(const int iX, const int iY, const int iNodeIndex, const std::vector<CJPSNode>& rNodes, int& rOutIndex) const;
 		void AddToNewIndexesListIfValid(const int iJumpNodeIdx, std::vector<int>& rOutNewIndexes) const;
 	};
+
+    inline void CJPSInput::AddToNewIndexesListIfValid(const int iJumpNodeIdx, std::vector<int>& rOutNewIndexes) const
+    {
+        if (iJumpNodeIdx == -1)
+        {
+            return;
+        }
+
+        rOutNewIndexes.push_back(iJumpNodeIdx);
+    }
+
 }

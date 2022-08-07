@@ -4,26 +4,27 @@
 #include "Framework/Engine/Camera/Config/PerspectiveCameraConfig.h"
 #include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
+#include "Framework/Engine/Input/KeyboardMouse/Mouse/InputMouseState.h"
 #include "Framework/Engine/Input/InputManager.h"
+#include "Framework/Engine/ManagerUpdateInput.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-CPerspectiveCamera::CPerspectiveCamera(const CWindowConfig& rWindowConfig, const CPerspectiveCameraConfig& rCameraConfig, CInputManager& rInputManager)
-	: CBaseCamera(rWindowConfig, rCameraConfig, eCameraTye::PERSPECTIVE, Vector3(0.3f, 0.5f, -0.7f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f), rInputManager)
+CPerspectiveCamera::CPerspectiveCamera(const CWindowConfig& rWindowConfig, const CPerspectiveCameraConfig& rCameraConfig)
+	: CBaseCamera(rWindowConfig, rCameraConfig, eCameraTye::PERSPECTIVE, Vector3(0.3f, 0.5f, -0.7f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.f, 0.f, 1.f), Vector3(1.0, 0.f, 0.f))
+	, m_fAngularVelocityScale(rCameraConfig.GetAngularVelocityScale())
 {
-	m_iWindowHeight = rWindowConfig.GetScreenHeight();
-	m_iWindowWidth = rWindowConfig.GetScreenWidth();
 }
 
 CPerspectiveCamera::~CPerspectiveCamera()
 {}
 
-void CPerspectiveCamera::Update(const float fDeltaTimeSec)
+void CPerspectiveCamera::Update(const CManagerUpdateInput& rInput)
 {
 	Vector3 offset;
-	UpdatePositionOffset(fDeltaTimeSec, offset);
-	UpdatedRotation(fDeltaTimeSec);
+	UpdatePositionOffset(rInput, offset);
+	UpdatedRotation(rInput);
 
 	const Matrix roll = DirectX::XMMatrixIdentity();
 	const Matrix pitch = DirectX::XMMatrixRotationX(m_fPitch);
@@ -49,108 +50,25 @@ void CPerspectiveCamera::Update(const float fDeltaTimeSec)
 	m_invViewMatrix = XMMatrixInverse(nullptr, m_viewMatrix);
 }
 
-void CPerspectiveCamera::OnMouseEvent(const CMouseEvent& rMouseEvent)
+void CPerspectiveCamera::UpdatedRotation(const CManagerUpdateInput& rInput)
 {
-	if (!IsActive())
+	const CInputMouseState& rMouseState = rInput.GetMouseState();
+	if (!rMouseState.IsPressed(MouseKeyCodes::KeyCodes::RIGHT_BUTTON))
 	{
 		return;
 	}
 
-	switch (rMouseEvent.GetEventType())
-	{
-	case CMouseEvent::MOUSE_ENTER_FOCUS:
-		break;
-	case CMouseEvent::MOUSE_LOST_FOCUS: 
-		OnRightMouseButtonRelease();
-		break;
-	case CMouseEvent::MOUSE_MOVE:
-		OnMouseMove(rMouseEvent);
-		break;
-	case CMouseEvent::MOUSE_RIGHT_BTN_DOWN:
-		OnRightMouseButtonPress(rMouseEvent.GetHwnd());
-		break;
-	case CMouseEvent::MOUSE_RIGHT_BTN_UP:
-		OnRightMouseButtonRelease();
-		break;
-	default:
-		break;
-	}
-}
-
-void CPerspectiveCamera::OnRightMouseButtonPress(HWND hwnd)
-{
-	//when we press the right button to rotate the camera,
-	//force the mouse to be always inside the window and hide it
-
-	RECT rcClient;
-	POINT ptClientUL; 
-	POINT ptClientLR;
-	SetCapture(hwnd);
-	GetClientRect(hwnd, &rcClient);
-
-	ptClientUL.x = 0;
-	ptClientUL.y = 0;
-
-	ptClientLR.x = m_iWindowWidth;
-	ptClientLR.y = m_iWindowHeight;
-	ClientToScreen(hwnd, &ptClientUL);
-	ClientToScreen(hwnd, &ptClientLR);
-
-	SetRect(&rcClient, ptClientUL.x, ptClientUL.y,
-		ptClientLR.x, ptClientLR.y);
-	ClipCursor(&rcClient);
-
-	m_bRightMouseBtnpress = true;
-	ShowCursor(false);
-}
-
-void CPerspectiveCamera::OnRightMouseButtonRelease()
-{
-	if (!m_bRightMouseBtnpress)
+	if (!rMouseState.HasPositonDelta())
 	{
 		return;
 	}
 
-	m_bRightMouseBtnpress = false;
-	ClipCursor(nullptr);
-	ReleaseCapture();
-	ShowCursor(true);
-}
+	const float XDeltaThisFrame = rMouseState.GetPosDeltaXThisFrame();
+	const float YDeltaThisFrame = rMouseState.GetPosDeltaYThisFrame();
 
-void CPerspectiveCamera::OnMouseMove(const CMouseEvent& rMouseEvent)
-{
-	//when we are in rotation camera mode, get the offset from the center
-	//of the window and reset the mouse to the central position.
-
-	if (!m_bRightMouseBtnpress)
-	{
-		return;
-	}
-
-	POINT ptClient;   
-	ptClient.x = static_cast<long>(m_iWindowWidth * 0.5f);
-	ptClient.y = static_cast<long>(m_iWindowHeight * 0.5f);
-
-	m_iMouseDiffX += static_cast<int>(rMouseEvent.GetPosX() - ptClient.x);
-	m_iMouseDiffY += static_cast<int>(rMouseEvent.GetPosY() - ptClient.y);
-
-	ClientToScreen(rMouseEvent.GetHwnd(), &ptClient);
-	SetCursorPos(ptClient.x, ptClient.y);
-}
-
-void CPerspectiveCamera::UpdatedRotation(const float fDeltaTimeSec)
-{
-    if (m_iMouseDiffX == 0 && m_iMouseDiffY == 0)
-    {
-        return;
-    }
-
-	const float fMaxAngularVelocity = DirectX::XM_PIDIV2 * fDeltaTimeSec;
-	m_fYaw += XMConvertToRadians(static_cast<float>(m_iMouseDiffX)) * fMaxAngularVelocity;
-    m_fPitch += XMConvertToRadians(static_cast<float>(m_iMouseDiffY)) * fMaxAngularVelocity;
-
-	m_iMouseDiffX = 0;
-	m_iMouseDiffY = 0;
+	const float fMaxAngularVelocity = DirectX::XM_PI * rInput.GetDeltaTime() * m_fAngularVelocityScale;
+	m_fYaw += XDeltaThisFrame * fMaxAngularVelocity;
+    m_fPitch += YDeltaThisFrame * fMaxAngularVelocity;
 
     //force the pitch to be constrained between -90 and 90 degrees
 

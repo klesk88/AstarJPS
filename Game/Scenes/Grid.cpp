@@ -1,8 +1,5 @@
 #include "Game/Scenes/Grid.h"
 
-//framework
-#include "Framework/Utils/DebugMacros.h"
-
 //directx
 #include <DirectXColors.h>
 
@@ -34,15 +31,6 @@ void CGrid::Init()
 	
 	m_drawableCollision.InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
 	m_drawableGrid.InitParams(m_iXSize, m_iYSize, m_fCellSize, m_vMin, m_vMax);
-}
-
-void CGrid::UpdateCharacterCollision(const int iOldPos, const int iNewPos, const eCollisionType collision)
-{
-	ASSERT(!IsCollidingWithObstacle(iOldPos));
-	ASSERT(!IsCollidingWithObstacle(iNewPos));
-
-	m_gridCells[iOldPos] = eCollisionType::COUNT;
-	m_gridCells[iNewPos] = collision;
 }
 
 void CGrid::CollisionUpdateFromPicker(const int iIndex)

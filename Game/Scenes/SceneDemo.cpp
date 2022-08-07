@@ -53,6 +53,8 @@ void CSceneDemo::Update(const float fDeltaTimeSec)
 {
 	if (!m_bAllowEntityUpdate)
 	{
+		//force update as soon as we can update
+		m_fLastUpdateTime = 0.f;
 		return;
 	}
 

@@ -6,49 +6,34 @@
 #include "Framework/Engine/Core/Config.h"
 #include "Framework/Engine/Core/WindowConfig.h"
 #include "Framework/Engine/Engine.h"
-#include "Framework/Engine/Input/InputManager.h"
+#include "Framework/Engine/Input/KeyboardMouse/Mouse/InputMouseState.h"
+#include "Framework/Engine/ManagerUpdateInput.h"
 
 using namespace DirectX::SimpleMath;
 
-void CPicker::Init(CInputManager& rInputManager)
+void CPicker::Init()
 {
-	m_mouseEventId = rInputManager.MouseEvent.Attach([this](const CMouseEvent& rMouseEvent) { OnMouseEvent(rMouseEvent); });
 }
 
-void CPicker::Shutdown(CInputManager& rInputManager)
+void CPicker::Shutdown()
 {
-	rInputManager.MouseEvent.Detach(m_mouseEventId);
 }
 
-void CPicker::Update()
+void CPicker::Update(const CManagerUpdateInput& rInput)
 {
-	if (m_bNewEvent)
+    const CInputMouseState& rMouseState = rInput.GetMouseState();
+	if (!rMouseState.WasPressed(MouseKeyCodes::KeyCodes::LEFT_BUTTON))
 	{
-		PickerEvent.Emit(CPickerEvent(m_vStartPos, m_vEndPos));
+		return;
 	}
 
-	m_bNewEvent = false;
+    DirectX::SimpleMath::Vector3 vStartPos;
+    DirectX::SimpleMath::Vector3 vEndPos;
+    ComputeMouseStartEndPos(rMouseState, vStartPos, vEndPos);
+    PickerEvent.Emit(CPickerEvent(vStartPos, vEndPos));
 }
 
-void CPicker::OnMouseEvent(const CMouseEvent& rMouseEvent)
-{
-	switch (rMouseEvent.GetEventType())
-	{
-	case CMouseEvent::MOUSE_LEFT_BTN_UP:
-		HandleMouseBtnUp(rMouseEvent);
-		break;
-	default:
-		break;
-	}
-}
-
-void CPicker::HandleMouseBtnUp(const CMouseEvent& rMouseEvent)
-{
-	ComputeMouseStartEndPos(rMouseEvent, m_vStartPos, m_vEndPos);
-	m_bNewEvent = true;
-}
-
-void CPicker::ComputeMouseStartEndPos(const CMouseEvent& rMouseEvent, Vector3& rOutStart, Vector3& rOutEnd) const
+void CPicker::ComputeMouseStartEndPos(const CInputMouseState& rMouseState, Vector3& rOutStart, Vector3& rOutEnd) const
 {
 	CEngine* pEngine = CEngine::GetInstance();
 	const CConfig& rConfig = pEngine->GetConfig();
@@ -61,8 +46,8 @@ void CPicker::ComputeMouseStartEndPos(const CMouseEvent& rMouseEvent, Vector3& r
 	const Vector3 farPlane(rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar());
 
 	//bring coordinates in the -1 1 space
-	const float fPointX = (rMouseEvent.GetPosX() / (rWindowConfig.GetScreenWidth() * 0.5f)) - 1.f;
-	const float fPointY = 1.f - (rMouseEvent.GetPosY() / (rWindowConfig.GetScreenHeight() * 0.5f));
+	const float fPointX = (rMouseState.GetMousePositionX() / (rWindowConfig.GetScreenWidth() * 0.5f)) - 1.f;
+	const float fPointY = 1.f - (rMouseState.GetMousePositionY() / (rWindowConfig.GetScreenHeight() * 0.5f));
 
 	Vector3 vMouseCameraNear(fPointX, fPointY, 1.f);
 	Vector3 vMouseCameraFar(fPointX, fPointY, 1.f);
