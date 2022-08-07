@@ -36,6 +36,17 @@ bool CEngine::Init()
 	return true;
 }
 
+void CEngine::Shutdown()
+{
+    GetRenderer().GetImguiEventHandler().Detach(m_imguiEventId);
+
+    m_gameManager.Shutdown();
+    m_picker.Shutdown();
+    m_cameraManager.Shutdown();
+    m_inputManager.Shutdown();
+    m_renderer.Shutdown();
+}
+
 void CEngine::Run()
 {
 	// Loop until there is a quit message from the window or the user.
@@ -53,17 +64,6 @@ void CEngine::Run()
 	}
 
 	Shutdown();
-}
-
-void CEngine::Shutdown()
-{
-	GetRenderer().GetImguiEventHandler().Detach(m_imguiEventId);
-
-	m_gameManager.Shutdown();
-    m_picker.Shutdown();
-	m_cameraManager.Shutdown();
-	m_inputManager.Shutdown();
-	m_renderer.Shutdown();
 }
 
 void CEngine::StoreTickCount()

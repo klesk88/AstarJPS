@@ -9,7 +9,7 @@
 namespace CollisionHelpers
 {
 	[[nodiscard]] constexpr bool IsRayIntersectingCube(const DirectX::SimpleMath::Vector3& rOrigin, const DirectX::SimpleMath::Vector3& rDir, const DirectX::SimpleMath::Vector3& rCubeMin, const DirectX::SimpleMath::Vector3& rCubeMax, float& rfOutDistance)
-	{
+    {
         float tmin = (rCubeMin.x - rOrigin.x) / rDir.x;
         float tmax = (rCubeMax.x - rOrigin.x) / rDir.x;
 
@@ -66,5 +66,5 @@ namespace CollisionHelpers
 
         rfOutDistance = tmin;
         return true;
-	}
+    }
 }

@@ -41,7 +41,7 @@ public:
 	[[nodiscard]] bool IsActive() const;
 
 protected:
-	virtual void UpdatePositionOffset(const CManagerUpdateInput& rInput, DirectX::SimpleMath::Vector3& rOutOffset);
+	void UpdatePositionOffset(const CManagerUpdateInput& rInput, DirectX::SimpleMath::Vector3& rOutOffset);
 
 protected:
     DirectX::SimpleMath::Matrix m_viewMatrix = DirectX::XMMatrixIdentity();

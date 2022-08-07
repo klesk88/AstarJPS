@@ -10,22 +10,18 @@ namespace EventIdHelper
 struct CEventId
 {
 public:
-    CEventId();
+    CEventId() = default;
     explicit CEventId(const int id);
     ~CEventId() = default;
- 
-    [[nodiscard]] static CEventId GetInvalidID();
-
+    
     [[nodiscard]] bool operator<(const CEventId& other) const;
+
+    [[nodiscard]] static CEventId GetInvalidID();
     [[nodiscard]] bool IsValid() const;
 
 private:
-    int m_iId;
+    int m_iId = EventIdHelper::m_iInvalid;
 };
-
-inline CEventId::CEventId() 
-    : m_iId(EventIdHelper::m_iInvalid) 
-{}
 
 inline CEventId::CEventId(const int id) 
     : m_iId(id) 

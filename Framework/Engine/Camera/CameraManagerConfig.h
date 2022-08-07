@@ -4,7 +4,7 @@
 #include "Framework/Engine/Camera/CameraTypes/CameraTypes.h"
 #include "Framework/Engine/Core/ConfigBase.h"
 
-class CCameraManagerConfig : public CConfigBase
+class CCameraManagerConfig final : public CConfigBase
 {
 public:
     CCameraManagerConfig() = default;

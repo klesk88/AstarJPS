@@ -13,6 +13,7 @@ namespace Search
 	class CBaseNode
 	{
 	public:
+		//iIndex is the cell index
 		explicit CBaseNode(const int iIndex);
 		~CBaseNode() = default;
 
@@ -35,10 +36,10 @@ namespace Search
 		[[nodiscard]] float Getf() const;
 
 	private:
+        float m_fGScore = FLT_MAX;
+        float m_fHScore = FLT_MAX;
 		int m_iIndex = 0;
 		int m_iParentIdx = -1;
-		float m_fGScore = FLT_MAX;
-		float m_fHScore = FLT_MAX;
 		bool m_bIsInOpenSet = false;
 		bool m_bIsInClosedSet = false;
 

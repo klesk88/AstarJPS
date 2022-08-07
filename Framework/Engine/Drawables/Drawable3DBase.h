@@ -26,7 +26,6 @@ public:
 	virtual ~CDrawable3DBase();
 
 	void Init();
-
 	void Reset();
 
 	void RemoveFromRenderUpdate();
@@ -62,3 +61,4 @@ private:
 
 inline bool CDrawable3DBase::HasValidBuffer() const { return m_pVertexBuffer != nullptr; }
 inline bool CDrawable3DBase::IsInsideRenderUpdate() const { return m_bIsInsideRenderUpdate; }
+inline void CDrawable3DBase::MarkAsNotInsideRenderUpdate() { m_bIsInsideRenderUpdate = false; }

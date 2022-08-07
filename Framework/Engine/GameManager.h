@@ -35,7 +35,6 @@ private:
 
 #if _DEBUG
 private:
-	void DebugOnKeyboardEvent(const CKeyboardEvent& rKeyboardEvent);
 	void DebugOnKeyDown(const CManagerUpdateInput& rInput);
 
 private:

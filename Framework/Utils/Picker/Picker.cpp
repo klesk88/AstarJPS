@@ -42,8 +42,8 @@ void CPicker::ComputeMouseStartEndPos(const CInputMouseState& rMouseState, Vecto
 	const CBaseCamera& rBaseCamera = rCameraManager.GetCurrentCamera();
 	const Matrix viewTranInv = rBaseCamera.GetInvViewMatrix();
 	const Matrix projTranInv = rBaseCamera.GetInvProjMatrix();
-	const Vector3 nearPlane(rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear());
-	const Vector3 farPlane(rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar());
+	const Vector3 vNearPlane(rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear(), rWindowConfig.GetScreenNear());
+	const Vector3 vFarPlane(rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar(), rWindowConfig.GetScreenFar());
 
 	//bring coordinates in the -1 1 space
 	const float fPointX = (rMouseState.GetMousePositionX() / (rWindowConfig.GetScreenWidth() * 0.5f)) - 1.f;
@@ -56,8 +56,8 @@ void CPicker::ComputeMouseStartEndPos(const CInputMouseState& rMouseState, Vecto
 	vMouseCameraNear = Vector3::Transform(vMouseCameraNear, projTranInv);
 	vMouseCameraFar = Vector3::Transform(vMouseCameraFar, projTranInv);
 
-	vMouseCameraNear *= nearPlane;
-	vMouseCameraFar *= farPlane;
+	vMouseCameraNear *= vNearPlane;
+	vMouseCameraFar *= vFarPlane;
 
 	//world space
 	vMouseCameraNear = Vector3::Transform(vMouseCameraNear, viewTranInv);

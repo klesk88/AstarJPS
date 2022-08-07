@@ -118,6 +118,8 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 		return;
 	}
 	
+	ImGui::PushID(this);
+
 	ImGui::Text("Time took (ms):%.4f", m_fTimeForSearch);
 	ImGui::Text("Nodes Expanded %d", m_iNodesExpanded);
 	ImGui::Checkbox("Draw Path", &m_bDrawPath);
@@ -140,6 +142,8 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 	{
 		m_drawableNode.Init();
 	}
+
+	ImGui::PopID();
 }
 
 #endif

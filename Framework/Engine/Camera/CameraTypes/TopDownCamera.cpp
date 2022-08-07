@@ -27,13 +27,11 @@ CTopDownCamera::CTopDownCamera(const CWindowConfig& rWindowConfig, const CTopDow
 	m_fWheelScale = rCameraConfig.GetWheelScale();
 }
 
-CTopDownCamera::~CTopDownCamera()
-{}
-
 void CTopDownCamera::Update(const CManagerUpdateInput& rInput)
 {
 	Vector3 offset;
 	UpdatePositionOffset(rInput, offset);
+	UpdateMouseWheel(rInput, offset);
 	m_vPosition += offset;
 
 	const Matrix pitch = DirectX::XMMatrixRotationX(DirectX::XM_PIDIV2);
@@ -49,17 +47,15 @@ void CTopDownCamera::Update(const CManagerUpdateInput& rInput)
 	m_invViewMatrix = XMMatrixInverse(nullptr, m_viewMatrix);
 }
 
-void CTopDownCamera::UpdatePositionOffset(const CManagerUpdateInput& rInput, Vector3& rOutOffset)
+void CTopDownCamera::UpdateMouseWheel(const CManagerUpdateInput& rInput, DirectX::SimpleMath::Vector3& rOutPosition)
 {
-	CBaseCamera::UpdatePositionOffset(rInput, rOutOffset);
-
     const CInputMouseState& rMouseState = rInput.GetMouseState();
-	const float fMouseWheelDelta = rMouseState.GetWheelDelta();
-	if (fMouseWheelDelta == 0.f)
-	{
-		return;
-	}
+    const float fMouseWheelDelta = rMouseState.GetWheelDelta();
+    if (fMouseWheelDelta == 0.f)
+    {
+        return;
+    }
 
-	const float fWheelSpeedScaled = m_fWheelScale * fMouseWheelDelta;
-	rOutOffset -= fWheelSpeedScaled * m_DefaultUp;
+    const float fWheelSpeedScaled = m_fWheelScale * fMouseWheelDelta;
+	rOutPosition -= fWheelSpeedScaled * m_DefaultUp;
 }

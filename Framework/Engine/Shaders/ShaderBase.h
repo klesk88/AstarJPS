@@ -30,7 +30,7 @@ protected:
 
 private:
 	[[nodiscard]] bool SetShaderParameters(DirectX::SimpleMath::Matrix worldMatrix, DirectX::SimpleMath::Matrix viewMatrix, DirectX::SimpleMath::Matrix projectionMatrix, ID3D11DeviceContext& rDeviceContext) const;
-	[[nodiscard]] void RenderShader(ID3D11DeviceContext& rDeviceContext, const int indexCount) const;
+	void RenderShader(ID3D11DeviceContext& rDeviceContext, const int indexCount) const;
 
 protected:
 	ID3D11VertexShader* m_pVertexShader = nullptr;

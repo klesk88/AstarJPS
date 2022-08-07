@@ -17,9 +17,6 @@ CPerspectiveCamera::CPerspectiveCamera(const CWindowConfig& rWindowConfig, const
 {
 }
 
-CPerspectiveCamera::~CPerspectiveCamera()
-{}
-
 void CPerspectiveCamera::Update(const CManagerUpdateInput& rInput)
 {
 	Vector3 offset;

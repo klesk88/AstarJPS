@@ -7,6 +7,7 @@
 class CInputKeyboardState;
 class CInputMouseState;
 
+//input class pass to the managers during the engine update which stores common data
 class CManagerUpdateInput
 {
     NON_COPYABLE_CLASS(CManagerUpdateInput)

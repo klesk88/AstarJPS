@@ -17,6 +17,19 @@ CDrawable3DBase::~CDrawable3DBase()
 	Reset();
 }
 
+void CDrawable3DBase::Init()
+{
+    ID3D11Device& rDevice = CEngine::GetInstance()->GetRenderer().GetDevice();
+
+    if (!InitDrawable(rDevice))
+    {
+        RemoveFromRenderUpdate();
+        return;
+    }
+
+    AddToRenderUpdateIfNeeded();
+}
+
 void CDrawable3DBase::Reset()
 {
 	RemoveFromRenderUpdate();
@@ -53,11 +66,6 @@ void CDrawable3DBase::AddToRenderUpdateIfNeeded()
 	m_bIsInsideRenderUpdate = true;
 }
 
-void CDrawable3DBase::MarkAsNotInsideRenderUpdate()
-{
-	m_bIsInsideRenderUpdate = false;
-}
-
 void CDrawable3DBase::RemoveFromRenderUpdate()
 {
 	if (!m_bIsInsideRenderUpdate)
@@ -67,19 +75,6 @@ void CDrawable3DBase::RemoveFromRenderUpdate()
 
 	CEngine::GetInstance()->GetRenderer().RemoveDrawable(*this);
 	m_bIsInsideRenderUpdate = false;
-}
-
-void CDrawable3DBase::Init()
-{
-	ID3D11Device& rDevice = CEngine::GetInstance()->GetRenderer().GetDevice();
-	
-	if (!InitDrawable(rDevice))
-	{
-		RemoveFromRenderUpdate();
-		return;
-	}
-
-	AddToRenderUpdateIfNeeded();
 }
 
 bool CDrawable3DBase::GenerateBuffersGetIfSucceeded(const D3D11_BUFFER_DESC& rVertexBuffer, const D3D11_SUBRESOURCE_DATA& rVertexData, const D3D11_BUFFER_DESC& rIndexBuffer, const D3D11_SUBRESOURCE_DATA& rIndexData, ID3D11Device& rDevice)

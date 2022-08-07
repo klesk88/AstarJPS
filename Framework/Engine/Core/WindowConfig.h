@@ -20,10 +20,10 @@ public:
 	[[nodiscard]] float GetScreenFar() const;
 
 private:
+    float m_fScreenNear = 0.01f;
+    float m_fScreenFar = 100.f;
 	int m_iScreenWidth = 1024;
 	int m_iScreenHeight = 768;
-	float m_fScreenNear = 0.01f;
-	float m_fScreenFar = 100.f;
 	bool m_bFullScreen = false;
 	bool m_bEnableVSync = false;
 };

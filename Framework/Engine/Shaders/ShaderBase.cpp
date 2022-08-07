@@ -37,7 +37,7 @@ void CShaderBase::Shutdown()
 void CShaderBase::Render(const int indexCount, const Matrix& rWorldMatrix, const Matrix& rViewMatrix, const Matrix& rProjectionMatrix, ID3D11DeviceContext& rDeviceContext) const
 {
 	// Set the shader parameters that it will use for rendering.
-	bool bResult = SetShaderParameters(rWorldMatrix, rViewMatrix, rProjectionMatrix, rDeviceContext);
+	const bool bResult = SetShaderParameters(rWorldMatrix, rViewMatrix, rProjectionMatrix, rDeviceContext);
 	if (!bResult)
 	{
 		return;

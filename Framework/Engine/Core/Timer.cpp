@@ -1,7 +1,5 @@
 #include "Framework/Engine/Core/Timer.h"
 
-#include "Framework/Utils/DebugMacros.h"
-
 //std
 #include <chrono>
 
@@ -19,8 +17,8 @@ CScopedTimer::~CScopedTimer()
     //now convert time obtained in ms
     const auto duration = std::chrono::duration<uint64_t, std::chrono::steady_clock::period>(uTimeValue);
     const uint64_t uNumMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
-    static constexpr float TimeToMs = 1.f / 1000.f;
-    m_fOutTimeMs = static_cast<float>(uNumMicroseconds) * TimeToMs;
+    static constexpr float fTimeToMs = 1.f / 1000.f;
+    m_fOutTimeMs = static_cast<float>(uNumMicroseconds) * fTimeToMs;
 }
 
 uint64_t CScopedTimer::ComputeDeltaTimeNanoSeconds() const

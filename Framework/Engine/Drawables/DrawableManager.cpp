@@ -5,12 +5,6 @@
 
 using namespace DirectX::SimpleMath;
 
-CDrawableManager::CDrawableManager()
-{}
-
-CDrawableManager::~CDrawableManager()
-{}
-
 void CDrawableManager::Shutdown()
 {
 	for (CDrawable3DBase* pDrawable3D : m_drawableList)

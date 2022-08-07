@@ -17,7 +17,7 @@ class CEventHandler
 	NON_COPYABLE_CLASS(CEventHandler)
 
 public:
-	CEventHandler();
+	CEventHandler() = default;
 	~CEventHandler();
 
 	template <typename CallbackType>
@@ -35,13 +35,8 @@ public:
 
 private:
 	std::map<CEventId, std::function<void(const Args&...)>> m_slots;
-	int m_iCurrentId;
+	int m_iCurrentId = EventIdHelper::m_iInvalid;
 };
-
-template <typename... Args>
-CEventHandler<Args...>::CEventHandler()
-    : m_iCurrentId(EventIdHelper::m_iInvalid)
-{}
 
 template <typename... Args>
 CEventHandler<Args...>::~CEventHandler()
@@ -51,7 +46,7 @@ CEventHandler<Args...>::~CEventHandler()
 
 template <typename... Args>
 template <typename CallbackType>
-CEventId CEventHandler<Args...>::Attach(CallbackType&& callback)
+inline CEventId CEventHandler<Args...>::Attach(CallbackType&& callback)
 {
     m_slots.insert(std::make_pair(CEventId(++m_iCurrentId), std::forward<CallbackType>(callback)));
     return CEventId(m_iCurrentId);
@@ -59,20 +54,20 @@ CEventId CEventHandler<Args...>::Attach(CallbackType&& callback)
 
 template <typename... Args>
 template <typename C, typename R, typename... A >
-CEventId CEventHandler<Args...>::Attach(C* object, R(C::* memFunc)(A...))
+inline CEventId CEventHandler<Args...>::Attach(C* object, R(C::* memFunc)(A...))
 {
     return Attach([object = object, memFunc = memFunc](Args... p) { (object->*(memFunc))(p...); });
 }
 
 template <typename... Args>
-void CEventHandler<Args...>::Detach(CEventId& id)
+inline void CEventHandler<Args...>::Detach(CEventId& id)
 {
     m_slots.erase(id);
     id = CEventId::GetInvalidID();
 }
 
 template <typename... Args>
-void CEventHandler<Args...>::DetachAll()
+inline void CEventHandler<Args...>::DetachAll()
 {
     m_slots.clear();
 }

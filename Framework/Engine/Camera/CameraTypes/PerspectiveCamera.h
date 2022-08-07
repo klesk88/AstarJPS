@@ -14,7 +14,7 @@ class CPerspectiveCamera final : public CBaseCamera
 {
 public:
 	explicit CPerspectiveCamera(const CWindowConfig& rConfig, const CPerspectiveCameraConfig& rCameraConfig);
-	~CPerspectiveCamera();
+	~CPerspectiveCamera() = default;
 
 	//CBaseCamera
 	void Update(const CManagerUpdateInput& rInput) override;
