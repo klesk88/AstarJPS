@@ -18,8 +18,6 @@
 #include "Game/Drawables/Line.h"
 #endif
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CPickerEvent;
 
 class CSceneDemo final : public CSceneBase
@@ -77,7 +75,7 @@ private:
 
 	std::vector<const char*> m_editModeCombo;
 	//after a pathfinding has been request, update the rendering every second
-	static constexpr float m_fMaxWaitToUpdateRendering = 1.f;
+	static float m_fMaxWaitToUpdateRendering;
 	//after a pathfinding has been request, accumulate in this variable how much time has passed since last rendering
 	float m_fLastUpdateTime = m_fMaxWaitToUpdateRendering;
 	int m_iPickerCellSelected = -1;

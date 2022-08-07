@@ -33,10 +33,6 @@ void CGridDrawable::InitParams(const int iSizeX, const int iSizeY, const float f
 	{
 		for (int iX = 0; iX < iSizeX; ++iX)
 		{
-			const int iCurrentIndex = (iY * iSizeX) + iX;
-			const float fCurrentXPos = fStartPosX + (iX * fCellSize);
-			const float fCurrentYPos = fStartPosY + (iY * fCellSize);
-
 			AddSquareLines(iX, iY, fCellSize, color);
 		}
 	}

@@ -3,8 +3,6 @@
 //directx
 #include <directxmath.h>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 namespace ColorShaderDataStructures
 {
 	struct sVertexShader

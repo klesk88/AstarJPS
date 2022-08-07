@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 namespace EventIdHelper
 {
     static constexpr int m_iInvalid = -1;

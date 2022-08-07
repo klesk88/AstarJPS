@@ -10,4 +10,3 @@ public:
 	//load data from file
 	virtual void Load() = 0;
 };
-

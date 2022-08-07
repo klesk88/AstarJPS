@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 //windows
 #include <windows.h>
 

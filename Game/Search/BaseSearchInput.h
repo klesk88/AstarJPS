@@ -14,8 +14,6 @@
 #include "Game/Search/BaseSearchDebug.h"
 #endif
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CGrid;
 
 namespace Search

@@ -7,8 +7,6 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CGrid;
 
 namespace Helpers

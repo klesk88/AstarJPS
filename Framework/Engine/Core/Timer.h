@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Framework/Utils/ClassMacros.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //std
 #include <type_traits> //this is for uint64_t

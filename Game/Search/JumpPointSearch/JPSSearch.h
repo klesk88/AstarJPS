@@ -1,8 +1,5 @@
 #pragma once
 
-//framework
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 //game
 #include "Game/Search/JumpPointSearch/JPSData.h"
 #include "Game/Search/BaseSearchInput.h"
@@ -36,9 +33,9 @@ namespace JPS
 		//scan the line horizontally, vertically and diagonally, until we don t find a cell 
 		//of interest in that direction. Cell of interest means that we can't reach it in any other way
 		//in the direction we are scanning
-		[[nodiscard]] int ScanHorizontally(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNewNode, std::vector<int>& rOutNewIndexes) const;
-		[[nodiscard]] int ScanVertically(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNewNode, std::vector<int>& rOutNewIndexes) const;
-		[[nodiscard]] int ScanDiagonally(const int iNodeIndex, const int iXDir, const int iYDir, std::vector<CJPSNode>& rOutNewNode, std::vector<int>& rOutNewIndexes) const;
+		[[nodiscard]] int ScanHorizontally(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNewNode) const;
+		[[nodiscard]] int ScanVertically(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNewNode) const;
+		[[nodiscard]] int ScanDiagonally(const int iNodeIndex, const int iXDir, const int iYDir, std::vector<CJPSNode>& rOutNewNode) const;
 
 		[[nodiscard]] bool ShouldStopScanning(const int iX, const int iY, const int iNodeIndex, const std::vector<CJPSNode>& rNodes, int& rOutIndex) const;
 		void AddToNewIndexesListIfValid(const int iJumpNodeIdx, std::vector<int>& rOutNewIndexes) const;

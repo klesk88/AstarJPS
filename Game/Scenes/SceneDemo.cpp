@@ -13,6 +13,8 @@
 
 using namespace DirectX::SimpleMath;
 
+float CSceneDemo::m_fMaxWaitToUpdateRendering = 0.6f;
+
 CSceneDemo::CSceneDemo()
 	: m_aStarCharacter(m_Grid)
 	, m_jpsCharacter(m_Grid)
@@ -262,6 +264,7 @@ void CSceneDemo::ImguiModeSelection()
 		ImguiEditModeUpdate();
 		break;
 	case ePickerMode::PATHFINDING:
+		ImGui::SliderFloat("SimulationTimeStep (sec): ", &m_fMaxWaitToUpdateRendering, 0.5f, 3.f);
 		break;
 	}
 }

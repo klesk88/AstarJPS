@@ -5,9 +5,6 @@
 //std
 #include <vector>
 
-
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CSquare;
 class CGrid;
 

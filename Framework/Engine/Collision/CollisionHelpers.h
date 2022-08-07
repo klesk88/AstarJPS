@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Framework/Engine/Core/SimpleMath.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //std
 #include <utility>

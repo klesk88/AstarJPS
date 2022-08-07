@@ -9,7 +9,6 @@
 #include "Framework/Utils/Imgui/imgui.h"
 #include "Framework/Utils/Picker/Picker.h"
 #include "Framework/Utils/Singleton.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 class CEngine final : public CSingleton<CEngine>
 {

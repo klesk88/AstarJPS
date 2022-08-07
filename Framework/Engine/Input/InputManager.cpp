@@ -47,7 +47,7 @@ void CInputManager::EndFrame()
     }
 }
 
-void CInputManager::HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+void CInputManager::HandleWindowsMessage(HWND /*hwnd*/, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
 	const CInputMessage inputMessage{umessage, wparam, lparam};
     for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)

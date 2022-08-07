@@ -12,8 +12,6 @@
 #include <memory>
 #include <vector>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CConfig;
 class CInputKeyboardState;
 class CInputHandlerBase;

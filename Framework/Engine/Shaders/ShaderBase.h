@@ -8,8 +8,6 @@
 #include <d3dx11async.h>
 #include <fstream>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CShaderBase
 {
 	NON_COPYABLE_CLASS(CShaderBase)

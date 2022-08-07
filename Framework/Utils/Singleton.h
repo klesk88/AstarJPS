@@ -3,8 +3,6 @@
 #include "Framework/Utils/ClassMacros.h"
 #include "Framework/Utils/DebugMacros.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 template<class Class>
 class CSingleton
 {

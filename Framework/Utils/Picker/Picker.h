@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
+
 
 #include "Framework/Engine/Core/Event.h"
 #include "Framework/Engine/Core/SimpleMath.h"

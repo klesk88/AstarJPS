@@ -2,7 +2,6 @@
 
 #include "Framework/Engine/Camera/CameraTypes/CameraTypes.h"
 #include "Framework/Engine/Core/SimpleMath.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //std
 #include <memory>

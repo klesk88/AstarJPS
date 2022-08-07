@@ -11,8 +11,6 @@
 #include <queue>
 #include <stack>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 namespace CommonSearch
 {
 	//use a template function which can be used both by the Jump Point Search and by
@@ -21,17 +19,17 @@ namespace CommonSearch
 	template <class SearchType, class SearchNodeType>
 	void GetFinalPath(const std::vector<SearchNodeType>& rCellDetails, const int iIndex, SearchType& rOutInput)
 	{
-		int destIndex = iIndex;
+		int iDestIndex = iIndex;
 
 		std::stack<int> path;
 
-		while (rCellDetails[destIndex].GetParentIndex() != rOutInput.GetStartIndex())
+		while (rCellDetails[iDestIndex].GetParentIndex() != rOutInput.GetStartIndex())
 		{
-			path.push(destIndex);
-			destIndex = rCellDetails[destIndex].GetParentIndex();
+			path.push(iDestIndex);
+			iDestIndex = rCellDetails[iDestIndex].GetParentIndex();
 		}
 
-		path.push(destIndex);
+		path.push(iDestIndex);
 		rOutInput.m_rOutPath.clear();
 		rOutInput.m_rOutPath.resize(path.size());
 

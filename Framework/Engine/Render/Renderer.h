@@ -5,8 +5,6 @@
 #include "Framework/Utils/ClassMacros.h"
 #include "Framework/Utils/Imgui/ImguiManager.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 //directx
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")

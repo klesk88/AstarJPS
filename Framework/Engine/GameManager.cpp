@@ -17,7 +17,7 @@
 #include "Framework/Engine/Input/KeyboardMouse/Keyboard/InputKeyboardState.h"
 #endif
 
-void CGameManager::Init(const CConfig& rConfig)
+void CGameManager::Init(const CConfig& /*rConfig*/)
 {
 }
 

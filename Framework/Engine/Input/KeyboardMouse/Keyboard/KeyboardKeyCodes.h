@@ -2,7 +2,6 @@
 
 #include "Framework/Engine/Input/InputCommonIncludes.h"
 #include "Framework/Utils/DebugMacros.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //std
 #include <type_traits>

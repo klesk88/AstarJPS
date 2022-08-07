@@ -13,9 +13,6 @@
 //std
 #include <vector>
 
-
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CCharacter
 {
 public:

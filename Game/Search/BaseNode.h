@@ -3,8 +3,6 @@
 //std
 #include <cfloat>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CGrid;
 class CSquare;
 

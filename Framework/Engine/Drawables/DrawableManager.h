@@ -3,8 +3,6 @@
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/ClassMacros.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 //directx
 #include <d3d11.h>
 

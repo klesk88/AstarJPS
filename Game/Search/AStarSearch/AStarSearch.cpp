@@ -16,7 +16,7 @@ namespace AStar
 		CommonSearch::Search<CAStarInput, CAStarNode>(*this);
 	}
 
-	void CAStarInput::FindNeighbours(CAStarNode& rNode, std::vector<CAStarNode>& rCells, std::vector<int>& rOutNewIndexes) const
+	void CAStarInput::FindNeighbours(CAStarNode& rNode, std::vector<CAStarNode>& /*rCells*/, std::vector<int>& rOutNewIndexes) const
 	{
 		ASSERT(rOutNewIndexes.size() == 0);
 

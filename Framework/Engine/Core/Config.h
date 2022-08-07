@@ -3,7 +3,6 @@
 #include "Framework/Engine/Camera/CameraManagerConfig.h"
 #include "Framework/Engine/Core/ConfigBase.h"
 #include "Framework/Engine/Core/WindowConfig.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //directx
 #include <directxmath.h>

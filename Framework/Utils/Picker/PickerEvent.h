@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
-#include "../../Engine/Core/SimpleMath.h"
+#include "Framework/Engine/Core/SimpleMath.h"
 
 class CPickerEvent
 {

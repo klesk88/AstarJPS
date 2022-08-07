@@ -2,8 +2,6 @@
 
 #include "Framework/Utils/ClassMacros.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CInputKeyboardState;
 class CInputMouseState;
 

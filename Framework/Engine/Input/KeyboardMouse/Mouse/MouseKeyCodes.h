@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 namespace MouseKeyCodes
 {
 	enum class KeyCodes

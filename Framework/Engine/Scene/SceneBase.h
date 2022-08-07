@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
+//base class for all scenes to extend
 class CSceneBase
 {
 public:

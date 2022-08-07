@@ -4,8 +4,6 @@
 #include "Framework/Engine/Scene/SceneBase.h"
 #include "Framework/Utils/ClassMacros.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 //std
 #include <functional>
 #include <memory>

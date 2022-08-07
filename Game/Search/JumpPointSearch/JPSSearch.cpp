@@ -60,7 +60,7 @@ namespace JPS
 		return false;
 	}
 
-	int CJPSInput::ScanHorizontally(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNodes, std::vector<int>& rOutNewIndexes) const
+	int CJPSInput::ScanHorizontally(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNodes) const
 	{
 		const CGrid& rGrid = GetGrid();
 		int iX, iY;
@@ -111,7 +111,7 @@ namespace JPS
 		return -1;
 	}
 
-	int CJPSInput::ScanVertically(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNodes, std::vector<int>& rOutNewIndexes) const
+	int CJPSInput::ScanVertically(const int iNodeIndex, const int iDir, std::vector<CJPSNode>& rOutNodes) const
 	{
 		const CGrid& rGrid = GetGrid();
 		int iX, iY;
@@ -162,7 +162,7 @@ namespace JPS
 		return -1;
 	}
 
-	int CJPSInput::ScanDiagonally(const int iNodeIndex, const int iXDir, const int iYDir, std::vector<CJPSNode>& rOutNodes, std::vector<int>& rOutNewIndexes) const
+	int CJPSInput::ScanDiagonally(const int iNodeIndex, const int iXDir, const int iYDir, std::vector<CJPSNode>& rOutNodes) const
 	{
 		const CGrid& rGrid = GetGrid();
 		int iX, iY;
@@ -193,10 +193,9 @@ namespace JPS
 
 			CJPSNode& rCurrentNode = rOutNodes[iCurrentCellIdx];
 
-			int iJumpNodeIdx = -1;
 			bool bForceNode = false;
-			bForceNode |= ScanHorizontally(iCurrentCellIdx, iXDir, rOutNodes, rOutNewIndexes) != -1;
-			bForceNode |= ScanVertically(iCurrentCellIdx, iYDir, rOutNodes, rOutNewIndexes) != -1;
+			bForceNode |= ScanHorizontally(iCurrentCellIdx, iXDir, rOutNodes) != -1;
+			bForceNode |= ScanVertically(iCurrentCellIdx, iYDir, rOutNodes) != -1;
 
 			//if we have an obstacle on our left then this is a forced node as we can´t reach it
 			//from any other node. Make sure there is no obstacle which would block the diagonal movement
@@ -247,19 +246,19 @@ namespace JPS
 		int iJumpNode = -1;
 		if (iXDir != 0)
 		{
-			iJumpNode = ScanHorizontally(rNode.GetIndex(), iXDir, rCells, rOutNewIndexes);
+			iJumpNode = ScanHorizontally(rNode.GetIndex(), iXDir, rCells);
 			AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 		}
 
 		if (iYDir != 0)
 		{
-			iJumpNode = ScanVertically(rNode.GetIndex(), iYDir, rCells, rOutNewIndexes);
+			iJumpNode = ScanVertically(rNode.GetIndex(), iYDir, rCells);
 			AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 		}
 
 		if (iXDir != 0 && iYDir != 0)
 		{
-			iJumpNode = ScanDiagonally(rNode.GetIndex(), iXDir, iYDir, rCells, rOutNewIndexes);
+			iJumpNode = ScanDiagonally(rNode.GetIndex(), iXDir, iYDir, rCells);
 			AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 		}
 
@@ -271,31 +270,31 @@ namespace JPS
 			iXDir = Helpers::clamp(iXNeigh - iNodeX, -1, 1);
 			iYDir = Helpers::clamp(iYNeigh - iNodeY, -1, 1);
 
-			iJumpNode = ScanDiagonally(rNode.GetIndex(), iXDir, iYDir, rCells, rOutNewIndexes);
+			iJumpNode = ScanDiagonally(rNode.GetIndex(), iXDir, iYDir, rCells);
 			AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 		}
 	}
 
 	void CJPSInput::InternalHandleStartNode(CJPSNode& rNode, std::vector<CJPSNode>& rCells, std::vector<int>& rOutNewIndexes) const
 	{
-		int iJumpNode = ScanHorizontally(rNode.GetIndex(), 1, rCells, rOutNewIndexes);
+		int iJumpNode = ScanHorizontally(rNode.GetIndex(), 1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
-		iJumpNode = ScanHorizontally(rNode.GetIndex(), -1, rCells, rOutNewIndexes);
-		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
-
-		iJumpNode = ScanVertically(rNode.GetIndex(), 1, rCells, rOutNewIndexes);
-		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
-		iJumpNode = ScanVertically(rNode.GetIndex(), -1, rCells, rOutNewIndexes);
+		iJumpNode = ScanHorizontally(rNode.GetIndex(), -1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 
-		iJumpNode = ScanDiagonally(rNode.GetIndex(), 1, 1, rCells, rOutNewIndexes);
+		iJumpNode = ScanVertically(rNode.GetIndex(), 1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
-		iJumpNode = ScanDiagonally(rNode.GetIndex(), -1, 1, rCells, rOutNewIndexes);
+		iJumpNode = ScanVertically(rNode.GetIndex(), -1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 
-		iJumpNode = ScanDiagonally(rNode.GetIndex(), 1, -1, rCells, rOutNewIndexes);
+		iJumpNode = ScanDiagonally(rNode.GetIndex(), 1, 1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
-		iJumpNode = ScanDiagonally(rNode.GetIndex(), -1, -1, rCells, rOutNewIndexes);
+		iJumpNode = ScanDiagonally(rNode.GetIndex(), -1, 1, rCells);
+		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
+
+		iJumpNode = ScanDiagonally(rNode.GetIndex(), 1, -1, rCells);
+		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
+		iJumpNode = ScanDiagonally(rNode.GetIndex(), -1, -1, rCells);
 		AddToNewIndexesListIfValid(iJumpNode, rOutNewIndexes);
 	}
 

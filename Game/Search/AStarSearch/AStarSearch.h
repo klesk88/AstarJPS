@@ -7,8 +7,6 @@
 #include "Game/Search/AStarSearch/AStarNode.h"
 #include "Game/Search/BaseSearchInput.h"
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 namespace AStar
 {
 	class CAStarInput final : public Search::CSearchInput<CAStarNode>

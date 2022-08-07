@@ -37,7 +37,7 @@ void CCharacter::Clear()
 	m_iCurrentPos = -1;
 }
 
-void CCharacter::Update(const float fDeltaTimeSec)
+void CCharacter::Update(const float /*fDeltaTimeSec*/)
 {
 	if (m_path.size() == 0)
 	{

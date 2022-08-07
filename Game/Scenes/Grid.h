@@ -12,8 +12,6 @@
 //std
 #include <vector>
 
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
-
 class CGrid
 {
 	NON_COPYABLE_CLASS(CGrid)

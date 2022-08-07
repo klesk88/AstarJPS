@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Framework/Engine/Core/ConfigBase.h"
-#include "Framework/Utils/WindowsPlatformCompilerSetup.h"
 
 //config file to load data for the window
 class CWindowConfig final : public CConfigBase
