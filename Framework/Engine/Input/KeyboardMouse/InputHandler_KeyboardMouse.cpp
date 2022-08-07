@@ -9,10 +9,14 @@ void CInputHandler_KeyboardMouse::Shutdown()
 {
 }
 
-void CInputHandler_KeyboardMouse::ProcessMessage(const CInputMessage& rMessage)
+bool CInputHandler_KeyboardMouse::ProcessMessage(const CInputMessage& rMessage)
 {
-    m_keyboardState.ProcessMessage(rMessage);
-    m_mouseState.ProcessMessage(rMessage);
+    if (m_keyboardState.ProcessMessage(rMessage))
+    {
+        return true;
+    }
+
+    return m_mouseState.ProcessMessage(rMessage);
 }
 
 void CInputHandler_KeyboardMouse::Update(const float fDeltaTime)

@@ -17,7 +17,7 @@ public:
     explicit CInputStateBase(const unsigned int iButtonCount);
     virtual ~CInputStateBase() = default;
 
-    virtual void ProcessMessage(const CInputMessage& rMessage) = 0;
+    [[nodiscard]] virtual bool ProcessMessage(const CInputMessage& rMessage) = 0;
     virtual void EndFrame();
 
     void Update(const float fDeltaTime);

@@ -25,12 +25,12 @@ public:
 	CInputManager();
 	~CInputManager();
 
-	void Init();
-	void Update(const float fDeltaTime);
-	void EndFrame();
+	void Init() const;
+	void Update(const float fDeltaTime) const;
+	void EndFrame() const;
 	void Shutdown();
 	
-	void HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
+	[[nodiscard]] bool HandleWindowsMessage(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam) const;
 	
 	[[nodiscard]] bool IsEscapePressed() const;
 	[[nodiscard]] const CInputKeyboardState* GetKeyboardState() const;

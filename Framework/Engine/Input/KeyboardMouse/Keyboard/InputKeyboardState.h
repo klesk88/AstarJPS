@@ -14,7 +14,7 @@ public:
     ~CInputKeyboardState() = default;
 
     //CInputStateBase
-    void ProcessMessage(const CInputMessage& rMessage) override;
+    [[nodiscard]] bool ProcessMessage(const CInputMessage& rMessage) override;
     //
 
     //return true if the button is currently pressed

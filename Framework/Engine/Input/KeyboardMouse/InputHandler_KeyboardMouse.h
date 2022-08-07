@@ -23,7 +23,7 @@ public:
     void Initialize() override;
     void Shutdown() override;
 
-    void ProcessMessage(const CInputMessage& rMessage) override;
+    [[nodiscard]] bool ProcessMessage(const CInputMessage& rMessage) override;
     void Update(const float fDeltaTime) override;
     void EndFrame() override;
 

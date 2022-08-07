@@ -13,9 +13,9 @@ CInputManager::~CInputManager()
 {
 }
 
-void CInputManager::Init()
+void CInputManager::Init() const
 {
-	for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
+	for (const std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
 	{
 		rInputManager->Initialize();
 	}
@@ -23,7 +23,7 @@ void CInputManager::Init()
 
 void CInputManager::Shutdown()
 {
-    for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
+    for (const std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
     {
         rInputManager->Shutdown();
     }
@@ -31,29 +31,32 @@ void CInputManager::Shutdown()
     m_inputManagers.clear();
 }
 
-void CInputManager::Update(const float fDeltaTime)
+void CInputManager::Update(const float fDeltaTime) const
 {
-    for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
+    for (const std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
     {
         rInputManager->Update(fDeltaTime);
     }
 }
 
-void CInputManager::EndFrame()
+void CInputManager::EndFrame() const
 {
-    for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
+    for (const std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
     {
         rInputManager->EndFrame();
     }
 }
 
-void CInputManager::HandleWindowsMessage(HWND /*hwnd*/, UINT umessage, WPARAM wparam, LPARAM lparam)
+bool CInputManager::HandleWindowsMessage(HWND /*hwnd*/, UINT umessage, WPARAM wparam, LPARAM lparam) const
 {
+    bool bHandled = false;
 	const CInputMessage inputMessage{umessage, wparam, lparam};
-    for (std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
+    for (const std::unique_ptr<CInputHandlerBase>& rInputManager : m_inputManagers)
     {
-        rInputManager->ProcessMessage(inputMessage);
+        bHandled |= rInputManager->ProcessMessage(inputMessage);
     }
+
+    return bHandled;
 }
 
 bool CInputManager::IsEscapePressed() const

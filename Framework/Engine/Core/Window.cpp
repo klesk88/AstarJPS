@@ -23,7 +23,10 @@ namespace SystemHelpers
 		}
 
 		//handle messages which need to be handled by the input manager
-		CEngine::GetInstance()->GetInputManager().HandleWindowsMessage(hwnd, umessage, wparam, lparam);
+		if (CEngine::GetInstance()->GetInputManager().HandleWindowsMessage(hwnd, umessage, wparam, lparam))
+		{
+			return 0;
+		}
 
 		switch (umessage)
 		{

@@ -18,7 +18,7 @@ public:
     virtual void Shutdown() = 0;
 
     // process the input messages we receive from the OS
-    virtual void ProcessMessage(const CInputMessage& rMessage) = 0;
+    [[nodiscard]] virtual bool ProcessMessage(const CInputMessage& rMessage) = 0;
     virtual void Update(const float fDeltaTime) = 0;
     //called at the end of the frame after all systems have been updated.
     //Can be used for example to remove data that was valid only during that frame

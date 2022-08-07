@@ -17,7 +17,7 @@ public:
     ~CInputMouseState() = default;
 
     //CInputStateBase
-    void ProcessMessage(const CInputMessage& rMessage) override;
+    [[nodiscard]] bool ProcessMessage(const CInputMessage& rMessage) override;
     void EndFrame() override;
     //CInputStateBase
 

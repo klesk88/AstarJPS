@@ -278,7 +278,8 @@ void CSceneDemo::ImguiLegendMode()
 	ImGui::Text("the results. If built in debug mode, it is also possible to investigate the single");
 	ImGui::Text("paths, how many grid have been searched in total, and how long each algorithm took.");
 	ImGui::Text("Finally, by pressing 1 or 2, is possible to change the camera mode from a perspective");
-	ImGui::Text("to a top down view");	
+	ImGui::Text("to a top down view. In Perspective mode while keeping the right mouse button click");
+	ImGui::Text("you can rotate the camera.");
 }
 
 void CSceneDemo::ImguiEditModeUpdate()

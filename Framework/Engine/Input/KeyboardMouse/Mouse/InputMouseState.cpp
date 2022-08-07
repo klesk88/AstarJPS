@@ -23,11 +23,11 @@ CInputMouseState::CInputMouseState()
     }
 }
 
-void CInputMouseState::ProcessMessage(const CInputMessage& rMessage)
+bool CInputMouseState::ProcessMessage(const CInputMessage& rMessage)
 {
     if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)
     {
-        return;
+        return false;
     }
 
     switch (rMessage.GetMessage())
@@ -74,8 +74,10 @@ void CInputMouseState::ProcessMessage(const CInputMessage& rMessage)
         break;
     }
     default:
-        break;
+        return false;
     }
+
+    return true;
 }
 
 void CInputMouseState::EndFrame()

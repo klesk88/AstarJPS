@@ -9,16 +9,16 @@ CInputKeyboardState::CInputKeyboardState()
 {
 }
 
-void CInputKeyboardState::ProcessMessage(const CInputMessage& rMessage)
+bool CInputKeyboardState::ProcessMessage(const CInputMessage& rMessage)
 {
     if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureKeyboard)
     {
-        return;
+        return false;
     }
 
     if (!KeyboardKeyCodes::IsKeyCodeSupported(rMessage.GetWParam()))
     {
-        return;
+        return false;
     }
 
     const KeyboardKeyCodes::KeyCodes KeyCode = KeyboardKeyCodes::ConvertKeyCode(rMessage.GetWParam());
@@ -35,6 +35,8 @@ void CInputKeyboardState::ProcessMessage(const CInputMessage& rMessage)
         break;
     }
     default:
-        break;
+        return false;
     }
+
+    return true;
 }

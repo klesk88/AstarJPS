@@ -51,9 +51,10 @@ namespace CommonSearch
 		//callbacks based on the class passed so that we can perform the 2 algorithms while sharing 
 		//the common structure
 
+		std::vector<SearchNodeType> cellDetails;
+
 #if _DEBUG
 		float fDebugTime = 0.f;
-		std::vector<SearchNodeType> cellDetails;
 
 		{
 			CScopedTimer timer(fDebugTime);
