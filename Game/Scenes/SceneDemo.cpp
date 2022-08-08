@@ -18,7 +18,12 @@ float CSceneDemo::m_fMaxWaitToUpdateRendering = 0.6f;
 CSceneDemo::CSceneDemo()
 	: m_aStarCharacter(m_Grid)
 	, m_jpsCharacter(m_Grid)
-{}
+{
+	m_startSquare = std::make_shared<CSquare>();
+	m_endSquare = std::make_shared<CSquare>();
+	m_pickerLine = std::make_shared<CLine>();
+	m_pickerSquare = std::make_shared<CSquare>();
+}
 
 CSceneDemo::~CSceneDemo()
 {
@@ -33,11 +38,11 @@ void CSceneDemo::Init()
 	m_pickerEventId = pEngine->GetPicker().PickerEvent.Attach([this](const CPickerEvent& rEvent) { OnPickerEvent(rEvent); });
 	m_imguiEventId = pEngine->GetRenderer().GetImguiEventHandler().Attach([this]() { OnImguiUpdate(); });
 
-	m_startSquare.AddSingleSquare(0, 0, m_Grid.GetCellSize(), Color(DirectX::Colors::Green));
-	m_endSquare.AddSingleSquare(0, 0, m_Grid.GetCellSize(), Color(DirectX::Colors::Red));
+	m_startSquare.get()->AddSingleSquare(0, 0, m_Grid.GetCellSize(), Color(DirectX::Colors::Green));
+	m_endSquare.get()->AddSingleSquare(0, 0, m_Grid.GetCellSize(), Color(DirectX::Colors::Red));
 
-	m_startSquare.Init();
-	m_endSquare.Init();
+	m_startSquare.get()->Init();
+	m_endSquare.get()->Init();
 
 #if _DEBUG
 	m_bEnablePickerDebug = false;
@@ -83,9 +88,9 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 #if _DEBUG
 	if (m_bEnablePickerDebug)
 	{
-		m_pickerLine.Reset();
-		m_pickerLine.AddLine(rPickerEvent.GetStartPos(), rPickerEvent.GetEndPos(), Color(DirectX::Colors::Black));
-		m_pickerLine.Init();
+		m_pickerLine.get()->Reset();
+		m_pickerLine.get()->AddLine(rPickerEvent.GetStartPos(), rPickerEvent.GetEndPos(), Color(DirectX::Colors::Black));
+		m_pickerLine.get()->Init();
 	}
 #endif
 
@@ -97,7 +102,7 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 	float fDistance = 0.f;
 	if (!CollisionHelpers::IsRayIntersectingCube(rPickerEvent.GetStartPos(), rayDir, boxMin, boxMax, fDistance))
 	{
-		DEBUG_ONLY(m_pickerSquare.Reset());
+		DEBUG_ONLY(m_pickerSquare.get()->Reset());
 		m_iPickerCellSelected = -1;
 		return;
 	}
@@ -112,9 +117,9 @@ void CSceneDemo::OnPickerEvent(const CPickerEvent& rPickerEvent)
 #if _DEBUG
 	if (m_bEnablePickerDebug)
 	{
-		m_pickerSquare.Reset();
-		m_pickerSquare.AddSingleSquare(iX, iZ, m_Grid.GetCellSize(), Color(DirectX::Colors::Green));
-		m_pickerSquare.Init();
+		m_pickerSquare.get()->Reset();
+		m_pickerSquare.get()->AddSingleSquare(iX, iZ, m_Grid.GetCellSize(), Color(DirectX::Colors::Green));
+		m_pickerSquare.get()->Init();
 	}
 #endif
 }
@@ -154,15 +159,15 @@ void CSceneDemo::UpdateEditMode()
 		if (m_iStartPos != m_iPickerCellSelected)
 		{
 			m_Grid.RemoveCollisionIfNeeded(m_iPickerCellSelected);
-			m_startSquare.Reset();
+			m_startSquare.get()->Reset();
 			m_iStartPos = m_iPickerCellSelected;
 
 			int iX, iY;
 			m_Grid.GetCellXYFromIndex(m_iPickerCellSelected, iX, iY);
 			Color color(DirectX::Colors::Green);
 			color.w = 0.4f;
-			m_startSquare.AddSingleSquare(iX, iY, m_Grid.GetCellSize(), color);
-			m_startSquare.Init();
+			m_startSquare.get()->AddSingleSquare(iX, iY, m_Grid.GetCellSize(), color);
+			m_startSquare.get()->Init();
 		}
 
 		break;
@@ -171,14 +176,14 @@ void CSceneDemo::UpdateEditMode()
 		{
 			m_Grid.RemoveCollisionIfNeeded(m_iPickerCellSelected);
 			m_iEndPos = m_iPickerCellSelected;
-			m_endSquare.Reset();
+			m_endSquare.get()->Reset();
 
 			int iX, iY;
 			m_Grid.GetCellXYFromIndex(m_iEndPos, iX, iY);
 			Color color(DirectX::Colors::Red);
 			color.w = 0.3f;
-			m_endSquare.AddSingleSquare(iX, iY, m_Grid.GetCellSize(), color);
-			m_endSquare.Init();
+			m_endSquare.get()->AddSingleSquare(iX, iY, m_Grid.GetCellSize(), color);
+			m_endSquare.get()->Init();
 		}
 		break;
 	default:

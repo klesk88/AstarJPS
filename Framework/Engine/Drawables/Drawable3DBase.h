@@ -8,6 +8,7 @@
 #include <D3Dcommon.h>
 
 //std
+#include <memory>
 #include <vector>
 
 class CShaderBase;
@@ -15,7 +16,8 @@ class CShaderBase;
 //base class extended by all drawables object which contains the main methods shared between them
 //as well as it make sure that the object remove itself from the renderer update list before
 //getting destroyed
-class CDrawable3DBase
+//use a shared ptr so the CDrawableManager can store a weak ptr to this class
+class CDrawable3DBase : public std::enable_shared_from_this<CDrawable3DBase>
 {
 	NON_COPYABLE_CLASS(CDrawable3DBase)
 

@@ -37,7 +37,7 @@ protected:
 	std::vector<int> m_path;
 
 private:
-	CCube m_Cube;
+	std::shared_ptr<CCube> m_Cube;
 	const CGrid::eCollisionType m_CollisionType = CGrid::eCollisionType::COUNT;
 	const DirectX::SimpleMath::Color m_Color;
 	static constexpr float m_fSpeed = 0.1f;

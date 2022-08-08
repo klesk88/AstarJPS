@@ -2,14 +2,20 @@
 
 #if _DEBUG
 
-#include <DirectXColors.h>
-#include <vector>
-#include <string.h>
-
-#include "../Scenes/Grid.h"
-#include "../Drawables/Square.h"
+//framework
 #include "Framework/Engine/Core/SimpleMath.h"
 #include "Framework/Utils/Imgui/imgui.h"
+
+//game
+#include "Game/Scenes/Grid.h"
+#include "Game/Drawables/Square.h"
+
+//directx
+#include <DirectXColors.h>
+
+//std
+#include <string.h>
+#include <vector>
 
 template<class NodeType>
 class CBaseSearchDebug
@@ -26,9 +32,9 @@ private:
 	void DrawPathIfHasData(const bool bShouldDraw, CSquare& rDrawable);
 
 private:
-	CSquare m_drawableNode;
-	CSquare m_drawablePath;
-	CSquare m_drawableCompleteSearchSpace;
+	std::shared_ptr<CSquare> m_drawableNode;
+	std::shared_ptr<CSquare> m_drawablePath;
+	std::shared_ptr<CSquare> m_drawableCompleteSearchSpace;
 	std::vector<NodeType> m_nodesInSearch;
 	std::string m_imguiTreeName;
 	float m_fTimeForSearch = 0.f;
@@ -42,7 +48,11 @@ template<class NodeType>
 CBaseSearchDebug<NodeType>::CBaseSearchDebug(const char* pName, const DirectX::XMVECTORF32& rColor)
 	: m_imguiTreeName(pName)
 	, m_color(rColor)
-{}
+{
+    m_drawableNode = std::make_shared<CSquare>();
+    m_drawablePath = std::make_shared<CSquare>();
+    m_drawableCompleteSearchSpace = std::make_shared<CSquare>();
+}
 
 template<class NodeType>
 void CBaseSearchDebug<NodeType>::Set(const float fTimeMs, const std::vector<NodeType>& rSearchNodes, const std::vector<int>& rPath, const CGrid& rGrid)
@@ -52,15 +62,15 @@ void CBaseSearchDebug<NodeType>::Set(const float fTimeMs, const std::vector<Node
 
 	if (m_nodesInSearch.size() == 0)
 	{
-		m_drawablePath.Reset();
+		m_drawablePath.get()->Reset();
 	}
 	else
 	{
-		m_drawablePath.InitList(rPath, rGrid, m_color, 0.f);
-		m_drawablePath.RemoveFromRenderUpdate();
+		m_drawablePath.get()->InitList(rPath, rGrid, m_color, 0.f);
+		m_drawablePath.get()->RemoveFromRenderUpdate();
 	}
 
-	m_drawableCompleteSearchSpace.Reset();
+	m_drawableCompleteSearchSpace.get()->Reset();
 	for (const NodeType& rNode : rSearchNodes)
 	{
 		if (!rNode.HasBeenSearched())
@@ -68,18 +78,18 @@ void CBaseSearchDebug<NodeType>::Set(const float fTimeMs, const std::vector<Node
 			continue;
 		}
 
-		rNode.AddNodeToDrawListIfInSearch(rGrid, m_drawableCompleteSearchSpace);
+		rNode.AddNodeToDrawListIfInSearch(rGrid, *m_drawableCompleteSearchSpace.get());
 		m_iNodesExpanded++;
 	}
 
 	if (m_iNodesExpanded == 0)
 	{
-		m_drawableCompleteSearchSpace.Reset();
+		m_drawableCompleteSearchSpace.get()->Reset();
 	}
 	else
-	{
-		m_drawableCompleteSearchSpace.Init();
-		m_drawableCompleteSearchSpace.RemoveFromRenderUpdate();
+    {
+        m_drawableCompleteSearchSpace.get()->Init();
+		m_drawableCompleteSearchSpace.get()->RemoveFromRenderUpdate();
 	}
 }
 
@@ -89,8 +99,8 @@ void CBaseSearchDebug<NodeType>::Clear()
 	m_fTimeForSearch = 0.f;
 	m_iNodesExpanded = 0;
 	m_nodesInSearch.clear();
-	m_drawableNode.Reset();
-	m_drawablePath.Reset();
+	m_drawableNode.get()->Reset();
+	m_drawablePath.get()->Reset();
 }
 
 template<class NodeType>
@@ -111,7 +121,7 @@ void CBaseSearchDebug<NodeType>::DrawPathIfHasData(const bool bShouldDraw, CSqua
 template<class NodeType>
 void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 {
-	m_drawableNode.Reset();
+	m_drawableNode.get()->Reset();
 
 	if (!ImGui::CollapsingHeader(m_imguiTreeName.c_str()))
 	{
@@ -125,22 +135,29 @@ void CBaseSearchDebug<NodeType>::RenderImgui(const CGrid& rColission)
 	ImGui::Checkbox("Draw Path", &m_bDrawPath);
 	ImGui::Checkbox("Draw All Searched Space", &m_bDrawAllSearchedSpace);
 
-	DrawPathIfHasData(m_bDrawPath, m_drawablePath);
-	DrawPathIfHasData(m_bDrawAllSearchedSpace, m_drawableCompleteSearchSpace);
+    CSquare* pDrawableNode = m_drawableNode.get();
+	CSquare* pDrawablePath = m_drawablePath.get();
+	CSquare* pDrawableSearchSpace = m_drawableCompleteSearchSpace.get();
+    ASSERT(pDrawableNode != nullptr);
+	ASSERT(pDrawablePath != nullptr);
+	ASSERT(pDrawableSearchSpace != nullptr);
+
+	DrawPathIfHasData(m_bDrawPath, *pDrawablePath);
+	DrawPathIfHasData(m_bDrawAllSearchedSpace, *pDrawableSearchSpace);
 
 	for (int i = 0; i < m_nodesInSearch.size(); ++i)
 	{
 		const NodeType& rNode = m_nodesInSearch[i];
-		rNode.RenderImgui(rColission, m_drawableNode);
+		rNode.RenderImgui(rColission, *pDrawableNode);
 	}
 
-	if (!m_drawableNode.HasElementsToStoreInBuffer())
+	if (!pDrawableNode->HasElementsToStoreInBuffer())
 	{
-		m_drawableNode.Reset();
+		pDrawableNode->Reset();
 	}
 	else
 	{
-		m_drawableNode.Init();
+		pDrawableNode->Init();
 	}
 
 	ImGui::PopID();

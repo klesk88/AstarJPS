@@ -1,13 +1,12 @@
 #pragma once
 
+//framework
+#include "Framework/Engine/Core/Event.h"
+#include "Framework/Utils/ClassMacros.h"
+#include "Framework/Utils/DebugMacros.h"
 
-
-#include "../DebugMacros.h"
-
+//directx
 #include <d3d11.h>
-
-#include "../ClassMacros.h"
-#include "../../Engine/Core/Event.h"
 
 class CImguiManager
 {

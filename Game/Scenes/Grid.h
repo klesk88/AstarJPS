@@ -58,8 +58,8 @@ private:
 	void UpdateCollisionDrawable();
 
 private:
-	CCube m_drawableCollision;
-	CGridDrawable m_drawableGrid;
+	std::shared_ptr<CCube> m_drawableCollision;
+	std::shared_ptr<CGridDrawable> m_drawableGrid;
 	std::vector<eCollisionType> m_gridCells;
 	std::vector<int> m_collisionIndexes;
 	DirectX::SimpleMath::Vector3 m_vMin;

@@ -68,8 +68,8 @@ private:
 	CAStarCharacter m_aStarCharacter;
 	CJPSCharacter m_jpsCharacter;
 
-	CSquare m_startSquare;
-	CSquare m_endSquare;
+	std::shared_ptr<CSquare> m_startSquare;
+	std::shared_ptr<CSquare> m_endSquare;
 	CEventId m_imguiEventId = CEventId::GetInvalidID();
 	CEventId m_pickerEventId = CEventId::GetInvalidID();
 
@@ -87,8 +87,8 @@ private:
 
 #if _DEBUG
 private:
-	CLine m_pickerLine;
-	CSquare m_pickerSquare;
+	std::shared_ptr<CLine> m_pickerLine;
+	std::shared_ptr<CSquare> m_pickerSquare;
 
 	bool m_bEnablePickerDebug = false;
 #endif

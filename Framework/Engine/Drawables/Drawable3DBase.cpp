@@ -62,7 +62,7 @@ void CDrawable3DBase::AddToRenderUpdateIfNeeded()
 		return;
 	}
 
-	CEngine::GetInstance()->GetRenderer().AddDrawable(*this);
+	CEngine::GetInstance()->GetRenderer().AddDrawable(weak_from_this());
 	m_bIsInsideRenderUpdate = true;
 }
 
@@ -73,7 +73,7 @@ void CDrawable3DBase::RemoveFromRenderUpdate()
 		return;
 	}
 
-	CEngine::GetInstance()->GetRenderer().RemoveDrawable(*this);
+	CEngine::GetInstance()->GetRenderer().RemoveDrawable(weak_from_this());
 	m_bIsInsideRenderUpdate = false;
 }
 

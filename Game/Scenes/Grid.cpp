@@ -9,7 +9,10 @@ CGrid::CGrid()
 	: m_fCellSize(0.f)
 	, m_iXSize(0)
 	, m_iYSize(0)
-{}
+{
+	m_drawableCollision = std::make_shared<CCube>();
+	m_drawableGrid = std::make_shared<CGridDrawable>();
+}
 
 void CGrid::Init()
 {
@@ -29,8 +32,8 @@ void CGrid::Init()
 		m_gridCells[i] = eCollisionType::OBSTABCLE;
 	}
 	
-	m_drawableCollision.InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
-	m_drawableGrid.InitParams(m_iXSize, m_iYSize, m_fCellSize, m_vMin, m_vMax);
+	m_drawableCollision.get()->InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
+	m_drawableGrid.get()->InitParams(m_iXSize, m_iYSize, m_fCellSize, m_vMin, m_vMax);
 }
 
 void CGrid::CollisionUpdateFromPicker(const int iIndex)
@@ -95,9 +98,9 @@ void CGrid::UpdateCollisionDrawable()
 {
 	if (m_collisionIndexes.size() == 0)
 	{
-		m_drawableCollision.Reset();
+		m_drawableCollision.get()->Reset();
 		return;
 	}
 
-	m_drawableCollision.InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
+	m_drawableCollision.get()->InitList(m_collisionIndexes, *this, Color(DirectX::Colors::Black));
 }

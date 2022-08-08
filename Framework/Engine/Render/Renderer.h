@@ -18,6 +18,9 @@
 //windows
 #include <windows.h>
 
+//std
+#include <memory>
+
 class CDrawable3DBase;
 class CWindowConfig;
 
@@ -36,8 +39,8 @@ public:
 	void Update(const DirectX::SimpleMath::Matrix& rViewMatrix, const DirectX::SimpleMath::Matrix& rProjMatrix);
 	void PostUpdate(const bool bVSyncEnable);
 
-	void AddDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.AddDrawable(rDrawable); }
-	void RemoveDrawable(CDrawable3DBase& rDrawable) { m_drawableManger.RemoveDrawable(rDrawable); }
+	void AddDrawable(const std::weak_ptr<CDrawable3DBase>& rDrawable) { m_drawableManger.AddDrawable(rDrawable); }
+	void RemoveDrawable(const std::weak_ptr<CDrawable3DBase>& rDrawable) { m_drawableManger.RemoveDrawable(rDrawable); }
 
 	[[nodiscard]] CEventHandler<>& GetImguiEventHandler();
 	[[nodiscard]] ID3D11Device& GetDevice();

@@ -13,6 +13,7 @@ CCharacter::CCharacter(CGrid& rGrid, const CGrid::eCollisionType collisionType, 
 	, m_CollisionType(collisionType)
 	, m_Color(color)
 {
+	m_Cube = std::make_shared<CCube>();
 }
 
 void CCharacter::Init(const int iStartIndex, const int iTargetPos)
@@ -20,8 +21,8 @@ void CCharacter::Init(const int iStartIndex, const int iTargetPos)
 	m_iCurrentPos = iStartIndex;
 	int iX, iY;
 	m_rGrid.GetCellXYFromIndex(iStartIndex, iX, iY);
-	m_Cube.InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
-	m_Cube.Init();
+	m_Cube.get()->InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
+	m_Cube.get()->Init();
 
 	m_rGrid.UpdateCharacterCollision(m_iCurrentPos, m_iCurrentPos, m_CollisionType);
 	m_Position = m_rGrid.GetCellCenter(iStartIndex);
@@ -32,7 +33,7 @@ void CCharacter::Init(const int iStartIndex, const int iTargetPos)
 
 void CCharacter::Clear()
 {
-	m_Cube.Reset();
+	m_Cube.get()->Reset();
 	m_path.clear();
 	m_iCurrentPos = -1;
 }
@@ -63,9 +64,9 @@ void CCharacter::Update(const float /*fDeltaTimeSec*/)
 	int iX, iY;
 	m_rGrid.GetCellXYFromIndex(m_iCurrentPos, iX, iY);
 	
-	m_Cube.Reset();
-	m_Cube.InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
-	m_Cube.Init();
+	m_Cube.get()->Reset();
+	m_Cube.get()->InitCube(iX, iY, m_rGrid.GetCellSize(), m_Color);
+	m_Cube.get()->Init();
 }
 
 int CCharacter::ComputeCurrentGridPos(const int iTargetCell)

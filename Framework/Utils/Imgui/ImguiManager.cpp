@@ -1,8 +1,8 @@
 #include "ImguiManager.h"
 
-#include "../../Utils/Imgui/imgui.h"
-#include "../../Utils/Imgui/imgui_impl_dx11.h"
-#include "../../Utils/Imgui/imgui_impl_win32.h"
+#include "Framework/Utils/Imgui/imgui.h"
+#include "Framework/Utils/Imgui/imgui_impl_dx11.h"
+#include "Framework/Utils/Imgui/imgui_impl_win32.h"
 
 void CImguiManager::InitImgui(HWND hwnd, ID3D11Device& rDevice, ID3D11DeviceContext& rDeviceContext)
 {
